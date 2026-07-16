@@ -1,0 +1,2 @@
+Just a vibecoded Europa Universalis 4 in Rust and Bevy. I don't know both. So it won't work most likely. But I don't care. Just for fun project.
+To run it you need actual copy of Europa Universalis 4 for resources and stuff.
