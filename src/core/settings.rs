@@ -31,12 +31,12 @@ pub fn get_eu4_settings() -> Settings {
     // if eu4 folder from settings.json doesn't exist on disk - panic
     if !std::path::Path::new(&settings.eu4_folder).exists() {
         panic!(
-            "Europa Universalis 4 folder \'{0}\' doesn't exist on disk\nPlease set the correct path in settings.json",
+            "❗  Europa Universalis 4 folder \'{0}\' doesn't exist on disk\nPlease set the correct path in settings.json",
             settings.eu4_folder
         );
     }
     println!(
-        "Found Europa Universalis 4 folder at {}",
+        "✅ Europa Universalis 4 folder \'{0}\' exists on disk",
         settings.eu4_folder
     );
     settings
