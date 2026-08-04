@@ -6,7 +6,7 @@ use bevy::prelude::*;
 //     ui::UiPlugin, units::UnitsPlugin,
 // };
 use crate::core::states::GameState;
-
+use crate::plugins::map::map_plugin::MapPlugin;
 pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
@@ -17,18 +17,18 @@ impl Plugin for GamePlugin {
         // 2. Add subsystem plugins. Each plugin is responsible
         //    for registering its own components/resources/events
         //    and gating systems on GameState::Playing.
-        // app.add_plugins((
-        //     CameraPlugin,
-        //     InputPlugin,
-        //     MapPlugin,
-        //     PathfindingPlugin,
-        //     UnitsPlugin,
-        //     BuildingsPlugin,
-        //     EconomyPlugin,
-        //     FogOfWarPlugin,
-        //     AiPlugin,
-        //     UiPlugin,
-        // ));
+        app.add_plugins((
+            //     CameraPlugin,
+            //     InputPlugin,
+            MapPlugin,
+            //     PathfindingPlugin,
+            //     UnitsPlugin,
+            //     BuildingsPlugin,
+            //     EconomyPlugin,
+            //     FogOfWarPlugin,
+            //     AiPlugin,
+            // UiPlugin,
+        ));
 
         // 3. Configure system sets if cross-plugin ordering matters
         // app.configure_sets(
