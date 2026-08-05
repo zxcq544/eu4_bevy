@@ -13,7 +13,8 @@ bevy = { version = "0.19", features = ["dynamic_linking"] }
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
-#copy_assets = { path = "crates/copy_assets" }
+copy_assets = { path = "crates/copy_assets" }
+settings = { path = "crates/settings" }
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]

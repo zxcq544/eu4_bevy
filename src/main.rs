@@ -1,10 +1,11 @@
 use bevy::prelude::*;
 use bevy::window::{WindowPlugin, WindowResolution};
 use eu4_bevy::*;
+// use settings::get_eu4_settings;
 
 fn main() {
     // Check for Europa Unversalis 4 folder location being present in settings and on disk
-    let eu4_settings = crate::core::settings::get_eu4_settings();
+    let eu4_settings = settings::get_eu4_settings();
     App::new()
         .add_plugins(
             DefaultPlugins

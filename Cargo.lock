@@ -2078,6 +2078,11 @@ dependencies = [
 [[package]]
 name = "copy_assets"
 version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "settings",
+]
 
 [[package]]
 name = "core-foundation"
@@ -2418,9 +2423,11 @@ name = "eu4_bevy"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "copy_assets",
  "log",
  "serde",
  "serde_json",
+ "settings",
 ]
 
 [[package]]
@@ -4542,6 +4549,14 @@ dependencies = [
  "serde",
  "serde_core",
  "zmij",
+]
+
+[[package]]
+name = "settings"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
