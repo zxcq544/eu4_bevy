@@ -36,11 +36,23 @@ fn create_tar_archive<P: AsRef<Path>>(
     // Each subdirectory is added relative to the archive root.
     let base = base_folder.as_ref();
 
-    for subdir in subdirs {
+    let total_dirs = subdirs.len();
+    println!("📦 Total directories to process: {}", total_dirs);
+
+    for (index, subdir) in subdirs.iter().enumerate() {
+        let current_step = index + 1;
+        let remaining = total_dirs - current_step + 1;
         let full_path = base.join(subdir);
 
         if full_path.exists() && full_path.is_dir() {
-            println!("📦 Adding to archive: {}", full_path.display());
+            println!(
+                "[{}/{}] Adding to archive: {} (Folders left: {})",
+                current_step,
+                total_dirs,
+                full_path.display(),
+                remaining
+            );
+            // println!("📦 Adding to archive: {}", full_path.display());
 
             // append_dir_all recursively adds the folder.
             // Explicitly force forward slashes for the archive internal path format.
@@ -48,9 +60,16 @@ fn create_tar_archive<P: AsRef<Path>>(
             archive.append_dir_all(archive_name, &full_path)?;
         } else {
             println!(
-                "⚠️ Warning: Path '{}' does not exist or is not a directory",
-                full_path.display()
+                "⚠️ [{}/{}] Warning: Path '{}' does not exist or is not a directory (Folders left: {})",
+                current_step,
+                total_dirs,
+                full_path.display(),
+                remaining
             );
+            // println!(
+            //     "⚠️ Warning: Path '{}' does not exist or is not a directory",
+            //     full_path.display()
+            // );
         }
     }
 
