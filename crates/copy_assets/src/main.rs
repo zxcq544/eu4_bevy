@@ -1,7 +1,6 @@
 use settings::Settings;
-
 fn main() {
-    // read settings.json file to settings struct    
+    // read settings.json file to settings struct
     let settings_filename = "./settings.json";
     if !std::path::Path::new(settings_filename).exists() {
         panic!(
@@ -23,15 +22,14 @@ fn main() {
         "✅ Europa Universalis 4 folder \'{0}\' exists on disk",
         settings.eu4_folder
     );
-    // get list of directories in eu4 folder
-    let eu4_dir = std::fs::read_dir(settings.eu4_folder).unwrap();
-    // let eu4_dirs : Vec<std::fs::DirEntry> = eu4_dir.collect();
-    let eu4_assets_dirs = [
-        "assets",
-        "gfx",
-        "gfx/models",
-        "gfx/particles",
-        "gfx/shaders",
-    ];
+    let eu4_path_for_tar = settings.eu4_folder.replace('\\', "/");
+
+    let eu4_assets_dirs = vec!["gfx/cursors", "gfx/loadingscreens"];
+    let mut dirs_for_tar = Vec::new();
+    for dir in eu4_assets_dirs {
+        dirs_for_tar.push(format!("{}/{}", eu4_path_for_tar, dir));
+    }
+    println!("eu4_assets_dirs: {:?}", dirs_for_tar);
+
     println!("Hello, world!");
 }
