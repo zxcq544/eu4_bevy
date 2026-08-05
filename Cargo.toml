@@ -3,11 +3,17 @@ name = "eu4_bevy"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = [
+    "crates/*", # this one has small utilites like asset packer that copies all assets from eu4 into one tar file
+]
+
 [dependencies]
 bevy = { version = "0.19", features = ["dynamic_linking"] }
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
+#copy_assets = { path = "crates/copy_assets" }
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
@@ -22,10 +28,10 @@ opt-level = 3
 [profile.release]
 # Compile the entire crate as one unit.
 # Slows compile times, marginal improvements.
-codegen-units = 1
+# codegen-units = 1
 # Do a second optimization pass over the entire program, including dependencies.
 # Slows compile times, marginal improvements.
-lto = "thin"
+# lto = "thin"
 
 # Optimize for size in the wasm-release profile to reduce load times and bandwidth usage on web.
 [profile.wasm-release]
@@ -36,16 +42,3 @@ inherits = "release"
 opt-level = "s"
 # Strip all debugging information from the binary to slightly reduce file size.
 strip = "debuginfo"
-
-
-# for Linux
-[target.x86_64-unknown-linux-gnu]
-linker = "clang"
-rustflags = ["-C", "link-arg=-fuse-ld=lld"]
-
-# for Windows
-[target.x86_64-pc-windows-msvc]
-linker = "rust-lld.exe"
-
-
-
