@@ -1,3 +1,4 @@
+use path_clean::PathClean;
 use std::fs::File;
 use std::io;
 use std::path::{Path, PathBuf};
@@ -20,7 +21,7 @@ fn validate_eu4_folder<P: AsRef<Path>>(eu4_folder: P) -> Result<PathBuf, io::Err
             format!("❗ EU4 folder '{}' not found.", path.display()),
         ));
     }
-    path.canonicalize()
+    Ok(path.to_path_buf())
 }
 
 /// Archives the specified directories into a single TAR file.
@@ -42,7 +43,7 @@ fn create_tar_archive<P: AsRef<Path>>(
     for (index, subdir) in subdirs.iter().enumerate() {
         let current_step = index + 1;
         let remaining = total_dirs - current_step + 1;
-        let full_path = base.join(subdir);
+        let full_path = base.join(subdir).clean();
 
         if full_path.exists() && full_path.is_dir() {
             println!(
@@ -139,7 +140,7 @@ mod tests {
         assert!(res.is_ok());
 
         // canonicalize resolves to strict absolute paths
-        assert_eq!(res.unwrap(), temp_dir.canonicalize().unwrap());
+        assert_eq!(res.unwrap(), temp_dir.to_path_buf());
     }
 
     #[test]

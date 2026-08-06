@@ -2079,6 +2079,7 @@ dependencies = [
 name = "copy_assets"
 version = "0.1.0"
 dependencies = [
+ "path-clean",
  "serde",
  "serde_json",
  "settings",
@@ -4047,6 +4048,12 @@ checksum = "19ab9ace3fad1b9ed603ddac5b595e69931fc50263d7e04e4055015b77b02da5"
 dependencies = [
  "icu_properties",
 ]
+
+[[package]]
+name = "path-clean"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17359afc20d7ab31fdb42bb844c8b3bb1dabd7dcf7e68428492da7f16966fcef"
 
 [[package]]
 name = "percent-encoding"
