@@ -53,7 +53,6 @@ fn create_tar_archive<P: AsRef<Path>>(
                 full_path.display(),
                 remaining
             );
-            // println!("📦 Adding to archive: {}", full_path.display());
 
             // append_dir_all recursively adds the folder.
             // Explicitly force forward slashes for the archive internal path format.
@@ -67,10 +66,6 @@ fn create_tar_archive<P: AsRef<Path>>(
                 full_path.display(),
                 remaining
             );
-            // println!(
-            //     "⚠️ Warning: Path '{}' does not exist or is not a directory",
-            //     full_path.display()
-            // );
         }
     }
 
