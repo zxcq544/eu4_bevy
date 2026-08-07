@@ -12,8 +12,8 @@ fn main() {
         .add_systems(
             Startup,
             (
-                print_monitors.before(setup_window_monitor_using_resource),
-                setup_window_monitor_using_resource,
+                print_monitors.before(setup_window_monitor),
+                setup_window_monitor,
             ),
         )
         .add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -28,7 +28,7 @@ fn main() {
         .run();
 }
 
-fn setup_window_monitor_using_resource(
+fn setup_window_monitor(
     settings: Res<Settings>,
     mut window_query: Query<&mut Window, With<PrimaryWindow>>,
 ) {
