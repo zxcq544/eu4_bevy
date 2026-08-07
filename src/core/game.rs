@@ -8,6 +8,7 @@ use bevy::prelude::*;
 use crate::core::states::GameState;
 use crate::plugins::MapPlugin;
 use crate::plugins::MusicPlayerPlugin;
+use crate::plugins::WindowChooserPlugin;
 pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
@@ -20,6 +21,7 @@ impl Plugin for GamePlugin {
         //    for registering its own components/resources/events
         //    and gating systems on GameState::Playing.
         app.add_plugins((
+            WindowChooserPlugin,
             //     CameraPlugin,
             //     InputPlugin,
             MusicPlayerPlugin,
