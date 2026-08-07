@@ -1,4 +1,5 @@
 use bevy::{audio::Volume, prelude::*};
+use settings::Settings;
 
 // #[derive(Resource)]
 // pub struct MusicPlayer {
@@ -19,7 +20,7 @@ impl Plugin for MusicPlayerPlugin {
     }
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>, settings: Res<Settings>) {
     // let track_paths = vec![
     //     "music/maintheme.ogg".to_string(),
     //     "music/mood_discovery.ogg".to_string(),
@@ -45,7 +46,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         AudioPlayer(track),
         PlaybackSettings {
             mode: bevy::audio::PlaybackMode::Loop,
-            volume: Volume::Linear(0.5),
+            volume: Volume::Linear(settings.volume),
             speed: 1.0,
             paused: false,
             muted: false,
