@@ -6,6 +6,8 @@ pub struct Settings {
     pub eu4_folder: String,
     pub monitor_index: usize,
     pub volume: f32,
+    pub resolution_width: u32,
+    pub resolution_height: u32,
 }
 
 pub fn get_eu4_settings() -> Settings {
@@ -27,6 +29,8 @@ pub fn get_eu4_settings() -> Settings {
             eu4_folder: steam_default_eu4_folder.to_string(),
             monitor_index: 0,
             volume: 1.0,
+            resolution_width: 1920,
+            resolution_height: 1080,
         };
         serde_json::to_writer_pretty(settings_file, &default_settings).unwrap();
         return default_settings;
