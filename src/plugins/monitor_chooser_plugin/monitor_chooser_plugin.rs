@@ -1,9 +1,9 @@
-use crate::plugins::window_chooser_plugin::systems::*;
+use crate::plugins::monitor_chooser_plugin::systems::*;
 use bevy::prelude::*;
 
-pub struct WindowChooserPlugin;
+pub struct MonitorChooserPlugin;
 
-impl Plugin for WindowChooserPlugin {
+impl Plugin for MonitorChooserPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Startup,
