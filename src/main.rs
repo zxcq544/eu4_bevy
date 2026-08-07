@@ -11,7 +11,10 @@ fn main() {
         .insert_resource(eu4_settings)
         .add_systems(
             Startup,
-            (print_monitors, setup_window_monitor_using_resource),
+            (
+                print_monitors.before(setup_window_monitor_using_resource),
+                setup_window_monitor_using_resource,
+            ),
         )
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
