@@ -5,6 +5,8 @@ use bevy::prelude::*;
 //     fog_of_war::FogOfWarPlugin, input::InputPlugin, map::MapPlugin, pathfinding::PathfindingPlugin,
 //     ui::UiPlugin, units::UnitsPlugin,
 // };
+use crate::InitialBootStepPlugin;
+use crate::LoadingAssetsPlugin;
 use crate::core::states::GameState;
 use crate::plugins::MapPlugin;
 use crate::plugins::MonitorChooserPlugin;
@@ -22,6 +24,8 @@ impl Plugin for GamePlugin {
         //    and gating systems on GameState::Playing.
         app.add_plugins((
             MonitorChooserPlugin,
+            InitialBootStepPlugin,
+            LoadingAssetsPlugin,
             //     CameraPlugin,
             //     InputPlugin,
             MusicPlayerPlugin,

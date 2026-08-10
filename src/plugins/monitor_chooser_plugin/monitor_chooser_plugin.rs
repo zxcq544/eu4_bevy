@@ -6,7 +6,7 @@ pub struct MonitorChooserPlugin;
 impl Plugin for MonitorChooserPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
-            Startup,
+            PreStartup,
             (
                 print_monitors.before(setup_window_monitor),
                 setup_window_monitor,
