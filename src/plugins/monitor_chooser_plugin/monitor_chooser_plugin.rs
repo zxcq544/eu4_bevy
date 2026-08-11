@@ -1,5 +1,6 @@
-use crate::plugins::monitor_chooser_plugin::systems::*;
 use bevy::prelude::*;
+
+use crate::{print_monitors, setup_window_monitor};
 
 pub struct MonitorChooserPlugin;
 

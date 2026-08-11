@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy::window::{Monitor, PrimaryWindow, Window, WindowPosition, WindowResolution};
+use bevy::window::{PrimaryWindow, Window, WindowPosition, WindowResolution};
 use settings::Settings;
 
 pub fn setup_window_monitor(
@@ -15,13 +15,5 @@ pub fn setup_window_monitor(
         window.resolution = WindowResolution::new(resolution_width, resolution_height);
         window.position = WindowPosition::Centered(MonitorSelection::Index(monitor_index));
         window.visible = true;
-    }
-}
-
-pub fn print_monitors(q_monitors: Query<Entity, With<Monitor>>) {
-    let count = q_monitors.iter().count();
-    info!("Found {} monitors", count);
-    for (i, entity) in q_monitors.iter().enumerate() {
-        info!("Monitor {}: {:?}", i, entity);
     }
 }
