@@ -22,7 +22,7 @@ pub fn initial_boot_step(
 ) {
     info!("current state is {:?}", current_state.get());
     info!("initial boot step");
-    let cursor_handle = asset_server.load("gfx/cursors/normal.png");
+    let cursor_handle: Handle<Image> = asset_server.load("gfx/cursors/normal.png");
 
     commands
         .entity(*window)
