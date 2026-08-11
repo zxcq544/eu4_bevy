@@ -14,6 +14,7 @@ pub fn setup_window_monitor(
         // This explicitly moves and centers the window on Monitor 0 (or 1, etc.)
         window.resolution = WindowResolution::new(resolution_width, resolution_height);
         window.position = WindowPosition::Centered(MonitorSelection::Index(monitor_index));
+        window.visible = true;
     }
 }
 
