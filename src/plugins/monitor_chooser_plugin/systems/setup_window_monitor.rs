@@ -2,9 +2,12 @@ use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, Window, WindowPosition, WindowResolution};
 use settings::Settings;
 
+use crate::states::GameState;
+
 pub fn setup_window_monitor(
     settings: Res<Settings>,
     mut window_query: Query<&mut Window, With<PrimaryWindow>>,
+    mut next_state: ResMut<NextState<GameState>>,
 ) {
     let monitor_index = settings.monitor_index;
     let resolution_width = settings.resolution_width;
@@ -16,4 +19,5 @@ pub fn setup_window_monitor(
         window.position = WindowPosition::Centered(MonitorSelection::Index(monitor_index));
         window.visible = true;
     }
+    next_state.set(GameState::Boot);
 }

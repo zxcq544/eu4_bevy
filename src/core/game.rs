@@ -58,8 +58,8 @@ impl Plugin for GamePlugin {
 
 fn global_setup(mut commands: Commands) {
     // Spawn a global camera rig, ambient light, debug grid, etc.
-    commands.spawn((
-        Camera3d::default(),
-        // crate::plugins::camera::components::RtsCamera::default(),
-    ));
+    // commands.spawn((
+    //     Camera3d::default(),
+    //     // crate::plugins::camera::components::RtsCamera::default(),
+    // ));
 }

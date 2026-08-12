@@ -26,10 +26,6 @@ pub fn setup_cursors(
             ..default()
         })));
     next_state.set(GameState::LoadingAssets);
-    // commands.spawn(Camera3dBundle {
-    //     transform: Transform::from_xyz(0.0, 0.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
-    //     ..default()
-    // });
 }
 
 fn load_cursors(asset_server: Res<AssetServer>) -> CursorHandles {
