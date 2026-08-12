@@ -18,7 +18,8 @@ pub fn setup_window_monitor(
     info!("Monitor index from settings: {}", monitor_index);
     if let Ok(mut window) = window_query.single_mut() {
         // This explicitly moves and centers the window on Monitor 0 (or 1, etc.)
-        window.resolution = WindowResolution::new(resolution_width, resolution_height);
+        window.resolution = WindowResolution::new(resolution_width, resolution_height)
+            .with_scale_factor_override(1.0);
         window.position = WindowPosition::Centered(MonitorSelection::Index(monitor_index));
         window.visible = true;
     }

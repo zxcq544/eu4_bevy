@@ -13,7 +13,6 @@ pub fn setup_cursors(
 ) {
     info!("current state is {:?}", current_state.get());
     info!("initial boot step");
-    // let cursor_handles = load_cursors(asset_server);
 
     if asset_server.is_loaded_with_dependencies(&cursors.normal) {
         commands
@@ -30,12 +29,3 @@ pub fn setup_cursors(
         next_state.set(GameState::LoadingAssets);
     }
 }
-
-// fn load_cursors(asset_server: Res<AssetServer>) -> CursorHandles {
-//     let normal = asset_server.load("gfx/cursors/normal.png");
-//     let build_cavalry = asset_server.load("gfx/cursors/build_cavalry.png");
-//     CursorHandles {
-//         normal,
-//         build_cavalry,
-//     }
-// }
