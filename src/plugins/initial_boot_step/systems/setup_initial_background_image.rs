@@ -1,11 +1,9 @@
 use bevy::{image::ImageLoaderSettings, prelude::*, render::render_resource::TextureFormat};
 
-// TODO: maybe move to components folder
-#[derive(Component)]
-struct BootScreenEntity;
+use crate::MainMenuBackground;
 
 pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn((Camera2d::default(), BootScreenEntity));
+    commands.spawn((Camera2d::default(), MainMenuBackground));
     let background_filename = "gfx/loadingscreens/load_0.dds";
     // TODO: try to convert to bsn! and check how to free resources and components and so on
     commands
@@ -19,7 +17,7 @@ pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<
                 overflow: Overflow::hidden(),
                 ..default()
             },
-            BootScreenEntity,
+            MainMenuBackground,
         ))
         .with_children(|parent| {
             parent.spawn((

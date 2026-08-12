@@ -9,5 +9,6 @@ impl Plugin for InitialBootStepPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(GameState::Boot), setup_cursors)
             .add_systems(OnEnter(GameState::Boot), setup_initial_background_image);
+        // app.add_systems(OnExit(GameState::Boot), cleanup_initial_background);
     }
 }
