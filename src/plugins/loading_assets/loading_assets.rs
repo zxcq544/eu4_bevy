@@ -13,7 +13,7 @@ impl Plugin for LoadingAssetsPlugin {
 }
 
 pub fn loading_assets(
-    mut commands: Commands,
+    // mut commands: Commands,
     current_state: Res<State<GameState>>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {

@@ -2,10 +2,13 @@ use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, Window, WindowPosition, WindowResolution};
 use settings::Settings;
 
+use crate::CursorHandles;
 use crate::states::GameState;
 
 pub fn setup_window_monitor(
     settings: Res<Settings>,
+    commands: Commands,
+    asset_server: Res<AssetServer>,
     mut window_query: Query<&mut Window, With<PrimaryWindow>>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {
@@ -19,5 +22,18 @@ pub fn setup_window_monitor(
         window.position = WindowPosition::Centered(MonitorSelection::Index(monitor_index));
         window.visible = true;
     }
+    // Have to start loading cursors here so we have beautiful cursor as soon as possible
+    // which is on booting screen
+    load_cursors(commands, asset_server);
     next_state.set(GameState::Boot);
+}
+
+fn load_cursors(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let normal = asset_server.load("gfx/cursors/normal.png");
+    let build_cavalry = asset_server.load("gfx/cursors/build_cavalry.png");
+    let cursors = CursorHandles {
+        normal,
+        build_cavalry,
+    };
+    commands.insert_resource(cursors);
 }

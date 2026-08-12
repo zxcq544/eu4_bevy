@@ -17,7 +17,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         // 1. Register core state machine
         app.init_state::<GameState>();
-        app.add_systems(Startup, global_setup);
+        // app.add_systems(Startup, global_setup);
 
         // 2. Add subsystem plugins. Each plugin is responsible
         //    for registering its own components/resources/events
@@ -56,10 +56,10 @@ impl Plugin for GamePlugin {
 //     Presentation,
 // }
 
-fn global_setup(mut commands: Commands) {
-    // Spawn a global camera rig, ambient light, debug grid, etc.
-    // commands.spawn((
-    //     Camera3d::default(),
-    //     // crate::plugins::camera::components::RtsCamera::default(),
-    // ));
-}
+// fn global_setup(mut commands: Commands) {
+//     // Spawn a global camera rig, ambient light, debug grid, etc.
+//     // commands.spawn((
+//     //     Camera3d::default(),
+//     //     // crate::plugins::camera::components::RtsCamera::default(),
+//     // ));
+// }
