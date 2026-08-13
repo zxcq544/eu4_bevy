@@ -8,6 +8,7 @@ pub struct Settings {
     pub volume: f32,
     pub resolution_width: u32,
     pub resolution_height: u32,
+    pub window_decorations: bool,
 }
 
 pub fn get_eu4_settings() -> Settings {
@@ -31,6 +32,7 @@ pub fn get_eu4_settings() -> Settings {
             volume: 1.0,
             resolution_width: 1920,
             resolution_height: 1080,
+            window_decorations: true,
         };
         serde_json::to_writer_pretty(settings_file, &default_settings).unwrap();
         return default_settings;
