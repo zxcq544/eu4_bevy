@@ -3,3 +3,4 @@ pub mod free_initial_background;
 pub mod setup_cursors;
 pub mod setup_initial_background_image;
 pub mod setup_timeout;
+pub mod start_loading_main_loading_step_background;
