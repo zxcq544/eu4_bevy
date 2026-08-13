@@ -26,6 +26,6 @@ pub fn setup_cursors(
                 rect: None,
                 ..default()
             })));
-        next_state.set(GameState::LoadingAssets);
+        // next_state.set(GameState::LoadingAssets);
     }
 }

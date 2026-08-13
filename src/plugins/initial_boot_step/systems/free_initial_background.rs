@@ -9,5 +9,6 @@ pub fn cleanup_initial_background(
     for entity in query.iter() {
         // despawn_recursive deletes the parent and ALL nested children automatically
         commands.entity(entity).despawn();
+        info!("background removed {:?}", entity);
     }
 }
