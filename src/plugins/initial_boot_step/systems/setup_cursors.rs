@@ -1,9 +1,7 @@
-use bevy::prelude::*;
-use bevy::window::{CursorIcon, CustomCursor, CustomCursorImage, PrimaryWindow};
-
 use crate::core::states::GameState;
 use crate::plugins::initial_boot_step::resources::cursor_handles::CursorHandles;
-
+use bevy::prelude::*;
+use bevy::window::{CursorIcon, CustomCursor, CustomCursorImage, PrimaryWindow};
 
 pub fn setup_cursors(
     mut commands: Commands,

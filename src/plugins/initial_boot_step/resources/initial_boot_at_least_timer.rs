@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+
 #[derive(Resource)]
 pub struct InitialBootAtLeastTimeout {
     pub timer: Timer,

@@ -1,5 +1,3 @@
-use bevy::prelude::*;
-
 use crate::{
     core::states::GameState,
     plugins::initial_boot_step::systems::{
@@ -9,6 +7,7 @@ use crate::{
         setup_timeout::setup_timeout,
     },
 };
+use bevy::prelude::*;
 
 pub struct InitialBootStepPlugin;
 /// This plugin is responsible for setting up the initial boot step

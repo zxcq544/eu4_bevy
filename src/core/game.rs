@@ -1,5 +1,3 @@
-use bevy::prelude::*;
-
 use crate::{
     core::states::GameState,
     plugins::{
@@ -9,6 +7,7 @@ use crate::{
         music_player::music_player::MusicPlayerPlugin,
     },
 };
+use bevy::prelude::*;
 
 // use crate::plugins::{
 //     ai::AiPlugin, buildings::BuildingsPlugin, camera::CameraPlugin, economy::EconomyPlugin,

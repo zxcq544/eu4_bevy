@@ -1,6 +1,5 @@
-use bevy::{image::ImageLoaderSettings, prelude::*, render::render_resource::TextureFormat};
-
 use crate::plugins::initial_boot_step::components::main_menu_background::MainMenuBackground;
+use bevy::{image::ImageLoaderSettings, prelude::*, render::render_resource::TextureFormat};
 
 // use crate::MainMenuBackground;
 

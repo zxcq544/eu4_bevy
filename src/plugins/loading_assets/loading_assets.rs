@@ -1,6 +1,5 @@
-use bevy::prelude::*;
-
 use crate::core::states::GameState;
+use bevy::prelude::*;
 
 pub struct LoadingAssetsPlugin;
 

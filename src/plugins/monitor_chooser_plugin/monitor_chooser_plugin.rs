@@ -1,11 +1,10 @@
-use bevy::prelude::*;
-
 use crate::{
     core::states::GameState,
     plugins::monitor_chooser_plugin::systems::{
         print_monitors::print_monitors, setup_window_monitor::setup_window_monitor,
     },
 };
+use bevy::prelude::*;
 
 pub struct MonitorChooserPlugin;
 
