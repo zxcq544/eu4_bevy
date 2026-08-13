@@ -9,6 +9,7 @@ pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<
     // TODO: try to convert to bsn! and check how to free resources and components and so on
     commands
         .spawn((
+            MainMenuBackground,
             Node {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
@@ -18,12 +19,12 @@ pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<
                 overflow: Overflow::hidden(),
                 ..default()
             },
-            MainMenuBackground,
         ))
         .with_children(|parent| {
             parent.spawn((
                 Node {
                     width: Val::Percent(100.0),
+                    height: Val::Auto,
                     ..default()
                 },
                 ImageNode {
@@ -39,4 +40,27 @@ pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<
                 },
             ));
         });
+    // commands.spawn_scene(ui());
 }
+
+// fn ui() -> impl Scene {
+//     bsn! {
+//         MainMenuBackground
+//         Node{
+//             width: Val::Percent(100.0),
+//             height: Val::Percent(100.0),
+//             position_type: PositionType::Absolute,
+//             justify_content: JustifyContent::Center,
+//             align_items: AlignItems::Center,
+//             overflow: Overflow::hidden()
+//         }
+//         Children[
+//             Node{
+//                 width: Val::Percent(100.0),
+//             }
+//             ImageNode{
+//                 image: "gfx/loadingscreens/load_0.dds"
+//             }
+//         ]
+//     }
+// }
