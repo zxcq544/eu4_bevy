@@ -1,7 +1,9 @@
 use bevy::prelude::*;
-use std::time::Duration;
 
-use crate::{InitialBootAtLeastTimeout, states::GameState};
+use crate::{
+    core::states::GameState,
+    plugins::initial_boot_step::resources::initial_boot_at_least_timer::InitialBootAtLeastTimeout,
+};
 
 pub fn check_if_time_elapsed(
     time: Res<Time>,

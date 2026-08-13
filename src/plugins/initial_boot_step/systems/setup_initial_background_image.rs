@@ -1,6 +1,8 @@
 use bevy::{image::ImageLoaderSettings, prelude::*, render::render_resource::TextureFormat};
 
-use crate::MainMenuBackground;
+use crate::plugins::initial_boot_step::components::main_menu_background::MainMenuBackground;
+
+// use crate::MainMenuBackground;
 
 pub fn setup_initial_background_image(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((Camera2d::default(), MainMenuBackground));

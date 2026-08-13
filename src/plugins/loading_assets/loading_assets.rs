@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
-use crate::states::GameState;
+use crate::core::states::GameState;
+
 pub struct LoadingAssetsPlugin;
 
 impl Plugin for LoadingAssetsPlugin {

@@ -2,8 +2,11 @@ use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, Window, WindowPosition, WindowResolution};
 use settings::Settings;
 
-use crate::CursorHandles;
-use crate::states::GameState;
+use crate::core::states::GameState;
+use crate::plugins::initial_boot_step::resources::cursor_handles::CursorHandles;
+
+// use crate::CursorHandles;
+// use crate::states::GameState;
 
 pub fn setup_window_monitor(
     settings: Res<Settings>,

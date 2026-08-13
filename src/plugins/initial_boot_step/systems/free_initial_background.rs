@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::MainMenuBackground;
+use crate::plugins::initial_boot_step::components::main_menu_background::MainMenuBackground;
 
 pub fn cleanup_initial_background(
     mut commands: Commands,

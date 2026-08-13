@@ -1,7 +1,13 @@
 use bevy::prelude::*;
 
 use crate::{
-    check_if_time_elapsed, cleanup_initial_background, setup_cursors, setup_initial_background_image, setup_timeout, states::GameState,
+    core::states::GameState,
+    plugins::initial_boot_step::systems::{
+        check_if_time_elapsed::check_if_time_elapsed,
+        free_initial_background::cleanup_initial_background, setup_cursors::setup_cursors,
+        setup_initial_background_image::setup_initial_background_image,
+        setup_timeout::setup_timeout,
+    },
 };
 
 pub struct InitialBootStepPlugin;

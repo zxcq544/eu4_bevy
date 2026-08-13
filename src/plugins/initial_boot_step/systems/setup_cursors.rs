@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 use bevy::window::{CursorIcon, CustomCursor, CustomCursorImage, PrimaryWindow};
 
-use crate::{CursorHandles, states::GameState};
+use crate::core::states::GameState;
+use crate::plugins::initial_boot_step::resources::cursor_handles::CursorHandles;
+
 
 pub fn setup_cursors(
     mut commands: Commands,
     window: Single<Entity, With<PrimaryWindow>>,
     current_state: Res<State<GameState>>,
-    mut next_state: ResMut<NextState<GameState>>,
     asset_server: Res<AssetServer>,
     cursors: Res<CursorHandles>,
 ) {
@@ -26,6 +27,5 @@ pub fn setup_cursors(
                 rect: None,
                 ..default()
             })));
-        // next_state.set(GameState::LoadingAssets);
     }
 }

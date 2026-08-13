@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::window::WindowPlugin;
-use eu4_bevy::*;
+use eu4_bevy::core::GamePlugin;
 
 fn main() {
     // Check for Europa Unversalis 4 folder location being present in settings and on disk

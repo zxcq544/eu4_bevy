@@ -1,16 +1,21 @@
 use bevy::prelude::*;
 
+use crate::{
+    core::states::GameState,
+    plugins::{
+        initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
+        loading_assets::loading_assets::LoadingAssetsPlugin, map::map_plugin::MapPlugin,
+        monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
+        music_player::music_player::MusicPlayerPlugin,
+    },
+};
+
 // use crate::plugins::{
 //     ai::AiPlugin, buildings::BuildingsPlugin, camera::CameraPlugin, economy::EconomyPlugin,
 //     fog_of_war::FogOfWarPlugin, input::InputPlugin, map::MapPlugin, pathfinding::PathfindingPlugin,
 //     ui::UiPlugin, units::UnitsPlugin,
 // };
-use crate::InitialBootStepPlugin;
-use crate::LoadingAssetsPlugin;
-use crate::core::states::GameState;
-use crate::plugins::MapPlugin;
-use crate::plugins::MonitorChooserPlugin;
-use crate::plugins::MusicPlayerPlugin;
+
 pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
