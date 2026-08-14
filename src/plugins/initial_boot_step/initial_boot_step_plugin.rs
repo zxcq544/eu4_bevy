@@ -1,11 +1,10 @@
 use crate::{
     core::states::GameState,
     plugins::initial_boot_step::systems::{
-        check_if_time_elapsed::check_if_time_elapsed,
-        free_initial_background::cleanup_initial_background, setup_cursors::setup_cursors,
-        setup_initial_background_image::setup_initial_background_image,
-        setup_timeout::setup_timeout,
+        free_initial_background::cleanup_initial_background,
+        load_background_image::load_background_image, load_cursors::load_cursors,
         start_loading_main_loading_step_background::start_loading_main_loading_step_background,
+        whole_setup_step::whole_setup_step,
     },
 };
 use bevy::prelude::*;
@@ -17,13 +16,13 @@ impl Plugin for InitialBootStepPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::Boot),
-            (setup_initial_background_image, setup_cursors, setup_timeout),
+            (
+                load_cursors,
+                load_background_image,
+                start_loading_main_loading_step_background,
+            ),
         );
-        app.add_systems(
-            OnEnter(GameState::Boot),
-            start_loading_main_loading_step_background,
-        );
-        app.add_systems(Update, check_if_time_elapsed);
+        app.add_systems(Update, whole_setup_step.run_if(in_state(GameState::Boot)));
         app.add_systems(OnExit(GameState::Boot), cleanup_initial_background);
     }
 }
