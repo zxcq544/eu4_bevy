@@ -3,7 +3,9 @@ use crate::{
     plugins::initial_boot_step::systems::{
         free_initial_background::cleanup_initial_background,
         load_background_image::load_background_image, load_cursors::load_cursors,
-        start_loading_main_loading_step_background::start_loading_main_loading_step_background,
+        load_main_loading_step_resources::load_main_loading_step_resources,
+        setup_cursors::setup_cursors,
+        setup_initial_background_image::setup_initial_background_image,
         whole_setup_step::whole_setup_step,
     },
 };
@@ -19,9 +21,12 @@ impl Plugin for InitialBootStepPlugin {
             (
                 load_cursors,
                 load_background_image,
-                start_loading_main_loading_step_background,
-            ),
+                setup_initial_background_image,
+                load_main_loading_step_resources,
+            )
+                .chain(),
         );
+        app.add_systems(Update, setup_cursors.run_if(in_state(GameState::Boot)));
         app.add_systems(Update, whole_setup_step.run_if(in_state(GameState::Boot)));
         app.add_systems(OnExit(GameState::Boot), cleanup_initial_background);
     }

@@ -5,9 +5,10 @@ use crate::plugins::initial_boot_step::{
 use bevy::prelude::*;
 
 pub fn setup_initial_background_image(
-    commands: &mut Commands,
+    mut commands: Commands,
     background_image: Res<InitialBootingBackgroundScreen>,
 ) {
+    info!("Setting initial background image");
     commands.spawn((Camera2d::default(), MainMenuBackground));
     // TODO: try to convert to bsn! and check how to free resources and components and so on
     commands

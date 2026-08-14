@@ -1,4 +1,7 @@
-use crate::plugins::initial_boot_step::components::main_menu_background::MainMenuBackground;
+use crate::plugins::initial_boot_step::{
+    components::main_menu_background::MainMenuBackground,
+    resources::initial_booting_background_screen::InitialBootingBackgroundScreen,
+};
 use bevy::prelude::*;
 
 pub fn cleanup_initial_background(
@@ -9,4 +12,5 @@ pub fn cleanup_initial_background(
         commands.entity(entity).despawn();
         info!("background removed {:?}", entity);
     }
+    commands.remove_resource::<InitialBootingBackgroundScreen>();
 }
