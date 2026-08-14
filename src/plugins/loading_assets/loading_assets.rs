@@ -36,7 +36,7 @@ impl Plugin for LoadingAssetsPlugin {
 
 pub fn set_main_loading_step_background_image(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    // asset_server: Res<AssetServer>,
     main_image: Res<MainLoadingStepBackgroundImage>,
     current_state: Res<State<GameState>>,
 ) {

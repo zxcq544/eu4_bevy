@@ -8,9 +8,6 @@ pub fn setup_cursors(
     asset_server: Res<AssetServer>,
     cursors: Res<CursorHandles>,
 ) {
-    // info!("current state is {:?}", current_state.get());
-    // info!("initial boot step");
-    // TODO: replace with normal test for loaded through Update
     if asset_server.is_loaded_with_dependencies(&cursors.normal) {
         commands
             .entity(*window)

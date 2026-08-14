@@ -18,7 +18,6 @@ pub fn whole_setup_step(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     window: Single<Entity, With<PrimaryWindow>>,
-    // current_state: Res<State<GameState>>,
     cursors: Res<CursorHandles>,
     background_image: Res<InitialBootingBackgroundScreen>,
     mut next_state: ResMut<NextState<GameState>>,
