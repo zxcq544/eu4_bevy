@@ -1,5 +1,3 @@
-use bevy::prelude::*;
-
 use crate::{
     core::states::GameState,
     plugins::loading_assets::{
@@ -10,9 +8,10 @@ use crate::{
         },
     },
 };
+use bevy::prelude::*;
+
 pub fn set_background_images(
     commands: Commands,
-    // asset_server: Res<AssetServer>,
     main_image: Res<MainLoadingStepBackgroundImage>,
     loading_screen_status_image: Res<LoadingScreenStatusImage>,
     loading_screen_tooltip_image: Res<LoadingScreenTooltipImage>,
@@ -29,7 +28,6 @@ pub fn set_background_images(
 
 fn set_main_loading_step_background_image(
     mut commands: Commands,
-    // asset_server: Res<AssetServer>,
     main_image: Res<MainLoadingStepBackgroundImage>,
     loading_screen_status_image: Res<LoadingScreenStatusImage>,
     loading_screen_tooltip_image: Res<LoadingScreenTooltipImage>,
