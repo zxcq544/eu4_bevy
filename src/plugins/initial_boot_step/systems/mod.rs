@@ -5,3 +5,4 @@ pub mod load_main_loading_step_resources;
 pub mod load_cursors;
 pub mod whole_setup_step;
 pub mod load_background_image;
+pub mod start_initial_timer;

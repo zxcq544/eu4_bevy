@@ -1,6 +1,9 @@
 use crate::plugins::initial_boot_step::{
     components::main_menu_background::MainMenuBackground,
-    resources::initial_booting_background_screen::InitialBootingBackgroundScreen,
+    resources::{
+        initial_boot_step_timer::InitialBootStepTimer,
+        initial_booting_background_screen::InitialBootingBackgroundScreen,
+    },
 };
 use bevy::prelude::*;
 
@@ -13,4 +16,5 @@ pub fn cleanup_initial_background(
         info!("background removed {:?}", entity);
     }
     commands.remove_resource::<InitialBootingBackgroundScreen>();
+    commands.remove_resource::<InitialBootStepTimer>();
 }

@@ -6,7 +6,7 @@ use crate::{
         load_main_loading_step_resources::load_main_loading_step_resources,
         setup_cursors::setup_cursors,
         setup_initial_background_image::setup_initial_background_image,
-        whole_setup_step::whole_setup_step,
+        start_initial_timer::start_initial_timer, whole_setup_step::whole_setup_step,
     },
 };
 use bevy::prelude::*;
@@ -19,6 +19,7 @@ impl Plugin for InitialBootStepPlugin {
         app.add_systems(
             OnEnter(GameState::Boot),
             (
+                start_initial_timer,
                 load_cursors,
                 load_background_image,
                 setup_initial_background_image,

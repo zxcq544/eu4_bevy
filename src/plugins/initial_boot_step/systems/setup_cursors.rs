@@ -9,25 +9,27 @@ pub fn setup_cursors(
     cursors: Res<CursorHandles>,
     current_cursor_icon: Query<&CursorIcon, With<PrimaryWindow>>,
 ) {
-    let mut is_custom_cursor = false;
-    if let Ok(current_cursor) = current_cursor_icon.single() {
-        match current_cursor {
-            CursorIcon::Custom(_) => is_custom_cursor = true,
-            _ => is_custom_cursor = false,
+    if asset_server.is_loaded_with_dependencies(&cursors.normal) {
+        let mut is_custom_cursor = false;
+        if let Ok(current_cursor) = current_cursor_icon.single() {
+            match current_cursor {
+                CursorIcon::Custom(_) => is_custom_cursor = true,
+                _ => is_custom_cursor = false,
+            }
         }
-    }
-    if asset_server.is_loaded_with_dependencies(&cursors.normal) && is_custom_cursor == false {
-        info!("Setting cursor");
-        commands
-            .entity(*window)
-            .insert(CursorIcon::Custom(CustomCursor::Image(CustomCursorImage {
-                handle: cursors.normal.clone(),
-                hotspot: (0, 0),
-                texture_atlas: None,
-                flip_x: false,
-                flip_y: false,
-                rect: None,
-                ..default()
-            })));
+        if is_custom_cursor == false {
+            info!("Setting cursor");
+            commands
+                .entity(*window)
+                .insert(CursorIcon::Custom(CustomCursor::Image(CustomCursorImage {
+                    handle: cursors.normal.clone(),
+                    hotspot: (0, 0),
+                    texture_atlas: None,
+                    flip_x: false,
+                    flip_y: false,
+                    rect: None,
+                    ..default()
+                })));
+        }
     }
 }

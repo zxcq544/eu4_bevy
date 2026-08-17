@@ -1,26 +1,18 @@
 use crate::plugins::loading_assets::resources::loading_screen_tooltip_image::LoadingScreenTooltipImage;
 use crate::plugins::loading_assets::{
     loading_assets::MainLoadingStepBackgroundImage,
-    resources::loading_screen_status_image::LoadingScreenStatusImage,
 };
 use bevy::{image::ImageLoaderSettings, prelude::*, render::render_resource::TextureFormat};
 
 pub fn load_main_loading_step_resources(mut commands: Commands, asset_server: Res<AssetServer>) {
     load_background(&mut commands, &asset_server);
     load_tooltip(&mut commands, &asset_server);
-    load_status(&mut commands, &asset_server);
 }
 
 fn load_tooltip(commands: &mut Commands, asset_server: &Res<AssetServer>) {
     info!("Loading loading screen tooltip");
     let tooltip = asset_server.load("gfx/interface/Loadingscreen_loadingtip.dds");
     commands.insert_resource(LoadingScreenTooltipImage { image: tooltip });
-}
-
-fn load_status(commands: &mut Commands, asset_server: &Res<AssetServer>) {
-    info!("Loading loading screen status");
-    let status = asset_server.load("gfx/interface/Loadingscreen_loadingstatus.dds");
-    commands.insert_resource(LoadingScreenStatusImage { image: status });
 }
 
 fn load_background(commands: &mut Commands, asset_server: &Res<AssetServer>) {
