@@ -17,11 +17,7 @@ fn load_tooltip(commands: &mut Commands, asset_server: &Res<AssetServer>) {
 
 fn load_background(commands: &mut Commands, asset_server: &Res<AssetServer>) {
     info!("Loading main loading step background");
-    let main_loading_step_background_image = pick_random_background_image(&asset_server);
-    // info!(
-    //     "Main loading step background image: {:?}",
-    //     main_loading_step_background_image
-    // );
+    let main_loading_step_background_image = pick_random_background_image(&asset_server);    
     commands.insert_resource(MainLoadingStepBackgroundImage {
         image: main_loading_step_background_image,
     });
