@@ -1,5 +1,5 @@
 use crate::plugins::initial_boot_step::{
-    components::main_menu_background::MainMenuBackground,
+    components::initial_boot_entity::InitialBootEntity,
     resources::initial_booting_background_screen::InitialBootingBackgroundScreen,
 };
 use bevy::prelude::*;
@@ -9,7 +9,7 @@ pub fn setup_initial_background_image(
     background_image_res: Res<InitialBootingBackgroundScreen>,
 ) {
     info!("Setting initial background image");
-    commands.spawn((Camera2d::default(), MainMenuBackground));
+    commands.spawn((Camera2d::default(), InitialBootEntity));
     // TODO: check how to free resources and components and so on
     commands.spawn_scene(ui(background_image_res));
 }
@@ -17,7 +17,7 @@ pub fn setup_initial_background_image(
 fn ui(background_image_res: Res<InitialBootingBackgroundScreen>) -> impl Scene {
     let background_image = background_image_res.image.clone();
     bsn! {
-        MainMenuBackground
+        InitialBootEntity
         Node{
             width: Val::Percent(100.0),
             height: Val::Percent(100.0),

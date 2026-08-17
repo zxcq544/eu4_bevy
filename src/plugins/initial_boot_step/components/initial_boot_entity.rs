@@ -1,4 +1,4 @@
 use bevy::prelude::*;
 
 #[derive(Component, Default, Clone)]
-pub struct MainMenuBackground;
+pub struct InitialBootEntity;
