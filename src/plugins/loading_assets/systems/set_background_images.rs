@@ -24,8 +24,8 @@ pub fn set_background_images(
 // TODO: try to bsn this function
 fn set_main_loading_step_background_image(
     mut commands: Commands,
-    main_image: Res<MainLoadingStepBackgroundImage>,
-    loading_screen_tooltip_image: Res<LoadingScreenTooltipImage>,
+    main_image_res: Res<MainLoadingStepBackgroundImage>,
+    loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
     current_state: Res<State<GameState>>,
 ) {
     info!("current state is {:?}", current_state.get());
@@ -33,120 +33,117 @@ fn set_main_loading_step_background_image(
     // info!("Main loading step background image is loaded");
     commands.spawn((Camera2d::default(), MainLoadingStepMainEntity));
     // TODO: try to convert to bsn! and check how to free resources and components and so on
-    // Main background image
-    commands
-        .spawn((
-            MainLoadingStepMainEntity,
+    spawn_scene_with_whole_loading_screen(
+        &mut commands,
+        main_image_res,
+        loading_screen_tooltip_image_res,
+    );
+}
+
+fn spawn_scene_with_whole_loading_screen(
+    commands: &mut Commands,
+    main_image_res: Res<MainLoadingStepBackgroundImage>,
+    loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
+) {
+    commands.spawn_scene_list(ui(main_image_res, loading_screen_tooltip_image_res));
+}
+
+fn ui(
+    main_image_res: Res<MainLoadingStepBackgroundImage>,
+    loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
+) -> impl SceneList {
+    let main_image = main_image_res.image.clone();
+    let loading_screen_tooltip_image = loading_screen_tooltip_image_res.image.clone();
+    bsn_list! {
+        // Main background image
+        MainLoadingStepMainEntity
+        Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            position_type: PositionType::Absolute,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            overflow: Overflow::hidden(),
+        }
+        Children [
             Node {
                 width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                position_type: PositionType::Absolute,
+                height: Val::Auto,
+            }
+            ImageNode {
+                image: main_image,
+            }
+        ],
+        // Text on top of screen with current loading info
+        MainLoadingStepMainEntity
+        Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            position_type: PositionType::Absolute,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Start,
+            overflow: Overflow::hidden(),
+        }
+        Children [
+            Node {
+                width: Val::Percent(80.0),
+                height: Val::Vh(10.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
                 overflow: Overflow::hidden(),
-                ..default()
-            },
-        ))
-        .with_children(|parent| {
-            parent.spawn((
+            }
+            Text::new("Loading")
+            TextLayout {
+                justify: Justify::Center,
+            }
+            Outline {
+                color: Color::WHITE,
+                width: Val::Px(1.0),
+            }
+        ],
+        // Image for tooltip at the bottom of screen
+        MainLoadingStepMainEntity
+        Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            position_type: PositionType::Absolute,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::End,
+            overflow: Overflow::hidden(),
+        }
+        Children [
+            Node {
+                width: Val::Vw(60.0),
+                height: Val::Vh(15.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+            }
+            ImageNode {
+                image: loading_screen_tooltip_image,
+                image_mode: NodeImageMode::Stretch,
+            }
+            Outline {
+                color: Color::BLACK,
+                width: Val::Px(1.0),
+            }
+            // Tooltip text
+            Children [
                 Node {
-                    width: Val::Percent(100.0),
-                    height: Val::Auto,
-                    ..default()
-                },
-                ImageNode {
-                    image: main_image.image.clone(),
-                    ..default()
-                },
-            ));
-        });
-    // Text on top of screen with current loading info
-    commands
-        .spawn((
-            MainLoadingStepMainEntity,
-            Node {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                position_type: PositionType::Absolute,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Start,
-                // bottom: Val::Vh(100.0),
-                overflow: Overflow::hidden(),
-                ..default()
-            },
-        ))
-        .with_children(|parent| {
-            parent.spawn((
-                Text {
-                    0: "Loading".to_string(),
-                    ..default()
-                },
+                    width: Val::Percent(75.0),
+                    height: Val::Percent(50.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    overflow: Overflow::hidden(),
+                }
+                Text::new("Tooltip")
                 TextLayout {
-                    justify: Justify::Center,
-                    ..default()
-                },
-            ));
-        });
-    // Image for tooltip
-    commands
-        .spawn((
-            MainLoadingStepMainEntity,
-            Node {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                position_type: PositionType::Absolute,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::End,
-                // bottom: Val::Vh(100.0),
-                overflow: Overflow::hidden(),
-                ..default()
-            },
-        ))
-        .with_children(|parent| {
-            parent
-                .spawn((
-                    Node {
-                        width: Val::Vw(60.0),
-                        height: Val::Vh(15.0),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        ..default()
-                    },
-                    ImageNode {
-                        image: loading_screen_tooltip_image.image.clone(),
-                        image_mode: NodeImageMode::Stretch,
-                        ..default()
-                    },
-                    Outline {
-                        color: Color::BLACK,
-                        width: Val::Px(1.0),
-                        ..default()
-                    },
-                ))
-                .with_children(|parent| {
-                    parent.spawn((
-                        Node {
-                            width: Val::Percent(75.0),
-                            height: Val::Percent(50.0),
-                            justify_content: JustifyContent::Center,
-                            align_items: AlignItems::Center,
-                            overflow: Overflow::hidden(),
-                            ..default()
-                        },
-                        Text {
-                            0: "Tooltip".to_string(),
-                            ..default()
-                        },
-                        TextLayout {
-                            justify: Justify::Start,
-                            ..default()
-                        },
-                        Outline {
-                            color: Color::WHITE,
-                            width: Val::Px(1.0),
-                            ..default()
-                        },
-                    ));
-                });
-        });
+                    justify: Justify::Start,
+                }
+                Outline {
+                    color: Color::WHITE,
+                    width: Val::Px(1.0),
+                }
+            ]
+        ],
+    }
 }

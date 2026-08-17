@@ -1,6 +1,9 @@
 use crate::{
     core::states::GameState,
-    plugins::loading_assets::systems::set_background_images::set_background_images,
+    plugins::loading_assets::systems::{
+        free_main_loading_step_resources::free_main_loading_step_resources,
+        set_background_images::set_background_images,
+    },
 };
 use bevy::prelude::*;
 
@@ -11,7 +14,7 @@ pub struct MainLoadingStepBackgroundImage {
     pub image: Handle<Image>,
 }
 
-#[derive(Component)]
+#[derive(Component, Clone, Default)]
 pub struct MainLoadingStepMainEntity;
 
 impl Plugin for LoadingAssetsPlugin {
@@ -21,6 +24,10 @@ impl Plugin for LoadingAssetsPlugin {
         //     Update,
         //     loading_assets.run_if(in_state(GameState::LoadingAssets)),
         // );
+        app.add_systems(
+            OnExit(GameState::LoadingAssets),
+            free_main_loading_step_resources,
+        );
     }
 }
 
