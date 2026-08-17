@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::loading_assets::systems::{
         free_main_loading_step_resources::free_main_loading_step_resources,
-        set_background_images::set_background_images,
+        set_main_loading_step_scene::set_main_loading_step_scene,
     },
 };
 use bevy::prelude::*;
@@ -14,12 +14,12 @@ pub struct MainLoadingStepBackgroundImage {
     pub image: Handle<Image>,
 }
 
-#[derive(Component, Clone, Default)]
-pub struct MainLoadingStepMainEntity;
-
 impl Plugin for LoadingAssetsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::LoadingAssets), set_background_images);
+        app.add_systems(
+            OnEnter(GameState::LoadingAssets),
+            set_main_loading_step_scene,
+        );
         // app.add_systems(
         //     Update,
         //     loading_assets.run_if(in_state(GameState::LoadingAssets)),
