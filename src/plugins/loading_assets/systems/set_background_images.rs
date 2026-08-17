@@ -21,6 +21,7 @@ pub fn set_background_images(
     );
 }
 
+// TODO: try to bsn this function
 fn set_main_loading_step_background_image(
     mut commands: Commands,
     main_image: Res<MainLoadingStepBackgroundImage>,
@@ -148,37 +149,4 @@ fn set_main_loading_step_background_image(
                     ));
                 });
         });
-    // Tooltip text on top of image at bottom
-    // commands
-    //     .spawn((
-    //         MainLoadingStepMainEntity,
-    //         Node {
-    //             width: Val::Percent(100.0),
-    //             height: Val::Percent(100.0),
-    //             position_type: PositionType::Absolute,
-    //             justify_content: JustifyContent::Center,
-    //             align_items: AlignItems::End,
-    //             // bottom: Val::Vh(100.0),
-    //             overflow: Overflow::hidden(),
-    //             ..default()
-    //         },
-    //     ))
-    //     .with_children(|parent| {
-    //         parent.spawn((
-    //             Node {
-    //                 width: Val::Vw(60.0),
-    //                 height: Val::Vh(15.0),
-    //                 ..default()
-    //             },
-    //             Text {
-    //                 0: "Tooltip".to_string(),
-    //                 ..default()
-    //             },
-    //             Outline {
-    //                 color: Color::WHITE,
-    //                 width: Val::Px(1.0),
-    //                 ..default()
-    //             },
-    //         ));
-    //     });
 }
