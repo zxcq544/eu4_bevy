@@ -1,5 +1,5 @@
 [package]
-name = "settings"
+name = "fonts"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,4 +7,3 @@ edition = "2024"
 bevy = { version = "0.19", }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
-fonts = { path = "../fonts" }

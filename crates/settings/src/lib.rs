@@ -1,4 +1,5 @@
 use bevy::ecs::resource::Resource;
+use fonts::Fonts;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, Clone, Resource)]
@@ -10,6 +11,7 @@ pub struct Settings {
     pub resolution_height: u32,
     pub window_decorations: bool,
     pub initial_bootscreen_show_time: u64,
+    pub fonts: Fonts,
 }
 
 pub fn get_eu4_settings() -> Settings {
@@ -35,6 +37,12 @@ pub fn get_eu4_settings() -> Settings {
             resolution_height: 1080,
             window_decorations: true,
             initial_bootscreen_show_time: 2,
+            fonts: Fonts {
+                loading_screen_tooltip_font: "fonts/FiraSans-Bold.ttf".to_string(),
+                loading_screen_loading_text_font: "fonts/FiraSans-Bold.ttf".to_string(),
+                main_font: "fonts/FiraSans-Bold.ttf".to_string(),
+                button_font: "fonts/FiraSans-Bold.ttf".to_string(),
+            },
         };
         serde_json::to_writer_pretty(settings_file, &default_settings).unwrap();
         return default_settings;

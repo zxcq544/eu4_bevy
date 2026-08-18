@@ -3,7 +3,7 @@ use crate::{
     plugins::initial_boot_step::systems::{
         free_initial_background::cleanup_initial_background,
         load_background_image::load_background_image, load_cursors::load_cursors,
-        load_main_loading_step_resources::load_main_loading_step_resources,
+        load_fonts::load_fonts, load_main_loading_step_resources::load_main_loading_step_resources,
         setup_cursors::setup_cursors,
         setup_initial_background_image::setup_initial_background_image,
         start_initial_timer::start_initial_timer, whole_setup_step::whole_setup_step,
@@ -21,6 +21,7 @@ impl Plugin for InitialBootStepPlugin {
             (
                 start_initial_timer,
                 load_cursors,
+                load_fonts,
                 load_background_image,
                 setup_initial_background_image,
                 load_main_loading_step_resources,

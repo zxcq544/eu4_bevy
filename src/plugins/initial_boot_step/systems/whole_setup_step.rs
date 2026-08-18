@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use fonts::FontHandles;
 
 use crate::{
     core::states::GameState,
@@ -17,6 +18,7 @@ use crate::{
 pub fn whole_setup_step(
     asset_server: Res<AssetServer>,
     cursors: Res<CursorHandles>,
+    fonts: Res<FontHandles>,
     background_image: Res<InitialBootingBackgroundScreen>,
     loading_screen_tooltip_image: Res<LoadingScreenTooltipImage>,
     main_background: Res<MainLoadingStepBackgroundImage>,
@@ -27,6 +29,8 @@ pub fn whole_setup_step(
     // info!("Whole setup step");
     timer.timer.tick(time.delta());
     if asset_server.is_loaded_with_dependencies(&cursors.normal)
+        && asset_server.is_loaded_with_dependencies(&fonts.loading_screen_tooltip_font)
+        && asset_server.is_loaded_with_dependencies(&fonts.loading_screen_loading_text_font)
         && asset_server.is_loaded_with_dependencies(&background_image.image)
         && asset_server.is_loaded_with_dependencies(&loading_screen_tooltip_image.image)
         && asset_server.is_loaded_with_dependencies(&main_background.image)
