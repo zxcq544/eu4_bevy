@@ -63,10 +63,10 @@ impl MainLoadingStepMainEntity {
                 TextLayout {
                     justify: Justify::Center,
                 }
-                Outline {
-                    color: Color::WHITE,
-                    width: Val::Px(1.0),
-                }
+                // Outline {
+                //     color: Color::WHITE,
+                //     width: Val::Px(1.0),
+                // }
             ],
             // Image for tooltip at the bottom of screen
             MainLoadingStepMainEntity
@@ -89,10 +89,10 @@ impl MainLoadingStepMainEntity {
                     image: loading_screen_tooltip_image,
                     image_mode: NodeImageMode::Stretch,
                 }
-                Outline {
-                    color: Color::BLACK,
-                    width: Val::Px(1.0),
-                }
+                // Outline {
+                //     color: Color::BLACK,
+                //     width: Val::Px(1.0),
+                // }
                 // Tooltip text
                 Children [
                     Node {
@@ -109,10 +109,10 @@ impl MainLoadingStepMainEntity {
                     TextLayout {
                         justify: Justify::Start,
                     }
-                    Outline {
-                        color: Color::WHITE,
-                        width: Val::Px(1.0),
-                    }
+                    // Outline {
+                    //     color: Color::WHITE,
+                    //     width: Val::Px(1.0),
+                    // }
                 ]
             ],
         }
