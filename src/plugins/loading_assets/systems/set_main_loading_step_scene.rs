@@ -9,11 +9,13 @@ use crate::{
     },
 };
 use bevy::prelude::*;
+use fonts::FontHandles;
 
 pub fn set_main_loading_step_scene(
     mut commands: Commands,
     main_image_res: Res<MainLoadingStepBackgroundImage>,
     loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
+    fonts_res: Res<FontHandles>,
     current_state: Res<State<GameState>>,
 ) {
     info!("current state is {:?}", current_state.get());
@@ -24,5 +26,6 @@ pub fn set_main_loading_step_scene(
     commands.spawn_scene_list(MainLoadingStepMainEntity::as_scene_list(
         main_image_res,
         loading_screen_tooltip_image_res,
+        fonts_res,
     ));
 }

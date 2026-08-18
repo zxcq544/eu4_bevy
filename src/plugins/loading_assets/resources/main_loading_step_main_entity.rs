@@ -2,7 +2,8 @@ use crate::plugins::loading_assets::{
     loading_assets::MainLoadingStepBackgroundImage,
     resources::loading_screen_tooltip_image::LoadingScreenTooltipImage,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, text::FontSourceTemplate};
+use fonts::FontHandles;
 
 #[derive(Component, Clone, Default)]
 pub struct MainLoadingStepMainEntity;
@@ -11,9 +12,12 @@ impl MainLoadingStepMainEntity {
     pub fn as_scene_list(
         main_image_res: Res<MainLoadingStepBackgroundImage>,
         loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
+        fonts_res: Res<FontHandles>,
     ) -> impl SceneList {
         let main_image = main_image_res.image.clone();
         let loading_screen_tooltip_image = loading_screen_tooltip_image_res.image.clone();
+        let loading_screen_tooltip_font = fonts_res.loading_screen_tooltip_font.clone();
+        let loading_screen_loading_text_font = fonts_res.loading_screen_loading_text_font.clone();
         bsn_list! {
             // Main background image
             MainLoadingStepMainEntity
@@ -53,6 +57,9 @@ impl MainLoadingStepMainEntity {
                     overflow: Overflow::hidden(),
                 }
                 Text::new("Loading")
+                TextFont {
+                    font: FontSourceTemplate::Handle(loading_screen_loading_text_font),
+                }
                 TextLayout {
                     justify: Justify::Center,
                 }
@@ -96,6 +103,9 @@ impl MainLoadingStepMainEntity {
                         overflow: Overflow::hidden(),
                     }
                     Text::new("Tooltip")
+                    TextFont {
+                        font: FontSourceTemplate::Handle(loading_screen_tooltip_font),
+                    }
                     TextLayout {
                         justify: Justify::Start,
                     }
