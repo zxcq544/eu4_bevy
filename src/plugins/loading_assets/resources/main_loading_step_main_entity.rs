@@ -21,12 +21,16 @@ impl MainLoadingStepMainEntity {
         let loading_screen_tooltip_image = loading_screen_tooltip_image_res.image.clone();
         let loading_screen_tooltip_font = fonts_res.loading_screen_tooltip_font.clone();
         let loading_screen_loading_text_font = fonts_res.loading_screen_loading_text_font.clone();
-        let loading_screen_loading_text = localization_res
-            .content("loading-text")
-            .unwrap_or("could not find".to_string());
-        let loading_screen_tooltip_text = localization_res
-            .content("tooltip-text")
-            .unwrap_or("could not find".to_string());
+        let loading_screen_loading_text =
+            localization_res.content("loading-text").expect(&format!(
+                "missing loading-text in localisation files {:?}",
+                localization_res
+            ));
+        let loading_screen_tooltip_text =
+            localization_res.content("tooltip-text").expect(&format!(
+                "missing tooltip-text in localisation files {:?}",
+                localization_res
+            ));
         bsn_list! {
             // Main background image
             MainLoadingStepMainEntity
