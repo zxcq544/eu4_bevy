@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy::window::WindowPlugin;
+use bevy_fluent::FluentPlugin;
 use eu4_bevy::core::game::GamePlugin;
 
 fn main() {
@@ -15,6 +16,7 @@ fn main() {
             }),
             ..default()
         }))
+        .add_plugins(FluentPlugin)
         // Pull in all game systems via one root plugin
         .add_plugins(GamePlugin)
         .run();

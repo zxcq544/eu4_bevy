@@ -7,6 +7,7 @@ use crate::{
         initial_boot_step::resources::{
             cursor_handles::CursorHandles, initial_boot_step_timer::InitialBootStepTimer,
             initial_booting_background_screen::InitialBootingBackgroundScreen,
+            locale_folder::LocaleFolder,
         },
         loading_assets::{
             loading_assets::MainLoadingStepBackgroundImage,
@@ -22,6 +23,7 @@ pub fn whole_setup_step(
     background_image: Res<InitialBootingBackgroundScreen>,
     loading_screen_tooltip_image: Res<LoadingScreenTooltipImage>,
     main_background: Res<MainLoadingStepBackgroundImage>,
+    localizations_for_loading_screen: Res<LocaleFolder>,
     mut next_state: ResMut<NextState<GameState>>,
     mut timer: ResMut<InitialBootStepTimer>,
     time: Res<Time>,
@@ -34,6 +36,7 @@ pub fn whole_setup_step(
         && asset_server.is_loaded_with_dependencies(&background_image.image)
         && asset_server.is_loaded_with_dependencies(&loading_screen_tooltip_image.image)
         && asset_server.is_loaded_with_dependencies(&main_background.image)
+        && asset_server.is_loaded_with_dependencies(&localizations_for_loading_screen.folder)
         && timer.timer.just_finished()
     {
         next_state.set(GameState::LoadingAssets);
