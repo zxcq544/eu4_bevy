@@ -3,6 +3,8 @@ use crate::plugins::loading_assets::{
     resources::loading_screen_tooltip_image::LoadingScreenTooltipImage,
 };
 use bevy::{prelude::*, text::FontSourceTemplate};
+use bevy_fluent::prelude::*;
+use fluent_content::Content;
 use fonts::FontHandles;
 
 #[derive(Component, Clone, Default)]
@@ -13,11 +15,18 @@ impl MainLoadingStepMainEntity {
         main_image_res: Res<MainLoadingStepBackgroundImage>,
         loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
         fonts_res: Res<FontHandles>,
+        localization_res: Res<Localization>,
     ) -> impl SceneList {
         let main_image = main_image_res.image.clone();
         let loading_screen_tooltip_image = loading_screen_tooltip_image_res.image.clone();
         let loading_screen_tooltip_font = fonts_res.loading_screen_tooltip_font.clone();
         let loading_screen_loading_text_font = fonts_res.loading_screen_loading_text_font.clone();
+        let loading_screen_loading_text = localization_res
+            .content("loading-text")
+            .unwrap_or("could not find".to_string());
+        let loading_screen_tooltip_text = localization_res
+            .content("tooltip-text")
+            .unwrap_or("could not find".to_string());
         bsn_list! {
             // Main background image
             MainLoadingStepMainEntity
@@ -56,7 +65,7 @@ impl MainLoadingStepMainEntity {
                     align_items: AlignItems::Center,
                     overflow: Overflow::hidden(),
                 }
-                Text::new("Loading")
+                Text::new(loading_screen_loading_text)
                 TextFont {
                     font: FontSourceTemplate::Handle(loading_screen_loading_text_font),
                 }
@@ -102,7 +111,7 @@ impl MainLoadingStepMainEntity {
                         align_items: AlignItems::Center,
                         overflow: Overflow::hidden(),
                     }
-                    Text::new("Tooltip")
+                    Text::new(loading_screen_tooltip_text)
                     TextFont {
                         font: FontSourceTemplate::Handle(loading_screen_tooltip_font),
                     }

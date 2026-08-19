@@ -9,6 +9,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
+use bevy_fluent::Localization;
 use fonts::FontHandles;
 
 pub fn set_main_loading_step_scene(
@@ -17,6 +18,7 @@ pub fn set_main_loading_step_scene(
     loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
     fonts_res: Res<FontHandles>,
     current_state: Res<State<GameState>>,
+    localization_res: Res<Localization>,
 ) {
     info!("current state is {:?}", current_state.get());
     info!("Setting main loading step background image");
@@ -27,5 +29,6 @@ pub fn set_main_loading_step_scene(
         main_image_res,
         loading_screen_tooltip_image_res,
         fonts_res,
+        localization_res,
     ));
 }

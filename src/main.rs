@@ -10,7 +10,7 @@ fn main() {
     let eu4_settings = settings::get_eu4_settings();
     App::new()
         .insert_resource(eu4_settings)
-        .insert_resource(Locale::new(langid!("en-US")))
+        .insert_resource(Locale::new(langid!("ru-RU")))
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: "Europa Universalis 4".into(),

@@ -2484,6 +2484,7 @@ dependencies = [
  "bevy",
  "bevy_fluent",
  "copy_assets",
+ "fluent_content",
  "fonts",
  "log",
  "rand",

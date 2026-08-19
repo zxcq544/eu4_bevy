@@ -11,6 +11,7 @@ pub fn setup_localisation(
     if asset_server.is_loaded_with_dependencies(&locale_folder_res.folder) {
         let localization = localization_builder.build(&locale_folder_res.folder);
         commands.remove_resource::<LocaleFolder>();
+        info!("Localization is loaded {:?}", localization);
         commands.insert_resource(localization);
     }
 }
