@@ -11,6 +11,19 @@ use fonts::FontHandles;
 pub struct MainLoadingStepMainEntity;
 
 impl MainLoadingStepMainEntity {
+    fn get_random_tooltip_text(localization_res: &Res<Localization>) -> String {
+        // Get random number from 1 to 101
+        let random_number = rand::random_range(1..=101);
+        let random_tooltip_number = format!("LOADING_TIP_{random_number}");
+        let loading_screen_tooltip_text =
+            localization_res
+                .content(&random_tooltip_number)
+                .expect(&format!(
+                    "missing {random_tooltip_number} in localisation files {:?}",
+                    localization_res
+                ));
+        loading_screen_tooltip_text
+    }
     pub fn as_scene_list(
         main_image_res: Res<MainLoadingStepBackgroundImage>,
         loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
@@ -21,14 +34,10 @@ impl MainLoadingStepMainEntity {
         let loading_screen_tooltip_image = loading_screen_tooltip_image_res.image.clone();
         let loading_screen_tooltip_font = fonts_res.loading_screen_tooltip_font.clone();
         let loading_screen_loading_text_font = fonts_res.loading_screen_loading_text_font.clone();
+        let loading_screen_random_tooltip_text = Self::get_random_tooltip_text(&localization_res);
         let loading_screen_loading_text =
             localization_res.content("loading-text").expect(&format!(
                 "missing loading-text in localisation files {:?}",
-                localization_res
-            ));
-        let loading_screen_tooltip_text =
-            localization_res.content("tooltip-text").expect(&format!(
-                "missing tooltip-text in localisation files {:?}",
                 localization_res
             ));
         bsn_list! {
@@ -115,7 +124,7 @@ impl MainLoadingStepMainEntity {
                         align_items: AlignItems::Center,
                         overflow: Overflow::hidden(),
                     }
-                    Text::new(loading_screen_tooltip_text)
+                    Text::new(loading_screen_random_tooltip_text)
                     TextFont {
                         font: FontSourceTemplate::Handle(loading_screen_tooltip_font),
                     }
