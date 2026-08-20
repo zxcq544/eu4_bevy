@@ -11,9 +11,10 @@ pub fn cleanup_initial_background(
     mut commands: Commands,
     query: Query<Entity, With<InitialBootEntity>>,
 ) {
+    info!("Freeing initial background resources");
     for entity in query.iter() {
         commands.entity(entity).despawn();
-        info!("removed {:?}", entity);
+        // info!("removed {:?}", entity);
     }
     commands.remove_resource::<InitialBootingBackgroundScreen>();
     commands.remove_resource::<InitialBootStepTimer>();
