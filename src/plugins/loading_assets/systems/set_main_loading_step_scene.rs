@@ -1,11 +1,9 @@
 use crate::{
     core::states::GameState,
     plugins::loading_assets::{
+        components::main_loading_step_main_entity::MainLoadingStepMainEntity,
         loading_assets::MainLoadingStepBackgroundImage,
-        resources::{
-            loading_screen_tooltip_image::LoadingScreenTooltipImage,
-            main_loading_step_main_entity::MainLoadingStepMainEntity,
-        },
+        resources::loading_screen_tooltip_image::LoadingScreenTooltipImage,
     },
 };
 use bevy::prelude::*;
