@@ -2487,6 +2487,7 @@ dependencies = [
  "fluent_content",
  "fonts",
  "log",
+ "path-clean",
  "rand",
  "serde",
  "serde_json",

@@ -30,6 +30,7 @@ pub fn setup_cursors(
                     rect: None,
                     ..default()
                 })));
+            info!("Cursor is set");
         }
     }
 }
