@@ -131,6 +131,10 @@ impl MainLoadingStepMainEntity {
                     TextLayout {
                         justify: Justify::Start,
                     }
+                    // TextShadow {
+                    //     color: Color::BLACK,
+                    //     offset: Vec2::new(0.2, 0.2),
+                    // }
                     // Outline {
                     //     color: Color::WHITE,
                     //     width: Val::Px(1.0),
