@@ -8,8 +8,12 @@ members = [
     "crates/*", # this one has small utilites like asset packer that copies all assets from eu4 into one tar file
 ]
 
+[features]
+dynamic = ["bevy/dynamic_linking"]
+debug = ["bevy/debug"]
+
 [dependencies]
-bevy = { version = "0.19", features = ["dynamic_linking", "dds", "debug"] }
+bevy = { version = "0.19", features = ["dds"] }
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
