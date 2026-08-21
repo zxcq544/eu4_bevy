@@ -3,7 +3,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help convert-loadingscreens run-dynamic-release build-dynamic-release build-dynamic run-dynamic
+.PHONY: help convert-loadingscreens run-dynamic-release build-dynamic-release build-dynamic run-dynamic build-release run-release build run
 
 help:  ## Show this help message
 	@echo "Usage: make [target]"
@@ -19,6 +19,10 @@ help:  ## Show this help message
 	@echo "  build-dynamic-release   Build release with 'dynamic,debug' features"
 	@echo "  build-dynamic           Build with 'dynamic,debug' features"
 	@echo "  run-dynamic             Run with 'dynamic,debug' features"
+	@echo "  build-static-release    Build release binary (cargo build --release)"
+	@echo "  run--staticrelease      Run release binary (cargo run --release)"
+	@echo "  build-static            Build debug binary (cargo build)"
+	@echo "  run-static              Run debug binary (cargo run)"
 	@echo ""
 	@echo "Example:"
 	@echo "  make convert-loadingscreens"
@@ -37,3 +41,16 @@ build-dynamic:
 
 run-dynamic:
 	cargo run --features "dynamic,debug"
+
+# New targets added as requested
+build-static-release:
+	cargo build --release
+
+run-static-release:
+	cargo run --release
+
+build-static:
+	cargo build
+
+run-static:
+	cargo run
