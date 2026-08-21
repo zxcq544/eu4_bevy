@@ -11,8 +11,6 @@ use bevy::prelude::*;
 
 pub struct LoadingAssetsPlugin;
 
-
-
 impl Plugin for LoadingAssetsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
@@ -33,13 +31,3 @@ impl Plugin for LoadingAssetsPlugin {
         );
     }
 }
-
-// pub fn loading_assets(
-//     // mut commands: Commands,
-//     current_state: Res<State<GameState>>,
-//     mut next_state: ResMut<NextState<GameState>>,
-// ) {
-//     info!("current state is {:?}", current_state.get());
-//     info!("loading assets");
-//     next_state.set(GameState::MainMenu);
-// }
