@@ -7,7 +7,8 @@ use crate::{
         load_main_loading_step_resources::load_main_loading_step_resources,
         setup_cursors::setup_cursors,
         setup_initial_background_image::setup_initial_background_image,
-        start_initial_timer::start_initial_timer, whole_setup_step::whole_setup_step,
+        start_initial_timer::start_initial_timer,
+        whole_setup_step_for_initial_boot::whole_setup_step_for_initial_boot,
     },
 };
 use bevy::prelude::*;
@@ -31,7 +32,10 @@ impl Plugin for InitialBootStepPlugin {
                 .chain(),
         );
         app.add_systems(Update, setup_cursors.run_if(in_state(GameState::Boot)));
-        app.add_systems(Update, whole_setup_step.run_if(in_state(GameState::Boot)));
+        app.add_systems(
+            Update,
+            whole_setup_step_for_initial_boot.run_if(in_state(GameState::Boot)),
+        );
         app.add_systems(OnExit(GameState::Boot), cleanup_initial_background);
     }
 }

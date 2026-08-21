@@ -8,4 +8,4 @@ pub mod setup_cursors;
 pub mod setup_initial_background_image;
 pub mod setup_localisation;
 pub mod start_initial_timer;
-pub mod whole_setup_step;
+pub mod whole_setup_step_for_initial_boot;

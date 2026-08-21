@@ -3,6 +3,8 @@ use crate::{
     plugins::loading_assets::systems::{
         free_main_loading_step_resources::free_main_loading_step_resources,
         set_main_loading_step_scene::set_main_loading_step_scene,
+        start_timer_for_main_loading_step::start_timer_for_main_loading_step,
+        whole_setup_step_for_main_loading::whole_setup_step_for_main_loading,
     },
 };
 use bevy::prelude::*;
@@ -18,12 +20,16 @@ impl Plugin for LoadingAssetsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::LoadingAssets),
-            set_main_loading_step_scene,
+            (
+                start_timer_for_main_loading_step,
+                set_main_loading_step_scene,
+            )
+                .chain(),
         );
-        // app.add_systems(
-        //     Update,
-        //     loading_assets.run_if(in_state(GameState::LoadingAssets)),
-        // );
+        app.add_systems(
+            Update,
+            whole_setup_step_for_main_loading.run_if(in_state(GameState::LoadingAssets)),
+        );
         app.add_systems(
             OnExit(GameState::LoadingAssets),
             free_main_loading_step_resources,

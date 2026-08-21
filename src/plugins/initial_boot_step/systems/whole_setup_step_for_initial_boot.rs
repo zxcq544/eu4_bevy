@@ -19,7 +19,7 @@ use bevy::prelude::*;
 use bevy_fluent::LocalizationBuilder;
 use fonts::FontHandles;
 
-pub fn whole_setup_step(
+pub fn whole_setup_step_for_initial_boot(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     cursors: Res<CursorHandles>,

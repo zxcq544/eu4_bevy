@@ -1,2 +1,4 @@
 pub mod free_main_loading_step_resources;
 pub mod set_main_loading_step_scene;
+pub mod start_timer_for_main_loading_step;
+pub mod whole_setup_step_for_main_loading;
