@@ -1,3 +1,4 @@
+use bevy::prelude::*;
 pub struct MainMenuPlugin;
 
 impl Plugin for MainMenuPlugin {

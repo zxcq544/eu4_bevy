@@ -2,6 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::loading_assets::systems::{
         free_main_loading_step_resources::free_main_loading_step_resources,
+        load_main_menu_background_image::load_main_menu_background_image,
         set_main_loading_step_scene::set_main_loading_step_scene,
         start_timer_for_main_loading_step::start_timer_for_main_loading_step,
         whole_setup_step_for_main_loading::whole_setup_step_for_main_loading,
@@ -20,6 +21,10 @@ impl Plugin for LoadingAssetsPlugin {
                 set_main_loading_step_scene,
             )
                 .chain(),
+        );
+        app.add_systems(
+            OnEnter(GameState::LoadingAssets),
+            load_main_menu_background_image,
         );
         app.add_systems(
             Update,

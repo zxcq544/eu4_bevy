@@ -1,0 +1,1 @@
+pub mod background_image_of_main_menu;
