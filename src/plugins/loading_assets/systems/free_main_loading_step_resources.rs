@@ -1,7 +1,9 @@
 use crate::plugins::loading_assets::{
     components::main_loading_step_main_entity::MainLoadingStepMainEntity,
-    loading_assets::MainLoadingStepBackgroundImage,
-    resources::loading_screen_tooltip_image::LoadingScreenTooltipImage,
+    resources::{
+        loading_screen_tooltip_image::LoadingScreenTooltipImage,
+        main_loading_step_background_image::MainLoadingStepBackgroundImage,
+    },
 };
 use bevy::prelude::*;
 

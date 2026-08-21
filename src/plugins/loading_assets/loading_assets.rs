@@ -11,10 +11,7 @@ use bevy::prelude::*;
 
 pub struct LoadingAssetsPlugin;
 
-#[derive(Resource)]
-pub struct MainLoadingStepBackgroundImage {
-    pub image: Handle<Image>,
-}
+
 
 impl Plugin for LoadingAssetsPlugin {
     fn build(&self, app: &mut App) {

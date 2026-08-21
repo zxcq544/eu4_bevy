@@ -9,9 +9,9 @@ use crate::{
             },
             systems::setup_localisation::setup_localisation,
         },
-        loading_assets::{
-            loading_assets::MainLoadingStepBackgroundImage,
-            resources::loading_screen_tooltip_image::LoadingScreenTooltipImage,
+        loading_assets::resources::{
+            loading_screen_tooltip_image::LoadingScreenTooltipImage,
+            main_loading_step_background_image::MainLoadingStepBackgroundImage,
         },
     },
 };

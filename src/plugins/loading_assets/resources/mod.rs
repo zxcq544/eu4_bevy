@@ -1,2 +1,3 @@
 pub mod loading_screen_tooltip_image;
 pub mod timer_for_main_loading_step;
+pub mod main_loading_step_background_image;

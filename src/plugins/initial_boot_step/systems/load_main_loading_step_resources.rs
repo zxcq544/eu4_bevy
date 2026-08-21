@@ -1,5 +1,7 @@
-use crate::plugins::loading_assets::loading_assets::MainLoadingStepBackgroundImage;
-use crate::plugins::loading_assets::resources::loading_screen_tooltip_image::LoadingScreenTooltipImage;
+use crate::plugins::loading_assets::resources::{
+    loading_screen_tooltip_image::LoadingScreenTooltipImage,
+    main_loading_step_background_image::MainLoadingStepBackgroundImage,
+};
 use bevy::prelude::*;
 
 pub fn load_main_loading_step_resources(mut commands: Commands, asset_server: Res<AssetServer>) {
