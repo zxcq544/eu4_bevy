@@ -23,7 +23,7 @@ fn load_background(commands: &mut Commands, asset_server: &Res<AssetServer>) {
 
 fn pick_random_background_image(asset_server: &Res<AssetServer>) -> Handle<Image> {
     let n: i32 = rand::random_range(1..=36);
-    let background_filename = format!("gfx/loadingscreens/fixed/load_{}.dds", n);    
+    let background_filename = format!("gfx/loadingscreens/fixed/load_{}.dds", n);
     info!(
         "Loading background image from path {:?}",
         background_filename
