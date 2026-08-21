@@ -19,5 +19,5 @@ help:  ## Show this help message
 	@echo "Example:"
 	@echo "  make convert-loadingscreens"
 
-convert-loadingscreens:  ## Convert .dds → .dds (2048x1536, no mipmaps, fixed headers)
-	cd ./assets/gfx/loadingscreens && mkdir fixed && texconv -ft dds -m 1 -w 2048 -h 1536 -y *.dds -o fixed
+convert-loadingscreens:  ## Convert .dds → .dds (2048x1536, no mipmaps, fixed headers). Add -f BC7_UNORM if low VRAM
+	cd ./assets/gfx/loadingscreens && mkdir fixed && texconv -ft dds  -m 1 -w 2048 -h 1536 -y *.dds -o fixed
