@@ -66,7 +66,7 @@ impl MainMenuEntity {
                         height: Val::Percent(50.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        overflow: Overflow::hidden(),
+                        overflow: Overflow::hidden(),                        
                     }
                     ImageNode {
                         image: background_image,
@@ -77,29 +77,41 @@ impl MainMenuEntity {
                         width: Val::Px(1.0),
                     }
                     Children [
-                        // Single player button
+                        // Single player button and multiplayer block
                         Node {
                             display: Display::Flex,
-                            width: Val::Percent(35.0),
+                            width: Val::Percent(60.0),
                             height: Val::Percent(40.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             // overflow: Overflow::hidden(),
-                            left: Val::Percent(-13.0),
+                            // left: Val::Percent(-13.0),
                             top: Val::Percent(-13.0),
                         }
-                        ImageNode {
-                            image: single_player_button_image,
-                            image_mode: NodeImageMode::Stretch,
+                        Children [
+                            // Single player button
+                            Node {
+                                display: Display::Flex,
+                                width: Val::Percent(50.0),
+                                height: Val::Percent(100.0),
+                                justify_content: JustifyContent::Center,
+                                align_items: AlignItems::Center,
+                                overflow: Overflow::hidden(),
+                            }
+                            ImageNode {
+                                image: single_player_button_image,
+                                image_mode: NodeImageMode::Stretch,
+                            }
+                            Outline {
+                                color: Color::srgb_from_array([0.2, 0.2, 0.7]),
+                                width: Val::Px(2.0),
+                            }
+                        ]
+
+                        Outline {
+                            color: Color::srgb_from_array([0.7, 0.7, 0.2]),
+                            width: Val::Px(2.0),
                         }
-                        Text::new("Single player")
-                        TextFont {
-                            font_size: FontSize::Px(14.0),
-                        }
-                        // Outline {
-                        //     color: Color::srgb_from_array([0.7, 0.7, 0.2]),
-                        //     width: Val::Px(2.0),
-                        // }
                         ZIndex(2)
                     ],
                 ]
