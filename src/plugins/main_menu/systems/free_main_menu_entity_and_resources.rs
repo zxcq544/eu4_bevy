@@ -3,6 +3,7 @@ use crate::plugins::main_menu::{
     resources::{
         background_image_for_continue::BackgroundImageForContinue,
         background_image_of_main_menu::BackgroundImageOfMainMenu,
+        main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
     },
 };
 use bevy::prelude::*;
@@ -17,4 +18,5 @@ pub fn free_main_menu_entity_and_resources(
     }
     commands.remove_resource::<BackgroundImageOfMainMenu>();
     commands.remove_resource::<BackgroundImageForContinue>();
+    commands.remove_resource::<MainMenuSinglePlayerButtonImage>();
 }

@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::loading_assets::systems::{
         free_main_loading_step_resources::free_main_loading_step_resources,
-        load_images_for_main_menu::load_images_for_main_menu,
+        load_resources_for_main_menu::load_images_for_main_menu::load_images_for_main_menu,
         set_main_loading_step_scene::set_main_loading_step_scene,
         start_timer_for_main_loading_step::start_timer_for_main_loading_step,
         whole_setup_step_for_main_loading::whole_setup_step_for_main_loading,
