@@ -30,48 +30,51 @@ impl MainMenuEntity {
                     flex_direction: FlexDirection::Column,
                     width: Val::Percent(100.0),
                     height: Val::Percent(20.0),
-                    justify_content: JustifyContent::Center,
+                    justify_content: JustifyContent::End,
                     align_items: AlignItems::Center,
+                    // bottom: Val::Px(3.0),
                 }
                 Children [
                     // Background image for continue button
                     Node {
                         display: Display::Flex,
-                        width: Val::Percent(20.0),
-                        height: Val::Percent(100.0),
+                        width: Val::Percent(15.0),
+                        // height: Val::Percent(45.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        bottom: Val::Percent(-14.0)
+                        bottom: Val::Vw(-0.95),
+                        // z-index: 1,
                         // overflow: Overflow::hidden(),
                     }
                     ImageNode {
                         image: continue_background_image,
                     }
-                    Outline {
-                        color: Color::BLACK,
-                        width: Val::Px(2.0),
-                    },
+                    // Outline {
+                    //     color: Color::BLACK,
+                    //     width: Val::Px(2.0),
+                    // }
+                    ZIndex(2),
                     // Background image for buttons single player, miltiplayer etc.
                     Node {
                         display: Display::Flex,
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
+                        width: Val::Percent(25.0),
+                        // height: Val::Percent(45.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
                         overflow: Overflow::hidden(),
                     }
                     ImageNode {
                         image: background_image,
-                    }
-                    Outline {
-                        color: Color::WHITE,
-                        width: Val::Px(1.0),
                     },
+                    // Outline {
+                    //     color: Color::WHITE,
+                    //     width: Val::Px(1.0),
+                    // },
                 ]
-                Outline {
-                    color: Color::srgb_from_array([0.3, 0.7, 0.2]),
-                    width: Val::Px(2.0),
-                }
+                // Outline {
+                //     color: Color::srgb_from_array([0.3, 0.7, 0.2]),
+                //     width: Val::Px(2.0),
+                // }
             ]
         }
     }
