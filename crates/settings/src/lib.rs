@@ -37,8 +37,8 @@ pub fn get_eu4_settings() -> Settings {
             resolution_width: 1920,
             resolution_height: 1080,
             window_decorations: true,
-            initial_bootscreen_show_time: 2,
-            main_loading_screen_show_time: 2,
+            initial_bootscreen_show_time: 1,
+            main_loading_screen_show_time: 1,
             fonts: Fonts {
                 loading_screen_tooltip_font: "fonts/FiraSans-Bold.ttf".to_string(),
                 loading_screen_loading_text_font: "fonts/FiraSans-Bold.ttf".to_string(),
