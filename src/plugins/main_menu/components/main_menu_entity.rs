@@ -41,16 +41,18 @@ impl MainMenuEntity {
                     // Background image for continue button
                     Node {
                         display: Display::Flex,
+                        flex_direction: FlexDirection::Column,
                         width: Val::Percent(15.0),
-                        height: Val::Percent(50.0),
-                        justify_content: JustifyContent::End,
+                        height: Val::Percent(30.0),
+                        justify_content: JustifyContent::FlexEnd,
                         align_items: AlignItems::End,
-                        bottom: Val::Vw(-0.95),
+                        bottom: Val::Percent(-10.0),
                         // z-index: 1,
                         // overflow: Overflow::hidden(),
                     }
                     ImageNode {
                         image: continue_background_image,
+                        image_mode: NodeImageMode::Stretch,
                     }
                     // Outline {
                     //     color: Color::BLACK,
@@ -68,11 +70,12 @@ impl MainMenuEntity {
                     }
                     ImageNode {
                         image: background_image,
+                        image_mode: NodeImageMode::Stretch,
                     }
-                    // Outline {
-                    //     color: Color::WHITE,
-                    //     width: Val::Px(1.0),
-                    // }
+                    Outline {
+                        color: Color::WHITE,
+                        width: Val::Px(1.0),
+                    }
                     Children [
                         // Single player button
                         Node {
@@ -90,7 +93,7 @@ impl MainMenuEntity {
                             image_mode: NodeImageMode::Stretch,
                         }
                         Text::new("Single player")
-                        TextFont{
+                        TextFont {
                             font_size: FontSize::Px(14.0),
                         }
                         // Outline {
