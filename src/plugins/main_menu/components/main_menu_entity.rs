@@ -1,6 +1,7 @@
 use crate::plugins::main_menu::resources::{
     background_image_for_continue::BackgroundImageForContinue,
     background_image_of_main_menu::BackgroundImageOfMainMenu,
+    main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
     main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
 };
 use bevy::prelude::*;
@@ -13,10 +14,12 @@ impl MainMenuEntity {
         background_image_res: Res<BackgroundImageOfMainMenu>,
         continue_background_image_res: Res<BackgroundImageForContinue>,
         single_player_button_image_res: Res<MainMenuSinglePlayerButtonImage>,
+        multiplayer_button_image_res: Res<MainMenuMultiplayerButtonImage>,
     ) -> impl SceneList {
         let background_image = background_image_res.image.clone();
         let continue_background_image = continue_background_image_res.image.clone();
         let single_player_button_image = single_player_button_image_res.image.clone();
+        let multiplayer_button_image = multiplayer_button_image_res.image.clone();
         bsn_list! {
             MainMenuEntity
             Node {
@@ -66,7 +69,7 @@ impl MainMenuEntity {
                         height: Val::Percent(50.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        overflow: Overflow::hidden(),                        
+                        overflow: Overflow::hidden(),
                     }
                     ImageNode {
                         image: background_image,
@@ -101,17 +104,33 @@ impl MainMenuEntity {
                             ImageNode {
                                 image: single_player_button_image,
                                 image_mode: NodeImageMode::Stretch,
+                            },
+                            // Outline {
+                            //     color: Color::srgb_from_array([0.2, 0.2, 0.7]),
+                            //     width: Val::Px(2.0),
+                            // }
+                            // Multiplayer Button
+                            Node {
+                                display: Display::Flex,
+                                width: Val::Percent(50.0),
+                                height: Val::Percent(100.0),
+                                justify_content: JustifyContent::Center,
+                                align_items: AlignItems::Center,
+                                overflow: Overflow::hidden(),
                             }
-                            Outline {
-                                color: Color::srgb_from_array([0.2, 0.2, 0.7]),
-                                width: Val::Px(2.0),
-                            }
+                            ImageNode {
+                                image: multiplayer_button_image,
+                                image_mode: NodeImageMode::Stretch,
+                            },
+                            // Outline {
+                            //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
+                            //     width: Val::Px(2.0),
+                            // }
                         ]
-
-                        Outline {
-                            color: Color::srgb_from_array([0.7, 0.7, 0.2]),
-                            width: Val::Px(2.0),
-                        }
+                        // Outline {
+                        //     color: Color::srgb_from_array([0.7, 0.7, 0.2]), // yellow
+                        //     width: Val::Px(2.0),
+                        // }
                         ZIndex(2)
                     ],
                 ]

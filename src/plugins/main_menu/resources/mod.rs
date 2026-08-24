@@ -1,3 +1,4 @@
 pub mod background_image_for_continue;
 pub mod background_image_of_main_menu;
+pub mod main_menu_multiplayer_button_image;
 pub mod main_menu_single_player_button_image;
