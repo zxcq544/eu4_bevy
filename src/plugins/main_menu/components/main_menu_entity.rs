@@ -32,7 +32,6 @@ impl MainMenuEntity {
                     height: Val::Percent(20.0),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
-                    // overflow: Overflow::hidden(),
                 }
                 Children [
                     // Background image for continue button
@@ -42,7 +41,7 @@ impl MainMenuEntity {
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        // top: Val::Percent(-4.0)
+                        bottom: Val::Percent(-14.0)
                         // overflow: Overflow::hidden(),
                     }
                     ImageNode {
@@ -69,6 +68,10 @@ impl MainMenuEntity {
                         width: Val::Px(1.0),
                     },
                 ]
+                Outline {
+                    color: Color::srgb_from_array([0.3, 0.7, 0.2]),
+                    width: Val::Px(2.0),
+                }
             ]
         }
     }
