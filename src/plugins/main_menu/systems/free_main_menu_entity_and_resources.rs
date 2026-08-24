@@ -1,9 +1,12 @@
-use bevy::prelude::*;
-
 use crate::plugins::main_menu::{
     components::main_menu_entity::MainMenuEntity,
-    resources::background_image_of_main_menu::BackgroundImageOfMainMenu,
+    resources::{
+        background_image_for_continue::BackgroundImageForContinue,
+        background_image_of_main_menu::BackgroundImageOfMainMenu,
+    },
 };
+use bevy::prelude::*;
+
 pub fn free_main_menu_entity_and_resources(
     mut commands: Commands,
     query: Query<Entity, With<MainMenuEntity>>,
@@ -13,4 +16,5 @@ pub fn free_main_menu_entity_and_resources(
         commands.entity(entity).despawn();
     }
     commands.remove_resource::<BackgroundImageOfMainMenu>();
+    commands.remove_resource::<BackgroundImageForContinue>();
 }
