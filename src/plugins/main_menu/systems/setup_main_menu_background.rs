@@ -1,0 +1,14 @@
+use crate::plugins::main_menu::{
+    components::main_menu_entity::MainMenuEntity,
+    resources::background_image_of_main_menu::BackgroundImageOfMainMenu,
+};
+use bevy::prelude::*;
+
+pub fn setup_main_menu_background(
+    main_menu_background_image: Res<BackgroundImageOfMainMenu>,
+    mut commands: Commands,
+) {
+    info!("Setting up main menu background");
+    commands.spawn((Camera2d::default(), MainMenuEntity));
+    commands.spawn_scene_list(MainMenuEntity::as_scene_list(main_menu_background_image));
+}

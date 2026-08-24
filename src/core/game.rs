@@ -2,7 +2,8 @@ use crate::{
     core::states::GameState,
     plugins::{
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
-        loading_assets::loading_assets::LoadingAssetsPlugin, map::map_plugin::MapPlugin,
+        loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
+        map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
         music_player::music_player::MusicPlayerPlugin,
     },
@@ -30,6 +31,7 @@ impl Plugin for GamePlugin {
             MonitorChooserPlugin,
             InitialBootStepPlugin,
             LoadingAssetsPlugin,
+            MainMenuPlugin,
             //     CameraPlugin,
             //     InputPlugin,
             MusicPlayerPlugin,
