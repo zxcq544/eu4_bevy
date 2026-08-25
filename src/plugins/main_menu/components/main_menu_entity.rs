@@ -145,7 +145,26 @@ impl MainMenuEntity {
                             ImageNode {
                                 image: multiplayer_button_image,
                                 image_mode: NodeImageMode::Stretch,
-                            },
+                            }
+                            Children [
+                                Node {
+                                    display: Display::Flex,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(100.0),
+                                    justify_content: JustifyContent::Center,
+                                    align_items: AlignItems::Center,
+                                    right: Val::Percent(5.0),
+                                }
+                                Children [
+                                    Text::new("Multiplayer")
+                                    TextFont {
+                                        font_size: FontSize::Px(14.0),
+                                    }
+                                    TextLayout {
+                                        justify: Justify::Center,
+                                    }
+                                ]
+                            ],
                             // Outline {
                             //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
                             //     width: Val::Px(2.0),
