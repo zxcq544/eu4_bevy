@@ -80,7 +80,7 @@ impl MainMenuEntity {
                         width: Val::Px(1.0),
                     }
                     Children [
-                        // Single player button and multiplayer block
+                        // Single player and multiplayer buttons block
                         Node {
                             display: Display::Flex,
                             width: Val::Percent(60.0),
@@ -99,12 +99,36 @@ impl MainMenuEntity {
                                 height: Val::Percent(100.0),
                                 justify_content: JustifyContent::Center,
                                 align_items: AlignItems::Center,
-                                overflow: Overflow::hidden(),
+                                // overflow: Overflow::hidden(),
                             }
                             ImageNode {
                                 image: single_player_button_image,
                                 image_mode: NodeImageMode::Stretch,
-                            },
+                            }
+                            Children [
+                                // Text node
+                                Node {
+                                    display: Display::Flex,
+                                    width: Val::Percent(90.0),
+                                    height: Val::Percent(100.0),
+                                    justify_content: JustifyContent::Center,
+                                    align_items: AlignItems::Center,
+                                    left: Val::Percent(5.0),
+                                }
+                                // Outline {
+                                //     color: Color::WHITE,
+                                //     width: Val::Px(1.0),
+                                // }
+                                Children [
+                                    Text::new("Single Player")
+                                    TextFont {
+                                        font_size: FontSize::Px(14.0),
+                                    }
+                                    TextLayout {
+                                        justify: Justify::Center,
+                                    }
+                                ]
+                            ],
                             // Outline {
                             //     color: Color::srgb_from_array([0.2, 0.2, 0.7]),
                             //     width: Val::Px(2.0),
