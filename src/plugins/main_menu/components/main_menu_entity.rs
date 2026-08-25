@@ -3,6 +3,7 @@ use crate::plugins::main_menu::resources::{
     background_image_of_main_menu::BackgroundImageOfMainMenu,
     bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
     bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
+    bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
     main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
     main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
 };
@@ -21,6 +22,7 @@ impl MainMenuEntity {
         bg_image_lower_panel_main_menu_center_button_res: Res<
             BgImageLowerPanelMainMenuCenterButton,
         >,
+        bg_image_lower_panel_main_menu_right_button_res: Res<BgImageLowerPanelMainMenuRightButton>,
     ) -> impl SceneList {
         let background_image = background_image_res.image.clone();
         let continue_background_image = continue_background_image_res.image.clone();
@@ -34,6 +36,10 @@ impl MainMenuEntity {
                 .clone();
         let bg_image_lower_panel_main_menu_center_button_second =
             bg_image_lower_panel_main_menu_center_button_res
+                .image
+                .clone();
+        let bg_image_lower_panel_main_menu_right_button =
+            bg_image_lower_panel_main_menu_right_button_res
                 .image
                 .clone();
         bsn_list! {
@@ -51,7 +57,7 @@ impl MainMenuEntity {
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,
                     width: Val::Percent(100.0),
-                    height: Val::Percent(20.0),
+                    height: Val::Percent(25.0),
                     justify_content: JustifyContent::End,
                     align_items: AlignItems::Center,
                     // bottom: Val::Px(3.0),
@@ -61,7 +67,7 @@ impl MainMenuEntity {
                     Node {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Column,
-                        width: Val::Percent(15.0),
+                        width: Val::Percent(20.0),
                         height: Val::Percent(30.0),
                         justify_content: JustifyContent::FlexEnd,
                         align_items: AlignItems::End,
@@ -82,7 +88,7 @@ impl MainMenuEntity {
                     Node {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Column,
-                        width: Val::Percent(25.0),
+                        width: Val::Percent(33.0),
                         height: Val::Percent(50.0),
                         justify_content: JustifyContent::FlexStart,
                         align_items: AlignItems::Center,
@@ -92,10 +98,10 @@ impl MainMenuEntity {
                         image: background_image,
                         image_mode: NodeImageMode::Stretch,
                     }
-                    Outline {
-                        color: Color::WHITE,
-                        width: Val::Px(1.0),
-                    }
+                    // Outline {
+                    //     color: Color::WHITE,
+                    //     width: Val::Px(1.0),
+                    // }
                     Children [
                         // Single player and multiplayer buttons block
                         Node {
@@ -199,7 +205,7 @@ impl MainMenuEntity {
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             // overflow: Overflow::hidden(),
-                            top: Val::Percent(20.0),
+                            top: Val::Percent(21.0),
                         }
                         Children [
                             // Tutorial button
@@ -300,6 +306,41 @@ impl MainMenuEntity {
                                 }
                                 Children [
                                     Text::new("Options")
+                                    TextFont {
+                                        font_size: FontSize::Px(14.0),
+                                    }
+                                    TextLayout {
+                                        justify: Justify::Center,
+                                    }
+                                ]
+                                // Outline {
+                                //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+                                //     width: Val::Px(2.0),
+                                // },
+                            ],
+                            // Exit button
+                            Node {
+                                display: Display::Flex,
+                                width: Val::Percent(25.0),
+                                height: Val::Percent(100.0),
+                                justify_content: JustifyContent::Center,
+                                align_items: AlignItems::Center,
+                            }
+                            ImageNode {
+                                image: bg_image_lower_panel_main_menu_right_button,
+                                image_mode: NodeImageMode::Stretch,
+                            }
+                            Children [
+                                Node {
+                                    display: Display::Flex,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(100.0),
+                                    justify_content: JustifyContent::Center,
+                                    align_items: AlignItems::Center,
+                                    right: Val::Percent(5.0),
+                                }
+                                Children [
+                                    Text::new("Exit")
                                     TextFont {
                                         font_size: FontSize::Px(14.0),
                                     }

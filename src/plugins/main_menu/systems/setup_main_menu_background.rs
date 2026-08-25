@@ -5,6 +5,7 @@ use crate::plugins::main_menu::{
         background_image_of_main_menu::BackgroundImageOfMainMenu,
         bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
         bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
+        bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
         main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
         main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
     },
@@ -18,7 +19,7 @@ pub fn setup_main_menu_background(
     multiplayer_button_image: Res<MainMenuMultiplayerButtonImage>,
     bg_image_lower_panel_main_menu_left_button: Res<BgImageLowerPanelMainMenuLeftButton>,
     bg_image_lower_panel_main_menu_center_button: Res<BgImageLowerPanelMainMenuCenterButton>,
-
+    bg_image_lower_panel_main_menu_right_button: Res<BgImageLowerPanelMainMenuRightButton>,
     mut commands: Commands,
 ) {
     info!("Setting up main menu background");
@@ -30,5 +31,6 @@ pub fn setup_main_menu_background(
         multiplayer_button_image,
         bg_image_lower_panel_main_menu_left_button,
         bg_image_lower_panel_main_menu_center_button,
+        bg_image_lower_panel_main_menu_right_button,
     ));
 }

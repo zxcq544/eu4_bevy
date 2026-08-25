@@ -5,6 +5,7 @@ use crate::plugins::main_menu::{
         background_image_of_main_menu::BackgroundImageOfMainMenu,
         bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
         bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
+        bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
         main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
         main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
     },
@@ -25,4 +26,5 @@ pub fn free_main_menu_entity_and_resources(
     commands.remove_resource::<MainMenuMultiplayerButtonImage>();
     commands.remove_resource::<BgImageLowerPanelMainMenuLeftButton>();
     commands.remove_resource::<BgImageLowerPanelMainMenuCenterButton>();
+    commands.remove_resource::<BgImageLowerPanelMainMenuRightButton>();
 }
