@@ -12,9 +12,15 @@ use bevy::{
     prelude::*,
 };
 
-// Marker used for quit button
+// Marker used for main menu button actions
 #[derive(Component, Clone, Default)]
-pub struct MainMenuButtonActionQuit;
+pub enum MainMenuButtonAction {
+    #[default]
+    Tutorial,
+    Credits,
+    Options,
+    Quit,
+}
 
 // Marker for all main menu buttons to add hover effect and other effects
 #[derive(Component, Clone, Default)]
@@ -220,160 +226,29 @@ impl MainMenuEntity {
                         }
                         Children [
                             // Tutorial button
-                            Button
-                            MainMenuButton
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(25.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                            }
-                            ImageNode {
-                                image: bg_image_lower_panel_main_menu_left_button,
-                                image_mode: NodeImageMode::Stretch,
-                            }
-                            Children [
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    left: Val::Percent(8.0),
-                                }
-                                Children [
-                                    Text::new("Tutorial")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                                // Outline {
-                                //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-                                //     width: Val::Px(2.0),
-                                // },
-                            ],
+                            main_menu_small_left_button(
+                                "Tutorial".to_string(),
+                                bg_image_lower_panel_main_menu_left_button,
+                                MainMenuButtonAction::Tutorial
+                            ),
                             // Credits button
-                            Button
-                            MainMenuButton
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(25.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                            }
-                            ImageNode {
-                                image: bg_image_lower_panel_main_menu_center_button_first,
-                                image_mode: NodeImageMode::Stretch,
-                            }
-                            // Text node
-                            Children [
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    // left: Val::Percent(8.0),
-                                }
-                                Children [
-                                    Text::new("Credits")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                                // Outline {
-                                //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-                                //     width: Val::Px(2.0),
-                                // },
-                            ],
-                            // Outline {
-                            //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
-                            //     width: Val::Px(2.0),
-                            // },
+                            main_menu_small_center_button(
+                                "Credits".to_string(),
+                                bg_image_lower_panel_main_menu_center_button_first,
+                                MainMenuButtonAction::Credits
+                            ),
                             // Options button
-                            Button
-                            MainMenuButton
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(25.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                            }
-                            ImageNode {
-                                image: bg_image_lower_panel_main_menu_center_button_second,
-                                image_mode: NodeImageMode::Stretch,
-                            }
-                            Children [
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    // left: Val::Percent(8.0),
-                                }
-                                Children [
-                                    Text::new("Options")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                                // Outline {
-                                //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-                                //     width: Val::Px(2.0),
-                                // },
-                            ],
+                            main_menu_small_center_button(
+                                "Options".to_string(),
+                                bg_image_lower_panel_main_menu_center_button_second,
+                                MainMenuButtonAction::Options
+                            ),
                             // Exit button
-                            Button
-                            MainMenuButton
-                            MainMenuButtonActionQuit
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(25.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                            }
-                            ImageNode {
-                                image: bg_image_lower_panel_main_menu_right_button,
-                                image_mode: NodeImageMode::Stretch,
-                                // color: Color::srgb_from_array([1.3, 1.7, 1.2]),
-                            }
-                            Children [
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    right: Val::Percent(5.0),
-                                }
-                                Children [
-                                    Text::new("Exit")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                                // Outline {
-                                //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-                                //     width: Val::Px(2.0),
-                                // },
-                            ],
+                            main_menu_small_right_button(
+                                "Exit".to_string(),
+                                bg_image_lower_panel_main_menu_right_button,
+                                MainMenuButtonAction::Quit
+                            ),
                         ],
                     ],
                 ]
@@ -388,7 +263,7 @@ impl MainMenuEntity {
 
 pub fn main_menu_button_action(
     interaction_query: Query<
-        (&Interaction, &MainMenuButtonActionQuit),
+        (&Interaction, &MainMenuButtonAction),
         (Changed<Interaction>, With<MainMenuButton>),
     >,
     mut app_exit_writer: MessageWriter<AppExit>,
@@ -396,10 +271,11 @@ pub fn main_menu_button_action(
     for (interaction, menu_button_action) in &interaction_query {
         if *interaction == Interaction::Pressed {
             match menu_button_action {
-                MainMenuButtonActionQuit => {
+                MainMenuButtonAction::Quit => {
                     info!("Quit button pressed");
                     app_exit_writer.write(AppExit::Success);
                 }
+                _ => {}
             }
         }
     }
@@ -435,5 +311,159 @@ pub fn main_menu_button_hover(
                 button.set_changed();
             }
         }
+    }
+}
+
+pub fn main_menu_small_left_button(
+    label: String,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+) -> impl Scene {
+    bsn! {
+        // Tutorial button
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(25.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        Children [
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                left: Val::Percent(8.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+            // Outline {
+            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+            //     width: Val::Px(2.0),
+            // },
+        ]
+        // Outline {
+        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+        //     width: Val::Px(2.0),
+        // },
+    }
+}
+
+pub fn main_menu_small_center_button(
+    label: String,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+) -> impl Scene {
+    bsn! {
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(25.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        // Text node
+        Children [
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // left: Val::Percent(8.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+            // Outline {
+            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+            //     width: Val::Px(2.0),
+            // },
+        ]
+        // Outline {
+        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+        //     width: Val::Px(2.0),
+        // },
+    }
+}
+
+pub fn main_menu_small_right_button(
+    label: String,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+) -> impl Scene {
+    bsn! {
+        // Exit button
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(25.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+            // color: Color::srgb_from_array([1.3, 1.7, 1.2]),
+        }
+        Children [
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                right: Val::Percent(5.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+            // Outline {
+            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+            //     width: Val::Px(2.0),
+            // },
+        ]
+        // Outline {
+        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+        //     width: Val::Px(2.0),
+        // },
     }
 }
