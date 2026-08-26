@@ -16,6 +16,7 @@ use bevy::{
 #[derive(Component, Clone, Default)]
 pub enum MainMenuButtonAction {
     #[default]
+    NoAction,
     Tutorial,
     Credits,
     Options,
