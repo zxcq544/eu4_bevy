@@ -1,11 +1,11 @@
 use crate::{
     core::states::GameState,
     plugins::main_menu::{
-        components::main_menu_entity::main_menu_button_action,
         resources::exit_delay_timer::ExitDelayTimer,
         systems::{
             free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
             handle_delayed_exit::handle_delayed_exit,
+            main_menu_button_actions::main_menu_button_actions,
             main_menu_button_hover::main_menu_button_hover,
             setup_main_menu_background::setup_main_menu_background,
         },
@@ -30,7 +30,7 @@ impl Plugin for MainMenuPlugin {
         app.add_systems(
             Update,
             (
-                main_menu_button_action,
+                main_menu_button_actions,
                 main_menu_button_hover,
                 handle_delayed_exit,
             )
