@@ -7,7 +7,18 @@ use crate::plugins::main_menu::resources::{
     main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
     main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
 };
-use bevy::prelude::*;
+use bevy::{
+    input_focus::{FocusCause, InputFocus},
+    prelude::*,
+};
+
+// Marker used for quit button
+#[derive(Component, Clone, Default)]
+pub struct MainMenuButtonActionQuit;
+
+// Marker for all main menu buttons to add hover effect and other effects
+#[derive(Component, Clone, Default)]
+pub struct MainMenuButton;
 
 #[derive(Component, Clone, Default)]
 pub struct MainMenuEntity;
@@ -209,6 +220,8 @@ impl MainMenuEntity {
                         }
                         Children [
                             // Tutorial button
+                            Button
+                            MainMenuButton
                             Node {
                                 display: Display::Flex,
                                 width: Val::Percent(25.0),
@@ -244,6 +257,8 @@ impl MainMenuEntity {
                                 // },
                             ],
                             // Credits button
+                            Button
+                            MainMenuButton
                             Node {
                                 display: Display::Flex,
                                 width: Val::Percent(25.0),
@@ -284,6 +299,8 @@ impl MainMenuEntity {
                             //     width: Val::Px(2.0),
                             // },
                             // Options button
+                            Button
+                            MainMenuButton
                             Node {
                                 display: Display::Flex,
                                 width: Val::Percent(25.0),
@@ -319,6 +336,9 @@ impl MainMenuEntity {
                                 // },
                             ],
                             // Exit button
+                            Button
+                            MainMenuButton
+                            MainMenuButtonActionQuit
                             Node {
                                 display: Display::Flex,
                                 width: Val::Percent(25.0),
@@ -329,6 +349,7 @@ impl MainMenuEntity {
                             ImageNode {
                                 image: bg_image_lower_panel_main_menu_right_button,
                                 image_mode: NodeImageMode::Stretch,
+                                // color: Color::srgb_from_array([1.3, 1.7, 1.2]),
                             }
                             Children [
                                 Node {
@@ -361,6 +382,58 @@ impl MainMenuEntity {
                 //     width: Val::Px(2.0),
                 // }
             ]
+        }
+    }
+}
+
+pub fn main_menu_button_action(
+    interaction_query: Query<
+        (&Interaction, &MainMenuButtonActionQuit),
+        (Changed<Interaction>, With<MainMenuButton>),
+    >,
+    mut app_exit_writer: MessageWriter<AppExit>,
+) {
+    for (interaction, menu_button_action) in &interaction_query {
+        if *interaction == Interaction::Pressed {
+            match menu_button_action {
+                MainMenuButtonActionQuit => {
+                    info!("Quit button pressed");
+                    app_exit_writer.write(AppExit::Success);
+                }
+            }
+        }
+    }
+}
+
+pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
+pub const HOVERED_BUTTON: Color = Color::srgb(1.2, 1.25, 1.25);
+pub const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
+
+pub fn main_menu_button_hover(
+    mut input_focus: ResMut<InputFocus>,
+    mut interaction_query: Query<
+        (Entity, &Interaction, &mut MainMenuButton, &mut ImageNode),
+        Changed<Interaction>,
+    >,
+) {
+    for (entity, interaction, mut button, mut image_node) in &mut interaction_query {
+        match *interaction {
+            Interaction::Pressed => {
+                input_focus.set(entity, FocusCause::Pressed);
+                image_node.color = PRESSED_BUTTON;
+                // The accessibility system's only update the button's state when the `Button` component is marked as changed.
+                button.set_changed();
+            }
+            Interaction::Hovered => {
+                input_focus.set(entity, FocusCause::Pressed);
+                image_node.color = HOVERED_BUTTON;
+                button.set_changed();
+            }
+            Interaction::None => {
+                input_focus.clear();
+                image_node.color = NORMAL_BUTTON;
+                button.set_changed();
+            }
         }
     }
 }
