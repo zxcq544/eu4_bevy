@@ -137,41 +137,11 @@ impl MainMenuEntity {
                                 MainMenuButtonAction::SinglePlayer
                             ),
                             // Multiplayer Button
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(50.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                                overflow: Overflow::hidden(),
-                            }
-                            ImageNode {
-                                image: multiplayer_button_image,
-                                image_mode: NodeImageMode::Stretch,
-                            }
-                            Children [
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    right: Val::Percent(5.0),
-                                }
-                                Children [
-                                    Text::new("Multiplayer")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                            ],
-                            // Outline {
-                            //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
-                            //     width: Val::Px(2.0),
-                            // }
+                            main_menu_big_multiplayer_button(
+                                "Multiplayer".to_string(),
+                                multiplayer_button_image,
+                                MainMenuButtonAction::Multiplayer
+                            ),
                         ]
                         // Outline {
                         //     color: Color::srgb_from_array([0.7, 0.7, 0.2]), // yellow
@@ -424,6 +394,54 @@ fn main_menu_big_single_player_button(
         // Outline {
         //     color: Color::WHITE,
         //     width: Val::Px(1.0),
+        // }
+    }
+}
+
+pub fn main_menu_big_multiplayer_button(
+    label: String,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+) -> impl Scene {
+    bsn! {
+        // Multiplayer Button
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(50.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            overflow: Overflow::hidden(),
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        Children [
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                right: Val::Percent(5.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+        ]
+        // Outline {
+        //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
+        //     width: Val::Px(2.0),
         // }
     }
 }

@@ -40,7 +40,7 @@ pub fn get_eu4_settings() -> Settings {
             window_decorations: true,
             initial_bootscreen_show_time: 1.0,
             main_loading_screen_show_time: 1.0,
-            exit_delay_time: 0.5,
+            exit_delay_time: 0.2,
             fonts: Fonts {
                 loading_screen_tooltip_font: "fonts/FiraSans-Bold.ttf".to_string(),
                 loading_screen_loading_text_font: "fonts/FiraSans-Bold.ttf".to_string(),
