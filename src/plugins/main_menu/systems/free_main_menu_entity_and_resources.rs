@@ -6,6 +6,7 @@ use crate::plugins::main_menu::{
         bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
         bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
         bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
+        exit_delay_timer::ExitDelayTimer,
         main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
         main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
     },
@@ -27,4 +28,5 @@ pub fn free_main_menu_entity_and_resources(
     commands.remove_resource::<BgImageLowerPanelMainMenuLeftButton>();
     commands.remove_resource::<BgImageLowerPanelMainMenuCenterButton>();
     commands.remove_resource::<BgImageLowerPanelMainMenuRightButton>();
+    commands.remove_resource::<ExitDelayTimer>();
 }

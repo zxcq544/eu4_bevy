@@ -4,7 +4,7 @@ use crate::plugins::main_menu::resources::{
     bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
     bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
     bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
-    main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
+    exit_delay_timer::ExitDelayTimer, main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
     main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
 };
 use bevy::{
@@ -234,14 +234,17 @@ pub fn main_menu_button_action(
         (&Interaction, &MainMenuButtonAction),
         (Changed<Interaction>, With<MainMenuButton>),
     >,
-    mut app_exit_writer: MessageWriter<AppExit>,
+    mut exit_timer: ResMut<ExitDelayTimer>,
+    // mut app_exit_writer: MessageWriter<AppExit>,
 ) {
     for (interaction, menu_button_action) in &interaction_query {
         if *interaction == Interaction::Pressed {
             match menu_button_action {
                 MainMenuButtonAction::Quit => {
                     info!("Quit button pressed");
-                    app_exit_writer.write(AppExit::Success);
+                    exit_timer.timer = Timer::from_seconds(0.5, TimerMode::Once);
+                    exit_timer.should_exit = true;
+                    // app_exit_writer.write(AppExit::Success);
                 }
                 _ => {}
             }

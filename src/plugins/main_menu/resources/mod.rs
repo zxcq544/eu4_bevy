@@ -3,5 +3,6 @@ pub mod background_image_of_main_menu;
 pub mod bg_image_lower_panel_main_menu_center_button;
 pub mod bg_image_lower_panel_main_menu_left_button;
 pub mod bg_image_lower_panel_main_menu_right_button;
+pub mod exit_delay_timer;
 pub mod main_menu_multiplayer_button_image;
 pub mod main_menu_single_player_button_image;
