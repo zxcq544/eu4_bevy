@@ -17,6 +17,8 @@ use bevy::{
 pub enum MainMenuButtonAction {
     #[default]
     NoAction,
+    SinglePlayer,
+    Multiplayer,
     Tutorial,
     Credits,
     Options,
@@ -132,46 +134,11 @@ impl MainMenuEntity {
                         }
                         Children [
                             // Single player button
-                            Node {
-                                display: Display::Flex,
-                                width: Val::Percent(50.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                                // overflow: Overflow::hidden(),
-                            }
-                            ImageNode {
-                                image: single_player_button_image,
-                                image_mode: NodeImageMode::Stretch,
-                            }
-                            Children [
-                                // Text node
-                                Node {
-                                    display: Display::Flex,
-                                    width: Val::Percent(90.0),
-                                    height: Val::Percent(100.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    left: Val::Percent(5.0),
-                                }
-                                // Outline {
-                                //     color: Color::WHITE,
-                                //     width: Val::Px(1.0),
-                                // }
-                                Children [
-                                    Text::new("Single Player")
-                                    TextFont {
-                                        font_size: FontSize::Px(14.0),
-                                    }
-                                    TextLayout {
-                                        justify: Justify::Center,
-                                    }
-                                ]
-                            ],
-                            // Outline {
-                            //     color: Color::srgb_from_array([0.2, 0.2, 0.7]),
-                            //     width: Val::Px(2.0),
-                            // }
+                            main_menu_big_single_player_button(
+                                "Single Player".to_string(),
+                                single_player_button_image,
+                                MainMenuButtonAction::SinglePlayer
+                            ),
                             // Multiplayer Button
                             Node {
                                 display: Display::Flex,
@@ -283,8 +250,8 @@ pub fn main_menu_button_action(
 }
 
 pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
-pub const HOVERED_BUTTON: Color = Color::srgb(1.2, 1.25, 1.25);
-pub const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
+pub const HOVERED_BUTTON: Color = Color::srgb(1.25, 1.25, 1.25);
+pub const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn main_menu_button_hover(
     mut input_focus: ResMut<InputFocus>,
@@ -466,5 +433,53 @@ pub fn main_menu_small_right_button(
         //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
         //     width: Val::Px(2.0),
         // },
+    }
+}
+
+fn main_menu_big_single_player_button(
+    label: String,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+) -> impl Scene {
+    bsn! {
+        // Single player button
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(50.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        Children [
+            // Text node
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(90.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                left: Val::Percent(5.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+        ]
+        // Outline {
+        //     color: Color::WHITE,
+        //     width: Val::Px(1.0),
+        // }
     }
 }
