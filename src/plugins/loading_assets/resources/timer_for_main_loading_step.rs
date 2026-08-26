@@ -15,9 +15,9 @@ impl Default for TimerForMainLoadingStep {
 }
 
 impl TimerForMainLoadingStep {
-    pub fn new(time: u64) -> Self {
+    pub fn new(time: f32) -> Self {
         Self {
-            timer: Timer::new(Duration::from_secs(time), TimerMode::Once),
+            timer: Timer::from_seconds(time, TimerMode::Once),
         }
     }
 }

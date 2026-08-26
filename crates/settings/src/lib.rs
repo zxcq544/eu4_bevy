@@ -10,8 +10,9 @@ pub struct Settings {
     pub resolution_width: u32,
     pub resolution_height: u32,
     pub window_decorations: bool,
-    pub initial_bootscreen_show_time: u64,
-    pub main_loading_screen_show_time: u64,
+    pub initial_bootscreen_show_time: f32,
+    pub main_loading_screen_show_time: f32,
+    pub exit_delay_time: f32,
     pub fonts: Fonts,
 }
 
@@ -37,8 +38,9 @@ pub fn get_eu4_settings() -> Settings {
             resolution_width: 1920,
             resolution_height: 1080,
             window_decorations: true,
-            initial_bootscreen_show_time: 1,
-            main_loading_screen_show_time: 1,
+            initial_bootscreen_show_time: 1.0,
+            main_loading_screen_show_time: 1.0,
+            exit_delay_time: 0.5,
             fonts: Fonts {
                 loading_screen_tooltip_font: "fonts/FiraSans-Bold.ttf".to_string(),
                 loading_screen_loading_text_font: "fonts/FiraSans-Bold.ttf".to_string(),
