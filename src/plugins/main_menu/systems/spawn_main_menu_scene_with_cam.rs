@@ -6,7 +6,7 @@ use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
 
-pub fn setup_main_menu_background(
+pub fn spawn_main_menu_scene_with_cam(
     main_menu_all_images_res: Res<MainMenuAllImages>,
     mut commands: Commands,
     localization_res: Res<Localization>,
