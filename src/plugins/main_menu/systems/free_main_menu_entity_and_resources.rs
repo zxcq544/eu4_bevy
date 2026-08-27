@@ -1,15 +1,6 @@
 use crate::plugins::main_menu::{
     components::main_menu_entity::MainMenuEntity,
-    resources::{
-        background_image_for_continue::BackgroundImageForContinue,
-        background_image_of_main_menu::BackgroundImageOfMainMenu,
-        bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
-        bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
-        bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
-        exit_delay_timer::ExitDelayTimer,
-        main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
-        main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
-    },
+    resources::{exit_delay_timer::ExitDelayTimer, main_menu_all_images::MainMenuAllImages},
 };
 use bevy::prelude::*;
 
@@ -21,12 +12,6 @@ pub fn free_main_menu_entity_and_resources(
     for entity in query.iter() {
         commands.entity(entity).despawn();
     }
-    commands.remove_resource::<BackgroundImageOfMainMenu>();
-    commands.remove_resource::<BackgroundImageForContinue>();
-    commands.remove_resource::<MainMenuSinglePlayerButtonImage>();
-    commands.remove_resource::<MainMenuMultiplayerButtonImage>();
-    commands.remove_resource::<BgImageLowerPanelMainMenuLeftButton>();
-    commands.remove_resource::<BgImageLowerPanelMainMenuCenterButton>();
-    commands.remove_resource::<BgImageLowerPanelMainMenuRightButton>();
+    commands.remove_resource::<MainMenuAllImages>();
     commands.remove_resource::<ExitDelayTimer>();
 }

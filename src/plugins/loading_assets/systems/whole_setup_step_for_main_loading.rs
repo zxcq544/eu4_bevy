@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::{
         loading_assets::resources::timer_for_main_loading_step::TimerForMainLoadingStep,
-        main_menu::resources::background_image_of_main_menu::BackgroundImageOfMainMenu,
+        main_menu::resources::main_menu_all_images::MainMenuAllImages,
     },
 };
 use bevy::prelude::*;
@@ -13,11 +13,11 @@ pub fn whole_setup_step_for_main_loading(
     time: Res<Time>,
     current_state: Res<State<GameState>>,
     mut next_state: ResMut<NextState<GameState>>,
-    background_image: Res<BackgroundImageOfMainMenu>,
+    main_menu_all_images: Res<MainMenuAllImages>,
 ) {
     timer.timer.tick(time.delta());
 
-    if asset_server.is_loaded_with_dependencies(&background_image.image)
+    if asset_server.is_loaded_with_dependencies(&main_menu_all_images.main_menu_background_image)
         && timer.timer.just_finished()
     {
         info!("current state is {:?}", current_state.get());

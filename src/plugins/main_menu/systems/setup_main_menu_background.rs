@@ -1,27 +1,13 @@
 use crate::plugins::main_menu::{
     components::main_menu_entity::MainMenuEntity,
-    resources::{
-        background_image_for_continue::BackgroundImageForContinue,
-        background_image_of_main_menu::BackgroundImageOfMainMenu,
-        bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
-        bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
-        bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
-        main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
-        main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
-    },
+    resources::main_menu_all_images::MainMenuAllImages,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
 
 pub fn setup_main_menu_background(
-    main_menu_background_image: Res<BackgroundImageOfMainMenu>,
-    continue_background_image: Res<BackgroundImageForContinue>,
-    single_player_button_image: Res<MainMenuSinglePlayerButtonImage>,
-    multiplayer_button_image: Res<MainMenuMultiplayerButtonImage>,
-    bg_image_lower_panel_main_menu_left_button: Res<BgImageLowerPanelMainMenuLeftButton>,
-    bg_image_lower_panel_main_menu_center_button: Res<BgImageLowerPanelMainMenuCenterButton>,
-    bg_image_lower_panel_main_menu_right_button: Res<BgImageLowerPanelMainMenuRightButton>,
+    main_menu_all_images_res: Res<MainMenuAllImages>,
     mut commands: Commands,
     localization_res: Res<Localization>,
     fonts: Res<FontHandles>,
@@ -29,14 +15,8 @@ pub fn setup_main_menu_background(
     info!("Setting up main menu background");
     commands.spawn((Camera2d::default(), MainMenuEntity));
     commands.spawn_scene_list(MainMenuEntity::as_scene_list(
-        main_menu_background_image,
-        continue_background_image,
-        single_player_button_image,
-        multiplayer_button_image,
-        bg_image_lower_panel_main_menu_left_button,
-        bg_image_lower_panel_main_menu_center_button,
-        bg_image_lower_panel_main_menu_right_button,
-        localization_res,
-        fonts
+        main_menu_all_images_res,
+        &localization_res,
+        fonts,
     ));
 }

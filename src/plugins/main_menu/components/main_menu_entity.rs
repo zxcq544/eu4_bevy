@@ -1,12 +1,4 @@
-use crate::plugins::main_menu::resources::{
-    background_image_for_continue::BackgroundImageForContinue,
-    background_image_of_main_menu::BackgroundImageOfMainMenu,
-    bg_image_lower_panel_main_menu_center_button::BgImageLowerPanelMainMenuCenterButton,
-    bg_image_lower_panel_main_menu_left_button::BgImageLowerPanelMainMenuLeftButton,
-    bg_image_lower_panel_main_menu_right_button::BgImageLowerPanelMainMenuRightButton,
-    main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
-    main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
-};
+use crate::plugins::main_menu::resources::main_menu_all_images::MainMenuAllImages;
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
@@ -34,61 +26,38 @@ pub struct MainMenuEntity;
 
 impl MainMenuEntity {
     pub fn as_scene_list(
-        background_image_res: Res<BackgroundImageOfMainMenu>,
-        continue_background_image_res: Res<BackgroundImageForContinue>,
-        single_player_button_image_res: Res<MainMenuSinglePlayerButtonImage>,
-        multiplayer_button_image_res: Res<MainMenuMultiplayerButtonImage>,
-        bg_image_lower_panel_main_menu_left_button_res: Res<BgImageLowerPanelMainMenuLeftButton>,
-        bg_image_lower_panel_main_menu_center_button_res: Res<
-            BgImageLowerPanelMainMenuCenterButton,
-        >,
-        bg_image_lower_panel_main_menu_right_button_res: Res<BgImageLowerPanelMainMenuRightButton>,
-        localization_res: Res<Localization>,
+        main_menu_all_images_res: Res<MainMenuAllImages>,
+        // background_image_res: Res<BackgroundImageOfMainMenu>,
+        // continue_background_image_res: Res<BackgroundImageForContinue>,
+        // single_player_button_image_res: Res<MainMenuSinglePlayerButtonImage>,
+        // multiplayer_button_image_res: Res<MainMenuMultiplayerButtonImage>,
+        // bg_image_lower_panel_main_menu_left_button_res: Res<BgImageLowerPanelMainMenuLeftButton>,
+        // bg_image_lower_panel_main_menu_center_button_res: Res<
+        //     BgImageLowerPanelMainMenuCenterButton,
+        // >,
+        // bg_image_lower_panel_main_menu_right_button_res: Res<BgImageLowerPanelMainMenuRightButton>,
+        localization_res: &Res<Localization>,
         fonts: Res<FontHandles>,
     ) -> impl SceneList {
         let button_font = fonts.button_font.clone();
-        let background_image = background_image_res.image.clone();
-        let continue_background_image = continue_background_image_res.image.clone();
-        let single_player_button_image = single_player_button_image_res.image.clone();
-        let multiplayer_button_image = multiplayer_button_image_res.image.clone();
-        let bg_image_lower_panel_main_menu_left_button =
-            bg_image_lower_panel_main_menu_left_button_res.image.clone();
-        let bg_image_lower_panel_main_menu_center_button_first =
-            bg_image_lower_panel_main_menu_center_button_res
-                .image
-                .clone();
-        let bg_image_lower_panel_main_menu_center_button_second =
-            bg_image_lower_panel_main_menu_center_button_res
-                .image
-                .clone();
-        let bg_image_lower_panel_main_menu_right_button =
-            bg_image_lower_panel_main_menu_right_button_res
-                .image
-                .clone();
-        let single_player_button_text = localization_res.content("single_player").expect(&format!(
-            "missing single_player in localisation files {:?}",
-            localization_res
-        ));
-        let multiplayer_button_text = localization_res.content("multiplayer").expect(&format!(
-            "missing multiplayer in localisation files {:?}",
-            localization_res
-        ));
-        let credits_button_text = localization_res.content("credits").expect(&format!(
-            "missing credits in localisation files {:?}",
-            localization_res
-        ));
-        let tutorial_button_text = localization_res.content("tutorial").expect(&format!(
-            "missing tutorial in localisation files {:?}",
-            localization_res
-        ));
-        let options_button_text = localization_res.content("options").expect(&format!(
-            "missing options in localisation files {:?}",
-            localization_res
-        ));
-        let exit_button_text = localization_res.content("exit").expect(&format!(
-            "missing exit in localisation files {:?}",
-            localization_res
-        ));
+        let background_image = main_menu_all_images_res.main_menu_background_image.clone();
+        let continue_background_image = main_menu_all_images_res.continue_background_image.clone();
+        // let single_player_button_image = single_player_button_image_res.image.clone();
+        // let multiplayer_button_image = multiplayer_button_image_res.image.clone();
+        // let bg_image_lower_panel_main_menu_left_button =
+        //     bg_image_lower_panel_main_menu_left_button_res.image.clone();
+        // let bg_image_lower_panel_main_menu_center_button_first =
+        //     bg_image_lower_panel_main_menu_center_button_res
+        //         .image
+        //         .clone();
+        // let bg_image_lower_panel_main_menu_center_button_second =
+        //     bg_image_lower_panel_main_menu_center_button_res
+        //         .image
+        //         .clone();
+        // let bg_image_lower_panel_main_menu_right_button =
+        //     bg_image_lower_panel_main_menu_right_button_res
+        //         .image
+        //         .clone();
         bsn_list! {
             MainMenuEntity
             Node {
@@ -161,16 +130,16 @@ impl MainMenuEntity {
                         }
                         Children [
                             // Single player button
-                            main_menu_big_single_player_button(
-                                single_player_button_text,
-                                single_player_button_image,
+                            single_player_button(
+                                &localization_res,
+                                main_menu_all_images_res.single_player_button_image.clone(),
                                 MainMenuButtonAction::SinglePlayer,
                                 button_font.clone()
                             ),
                             // Multiplayer Button
-                            main_menu_big_multiplayer_button(
-                                multiplayer_button_text,
-                                multiplayer_button_image,
+                            multiplayer_button(
+                                &localization_res,
+                                main_menu_all_images_res.multiplayer_button_image.clone(),
                                 MainMenuButtonAction::Multiplayer,
                                 button_font.clone()
                             ),
@@ -193,30 +162,30 @@ impl MainMenuEntity {
                         }
                         Children [
                             // Tutorial button
-                            main_menu_small_left_button(
-                                tutorial_button_text,
-                                bg_image_lower_panel_main_menu_left_button,
+                            tutorial_button(
+                                &localization_res,
+                                main_menu_all_images_res.bg_image_lower_panel_main_menu_left_button.clone(),
                                 MainMenuButtonAction::Tutorial,
                                 button_font.clone()
                             ),
                             // Credits button
-                            main_menu_small_center_button(
-                                credits_button_text,
-                                bg_image_lower_panel_main_menu_center_button_first,
-                                MainMenuButtonAction::Credits,
-                                button_font.clone()
+                            credits_button(
+                                 &localization_res,
+                                 main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
+                                 MainMenuButtonAction::Credits,
+                                 button_font.clone()
                             ),
                             // Options button
-                            main_menu_small_center_button(
-                                options_button_text,
-                                bg_image_lower_panel_main_menu_center_button_second,
+                            options_button(
+                                &localization_res,
+                                main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
                                 MainMenuButtonAction::Options,
                                 button_font.clone()
                             ),
                             // Exit button
-                            main_menu_small_right_button(
-                                exit_button_text,
-                                bg_image_lower_panel_main_menu_right_button,
+                            exit_button(
+                                &localization_res,
+                                main_menu_all_images_res.bg_image_lower_panel_main_menu_right_button.clone(),
                                 MainMenuButtonAction::Quit,
                                 button_font.clone()
                             ),
@@ -232,12 +201,17 @@ impl MainMenuEntity {
     }
 }
 
-pub fn main_menu_small_left_button(
-    label: String,
+pub fn tutorial_button(
+    // label: String,
+    localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
     font: Handle<Font>,
 ) -> impl Scene {
+    let label = localization_res.content("tutorial").expect(&format!(
+        "missing tutorial in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         // Tutorial button
         Button
@@ -254,6 +228,7 @@ pub fn main_menu_small_left_button(
             image: image,
             image_mode: NodeImageMode::Stretch,
         }
+
         // Example but it is wrong i think
         // on(|_event: On<Pointer<Over>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
         //     let entity = _event.event_target();
@@ -263,7 +238,6 @@ pub fn main_menu_small_left_button(
         //         button.set_changed();
         //     }
         // })
-
         // on(|_event: On<Pointer<Release>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
         //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
         //         input_focus.clear();
@@ -271,7 +245,6 @@ pub fn main_menu_small_left_button(
         //         button.set_changed();
         //     }
         // })
-
         // on(|_event: On<Pointer<Press>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
         //     let entity = _event.event_target();
         //     if let Ok((mut button, mut image_node)) = query.get_mut(entity) {
@@ -318,12 +291,16 @@ pub fn main_menu_small_left_button(
     }
 }
 
-pub fn main_menu_small_center_button(
-    label: String,
+pub fn credits_button(
+    localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
     font: Handle<Font>,
 ) -> impl Scene {
+    let label = localization_res.content("credits").expect(&format!(
+        "missing credits in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         Button
         MainMenuButton
@@ -371,12 +348,73 @@ pub fn main_menu_small_center_button(
     }
 }
 
-pub fn main_menu_small_right_button(
-    label: String,
+pub fn options_button(
+    localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
     font: Handle<Font>,
 ) -> impl Scene {
+    let label = localization_res.content("options").expect(&format!(
+        "missing options in localisation files {:?}",
+        localization_res
+    ));
+    bsn! {
+        Button
+        MainMenuButton
+        template_value(action_enum)
+        Node {
+            display: Display::Flex,
+            width: Val::Percent(25.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        // Text node
+        Children [
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // left: Val::Percent(8.0),
+            }
+            Children [
+                Text::new(label)
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                    font: FontSourceTemplate::Handle(font),
+                }
+                TextLayout {
+                    justify: Justify::Center,
+                }
+            ]
+            // Outline {
+            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+            //     width: Val::Px(2.0),
+            // },
+        ]
+        // Outline {
+        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
+        //     width: Val::Px(2.0),
+        // },
+    }
+}
+pub fn exit_button(
+    // label: String,
+    localization_res: &Res<Localization>,
+    image: Handle<Image>,
+    action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
+) -> impl Scene {
+    let label = localization_res.content("exit").expect(&format!(
+        "missing exit in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         // Exit button
         Button
@@ -425,12 +463,16 @@ pub fn main_menu_small_right_button(
     }
 }
 
-fn main_menu_big_single_player_button(
-    label: String,
+fn single_player_button(
+    localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
     font: Handle<Font>,
 ) -> impl Scene {
+    let label = localization_res.content("single_player").expect(&format!(
+        "missing single_player in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         // Single player button
         Button
@@ -475,12 +517,16 @@ fn main_menu_big_single_player_button(
     }
 }
 
-pub fn main_menu_big_multiplayer_button(
-    label: String,
+pub fn multiplayer_button(
+    localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
     font: Handle<Font>,
 ) -> impl Scene {
+    let label = localization_res.content("multiplayer").expect(&format!(
+        "missing multiplayer in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         // Multiplayer Button
         Button
