@@ -254,6 +254,39 @@ pub fn main_menu_small_left_button(
             image: image,
             image_mode: NodeImageMode::Stretch,
         }
+        // Example but it is wrong i think
+        // on(|_event: On<Pointer<Over>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
+        //     let entity = _event.event_target();
+        //     if let Ok((mut button, mut image_node)) = query.get_mut(entity) {
+        //         input_focus.set(entity, FocusCause::Pressed);
+        //         image_node.color = HOVERED_BUTTON;
+        //         button.set_changed();
+        //     }
+        // })
+
+        // on(|_event: On<Pointer<Release>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
+        //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
+        //         input_focus.clear();
+        //         image_node.color = HOVERED_BUTTON;
+        //         button.set_changed();
+        //     }
+        // })
+
+        // on(|_event: On<Pointer<Press>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
+        //     let entity = _event.event_target();
+        //     if let Ok((mut button, mut image_node)) = query.get_mut(entity) {
+        //         input_focus.set(entity, FocusCause::Pressed);
+        //         image_node.color = PRESSED_BUTTON;
+        //         button.set_changed();
+        //     }
+        // })
+        // on(|_event: On<Pointer<Out>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
+        //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
+        //         input_focus.clear();
+        //         image_node.color = NORMAL_BUTTON;
+        //         button.set_changed();
+        //     }
+        // })
         Children [
             Node {
                 display: Display::Flex,
