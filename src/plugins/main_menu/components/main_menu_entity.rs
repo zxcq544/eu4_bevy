@@ -11,6 +11,7 @@ pub enum MainMenuButtonAction {
     NoAction,
     SinglePlayer,
     Multiplayer,
+    Continue,
     Tutorial,
     Credits,
     Options,
@@ -26,9 +27,9 @@ pub struct MainMenuEntity;
 
 impl MainMenuEntity {
     pub fn as_scene_list(
-        main_menu_all_images_res: Res<MainMenuAllImages>,
+        main_menu_all_images_res: &Res<MainMenuAllImages>,
         localization_res: &Res<Localization>,
-        fonts: Res<FontHandles>,
+        fonts: &Res<FontHandles>,
     ) -> impl SceneList {
         let button_font = fonts.button_font.clone();
         bsn_list! {
@@ -51,9 +52,13 @@ impl MainMenuEntity {
                     align_items: AlignItems::Center,
                     // bottom: Val::Px(3.0),
                 }
+                Outline {
+                    color: Color::srgb_from_array([0.3, 0.7, 0.2]),
+                    width: Val::Px(2.0),
+                }
                 Children [
                     // Background image for continue button.
-                    background_image_for_continue_button(main_menu_all_images_res.continue_background_image.clone()),
+                    // background_image_for_continue_button(main_menu_all_images_res.continue_background_image.clone()),
                     // Background image for buttons single player, miltiplayer etc.
                     background_image_for_most_buttons(main_menu_all_images_res.main_menu_background_image.clone())
                     Children [
@@ -61,10 +66,10 @@ impl MainMenuEntity {
                         Node {
                             display: Display::Flex,
                             width: Val::Percent(60.0),
-                            height: Val::Percent(40.0),
+                            height: Val::Percent(42.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
-                            top: Val::Percent(17.0),
+                            top: Val::Percent(16.0),
                         }
                         Children [
                             // Single player button
@@ -91,12 +96,12 @@ impl MainMenuEntity {
                         Node {
                             display: Display::Flex,
                             flex_direction: FlexDirection::Row,
-                            width: Val::Percent(80.0),
-                            height: Val::Percent(35.0),
+                            width: Val::Percent(84.0),
+                            height: Val::Percent(38.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             // overflow: Overflow::hidden(),
-                            top: Val::Percent(21.0),
+                            top: Val::Percent(17.0),
                         }
                         Children [
                             // Tutorial button
@@ -128,12 +133,8 @@ impl MainMenuEntity {
                                 button_font.clone()
                             ),
                         ],
-                    ],
+                    ]
                 ]
-                // Outline {
-                //     color: Color::srgb_from_array([0.3, 0.7, 0.2]),
-                //     width: Val::Px(2.0),
-                // }
             ]
         }
     }
@@ -504,31 +505,6 @@ pub fn multiplayer_button(
         //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
         //     width: Val::Px(2.0),
         // }
-    }
-}
-
-fn background_image_for_continue_button(image: Handle<Image>) -> impl Scene {
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(20.0),
-            height: Val::Percent(30.0),
-            justify_content: JustifyContent::FlexEnd,
-            align_items: AlignItems::End,
-            top: Val::Percent(10.0),
-            // z-index: 1,
-            // overflow: Overflow::hidden(),
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        // Outline {
-        //     color: Color::BLACK,
-        //     width: Val::Px(2.0),
-        // }
-        ZIndex(2)
     }
 }
 
