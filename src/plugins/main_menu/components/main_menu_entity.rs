@@ -27,37 +27,12 @@ pub struct MainMenuEntity;
 impl MainMenuEntity {
     pub fn as_scene_list(
         main_menu_all_images_res: Res<MainMenuAllImages>,
-        // background_image_res: Res<BackgroundImageOfMainMenu>,
-        // continue_background_image_res: Res<BackgroundImageForContinue>,
-        // single_player_button_image_res: Res<MainMenuSinglePlayerButtonImage>,
-        // multiplayer_button_image_res: Res<MainMenuMultiplayerButtonImage>,
-        // bg_image_lower_panel_main_menu_left_button_res: Res<BgImageLowerPanelMainMenuLeftButton>,
-        // bg_image_lower_panel_main_menu_center_button_res: Res<
-        //     BgImageLowerPanelMainMenuCenterButton,
-        // >,
-        // bg_image_lower_panel_main_menu_right_button_res: Res<BgImageLowerPanelMainMenuRightButton>,
         localization_res: &Res<Localization>,
         fonts: Res<FontHandles>,
     ) -> impl SceneList {
         let button_font = fonts.button_font.clone();
         let background_image = main_menu_all_images_res.main_menu_background_image.clone();
         let continue_background_image = main_menu_all_images_res.continue_background_image.clone();
-        // let single_player_button_image = single_player_button_image_res.image.clone();
-        // let multiplayer_button_image = multiplayer_button_image_res.image.clone();
-        // let bg_image_lower_panel_main_menu_left_button =
-        //     bg_image_lower_panel_main_menu_left_button_res.image.clone();
-        // let bg_image_lower_panel_main_menu_center_button_first =
-        //     bg_image_lower_panel_main_menu_center_button_res
-        //         .image
-        //         .clone();
-        // let bg_image_lower_panel_main_menu_center_button_second =
-        //     bg_image_lower_panel_main_menu_center_button_res
-        //         .image
-        //         .clone();
-        // let bg_image_lower_panel_main_menu_right_button =
-        //     bg_image_lower_panel_main_menu_right_button_res
-        //         .image
-        //         .clone();
         bsn_list! {
             MainMenuEntity
             Node {
