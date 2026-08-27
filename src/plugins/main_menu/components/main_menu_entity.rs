@@ -31,8 +31,6 @@ impl MainMenuEntity {
         fonts: Res<FontHandles>,
     ) -> impl SceneList {
         let button_font = fonts.button_font.clone();
-        let background_image = main_menu_all_images_res.main_menu_background_image.clone();
-        let continue_background_image = main_menu_all_images_res.continue_background_image.clone();
         bsn_list! {
             MainMenuEntity
             Node {
@@ -54,45 +52,10 @@ impl MainMenuEntity {
                     // bottom: Val::Px(3.0),
                 }
                 Children [
-                    // Background image for continue button
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Percent(20.0),
-                        height: Val::Percent(30.0),
-                        justify_content: JustifyContent::FlexEnd,
-                        align_items: AlignItems::End,
-                        bottom: Val::Percent(-10.0),
-                        // z-index: 1,
-                        // overflow: Overflow::hidden(),
-                    }
-                    ImageNode {
-                        image: continue_background_image,
-                        image_mode: NodeImageMode::Stretch,
-                    }
-                    // Outline {
-                    //     color: Color::BLACK,
-                    //     width: Val::Px(2.0),
-                    // }
-                    ZIndex(2),
+                    // Background image for continue button.
+                    background_image_for_continue_button(main_menu_all_images_res.continue_background_image.clone()),
                     // Background image for buttons single player, miltiplayer etc.
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Percent(33.0),
-                        height: Val::Percent(50.0),
-                        justify_content: JustifyContent::FlexStart,
-                        align_items: AlignItems::Center,
-                        // overflow: Overflow::hidden(),
-                    }
-                    ImageNode {
-                        image: background_image,
-                        image_mode: NodeImageMode::Stretch,
-                    }
-                    // Outline {
-                    //     color: Color::WHITE,
-                    //     width: Val::Px(1.0),
-                    // }
+                    background_image_for_most_buttons(main_menu_all_images_res.main_menu_background_image.clone())
                     Children [
                         // Single player and multiplayer buttons block
                         Node {
@@ -177,7 +140,6 @@ impl MainMenuEntity {
 }
 
 pub fn tutorial_button(
-    // label: String,
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
@@ -380,7 +342,6 @@ pub fn options_button(
     }
 }
 pub fn exit_button(
-    // label: String,
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
@@ -542,6 +503,53 @@ pub fn multiplayer_button(
         // Outline {
         //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
         //     width: Val::Px(2.0),
+        // }
+    }
+}
+
+fn background_image_for_continue_button(image: Handle<Image>) -> impl Scene {
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(20.0),
+            height: Val::Percent(30.0),
+            justify_content: JustifyContent::FlexEnd,
+            align_items: AlignItems::End,
+            top: Val::Percent(10.0),
+            // z-index: 1,
+            // overflow: Overflow::hidden(),
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        // Outline {
+        //     color: Color::BLACK,
+        //     width: Val::Px(2.0),
+        // }
+        ZIndex(2)
+    }
+}
+
+fn background_image_for_most_buttons(image: Handle<Image>) -> impl Scene {
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(33.0),
+            height: Val::Percent(50.0),
+            justify_content: JustifyContent::FlexStart,
+            align_items: AlignItems::Center,
+            // overflow: Overflow::hidden(),
+        }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
+        // Outline {
+        //     color: Color::WHITE,
+        //     width: Val::Px(1.0),
         // }
     }
 }
