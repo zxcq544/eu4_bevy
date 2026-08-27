@@ -7,7 +7,10 @@ use crate::plugins::main_menu::resources::{
     main_menu_multiplayer_button_image::MainMenuMultiplayerButtonImage,
     main_menu_single_player_button_image::MainMenuSinglePlayerButtonImage,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, text::FontSourceTemplate};
+use bevy_fluent::Localization;
+use fluent_content::Content;
+use fonts::FontHandles;
 
 // Marker used for main menu button actions
 #[derive(Component, Clone, Default)]
@@ -40,7 +43,10 @@ impl MainMenuEntity {
             BgImageLowerPanelMainMenuCenterButton,
         >,
         bg_image_lower_panel_main_menu_right_button_res: Res<BgImageLowerPanelMainMenuRightButton>,
+        localization_res: Res<Localization>,
+        fonts: Res<FontHandles>,
     ) -> impl SceneList {
+        let button_font = fonts.button_font.clone();
         let background_image = background_image_res.image.clone();
         let continue_background_image = continue_background_image_res.image.clone();
         let single_player_button_image = single_player_button_image_res.image.clone();
@@ -59,6 +65,30 @@ impl MainMenuEntity {
             bg_image_lower_panel_main_menu_right_button_res
                 .image
                 .clone();
+        let single_player_button_text = localization_res.content("single_player").expect(&format!(
+            "missing single_player in localisation files {:?}",
+            localization_res
+        ));
+        let multiplayer_button_text = localization_res.content("multiplayer").expect(&format!(
+            "missing multiplayer in localisation files {:?}",
+            localization_res
+        ));
+        let credits_button_text = localization_res.content("credits").expect(&format!(
+            "missing credits in localisation files {:?}",
+            localization_res
+        ));
+        let tutorial_button_text = localization_res.content("tutorial").expect(&format!(
+            "missing tutorial in localisation files {:?}",
+            localization_res
+        ));
+        let options_button_text = localization_res.content("options").expect(&format!(
+            "missing options in localisation files {:?}",
+            localization_res
+        ));
+        let exit_button_text = localization_res.content("exit").expect(&format!(
+            "missing exit in localisation files {:?}",
+            localization_res
+        ));
         bsn_list! {
             MainMenuEntity
             Node {
@@ -132,15 +162,17 @@ impl MainMenuEntity {
                         Children [
                             // Single player button
                             main_menu_big_single_player_button(
-                                "Single Player".to_string(),
+                                single_player_button_text,
                                 single_player_button_image,
-                                MainMenuButtonAction::SinglePlayer
+                                MainMenuButtonAction::SinglePlayer,
+                                button_font.clone()
                             ),
                             // Multiplayer Button
                             main_menu_big_multiplayer_button(
-                                "Multiplayer".to_string(),
+                                multiplayer_button_text,
                                 multiplayer_button_image,
-                                MainMenuButtonAction::Multiplayer
+                                MainMenuButtonAction::Multiplayer,
+                                button_font.clone()
                             ),
                         ]
                         // Outline {
@@ -162,27 +194,31 @@ impl MainMenuEntity {
                         Children [
                             // Tutorial button
                             main_menu_small_left_button(
-                                "Tutorial".to_string(),
+                                tutorial_button_text,
                                 bg_image_lower_panel_main_menu_left_button,
-                                MainMenuButtonAction::Tutorial
+                                MainMenuButtonAction::Tutorial,
+                                button_font.clone()
                             ),
                             // Credits button
                             main_menu_small_center_button(
-                                "Credits".to_string(),
+                                credits_button_text,
                                 bg_image_lower_panel_main_menu_center_button_first,
-                                MainMenuButtonAction::Credits
+                                MainMenuButtonAction::Credits,
+                                button_font.clone()
                             ),
                             // Options button
                             main_menu_small_center_button(
-                                "Options".to_string(),
+                                options_button_text,
                                 bg_image_lower_panel_main_menu_center_button_second,
-                                MainMenuButtonAction::Options
+                                MainMenuButtonAction::Options,
+                                button_font.clone()
                             ),
                             // Exit button
                             main_menu_small_right_button(
-                                "Exit".to_string(),
+                                exit_button_text,
                                 bg_image_lower_panel_main_menu_right_button,
-                                MainMenuButtonAction::Quit
+                                MainMenuButtonAction::Quit,
+                                button_font.clone()
                             ),
                         ],
                     ],
@@ -200,12 +236,13 @@ pub fn main_menu_small_left_button(
     label: String,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
 ) -> impl Scene {
     bsn! {
         // Tutorial button
         Button
         MainMenuButton
-        template_value(action_enum)
+        template_value(action_enum) // Workaround because bevy 0.19 doesn't support enum inside bsn!
         Node {
             display: Display::Flex,
             width: Val::Percent(25.0),
@@ -229,6 +266,7 @@ pub fn main_menu_small_left_button(
             Children [
                 Text::new(label)
                 TextFont {
+                    font: FontSourceTemplate::Handle(font),
                     font_size: FontSize::Px(14.0),
                 }
                 TextLayout {
@@ -251,6 +289,7 @@ pub fn main_menu_small_center_button(
     label: String,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
 ) -> impl Scene {
     bsn! {
         Button
@@ -281,6 +320,7 @@ pub fn main_menu_small_center_button(
                 Text::new(label)
                 TextFont {
                     font_size: FontSize::Px(14.0),
+                    font: FontSourceTemplate::Handle(font),
                 }
                 TextLayout {
                     justify: Justify::Center,
@@ -302,6 +342,7 @@ pub fn main_menu_small_right_button(
     label: String,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
 ) -> impl Scene {
     bsn! {
         // Exit button
@@ -333,6 +374,7 @@ pub fn main_menu_small_right_button(
                 Text::new(label)
                 TextFont {
                     font_size: FontSize::Px(14.0),
+                    font: FontSourceTemplate::Handle(font),
                 }
                 TextLayout {
                     justify: Justify::Center,
@@ -354,6 +396,7 @@ fn main_menu_big_single_player_button(
     label: String,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
 ) -> impl Scene {
     bsn! {
         // Single player button
@@ -385,6 +428,7 @@ fn main_menu_big_single_player_button(
                 Text::new(label)
                 TextFont {
                     font_size: FontSize::Px(14.0),
+                    font: FontSourceTemplate::Handle(font),
                 }
                 TextLayout {
                     justify: Justify::Center,
@@ -402,6 +446,7 @@ pub fn main_menu_big_multiplayer_button(
     label: String,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    font: Handle<Font>,
 ) -> impl Scene {
     bsn! {
         // Multiplayer Button
@@ -433,6 +478,7 @@ pub fn main_menu_big_multiplayer_button(
                 Text::new(label)
                 TextFont {
                     font_size: FontSize::Px(14.0),
+                    font: FontSourceTemplate::Handle(font),
                 }
                 TextLayout {
                     justify: Justify::Center,

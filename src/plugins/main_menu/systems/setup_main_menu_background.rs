@@ -11,6 +11,8 @@ use crate::plugins::main_menu::{
     },
 };
 use bevy::prelude::*;
+use bevy_fluent::Localization;
+use fonts::FontHandles;
 
 pub fn setup_main_menu_background(
     main_menu_background_image: Res<BackgroundImageOfMainMenu>,
@@ -21,6 +23,8 @@ pub fn setup_main_menu_background(
     bg_image_lower_panel_main_menu_center_button: Res<BgImageLowerPanelMainMenuCenterButton>,
     bg_image_lower_panel_main_menu_right_button: Res<BgImageLowerPanelMainMenuRightButton>,
     mut commands: Commands,
+    localization_res: Res<Localization>,
+    fonts: Res<FontHandles>,
 ) {
     info!("Setting up main menu background");
     commands.spawn((Camera2d::default(), MainMenuEntity));
@@ -32,5 +36,7 @@ pub fn setup_main_menu_background(
         bg_image_lower_panel_main_menu_left_button,
         bg_image_lower_panel_main_menu_center_button,
         bg_image_lower_panel_main_menu_right_button,
+        localization_res,
+        fonts
     ));
 }
