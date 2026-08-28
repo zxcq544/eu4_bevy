@@ -73,6 +73,11 @@ impl MainMenuEntity {
                             align_items: AlignItems::Center,
                             top: Val::Percent(16.0),
                         }
+                        ZIndex(1)
+                        // Outline {
+                        //     color: Color::srgb_from_array([0.7, 0.7, 0.2]), // yellow
+                        //     width: Val::Px(2.0),
+                        // }
                         Children [
                             // Single player button
                             single_player_button(
@@ -88,12 +93,7 @@ impl MainMenuEntity {
                                 MainMenuButtonAction::Multiplayer,
                                 button_font.clone()
                             ),
-                        ]
-                        // Outline {
-                        //     color: Color::srgb_from_array([0.7, 0.7, 0.2]), // yellow
-                        //     width: Val::Px(2.0),
-                        // }
-                        ZIndex(2),
+                        ],
                         // 4 button lower block with buttons Tutorial, Credits, Options, Exit
                         Node {
                             display: Display::Flex,
@@ -521,6 +521,7 @@ fn background_image_for_most_buttons(image: Handle<Image>) -> impl Scene {
             align_items: AlignItems::Center,
             // overflow: Overflow::hidden(),
         }
+        ZIndex(1)
         ImageNode {
             image: image,
             image_mode: NodeImageMode::Stretch,

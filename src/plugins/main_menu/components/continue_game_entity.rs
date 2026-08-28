@@ -61,6 +61,7 @@ fn background_image_for_continue_button(image: Handle<Image>) -> impl Scene {
             // z-index: 1,
             // overflow: Overflow::hidden(),
         }
+        ZIndex(3)
         ImageNode {
             image: image,
             image_mode: NodeImageMode::Stretch,
@@ -69,7 +70,6 @@ fn background_image_for_continue_button(image: Handle<Image>) -> impl Scene {
         //     color: Color::BLACK,
         //     width: Val::Px(2.0),
         // }
-        ZIndex(3)
     }
 }
 
@@ -96,6 +96,7 @@ fn continue_button(
             align_items: AlignItems::Center,
             bottom: Val::Percent(8.0),
         }
+        ZIndex(4)
         ImageNode {
             image: image,
             image_mode: NodeImageMode::Stretch,
