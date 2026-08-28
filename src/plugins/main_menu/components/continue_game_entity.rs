@@ -1,12 +1,12 @@
+use crate::plugins::main_menu::{
+    components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
+    resources::main_menu_all_images::MainMenuAllImages,
+};
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
 
-use crate::plugins::main_menu::{
-    components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
-    resources::main_menu_all_images::MainMenuAllImages,
-};
 #[derive(Component, Clone, Default)]
 pub struct ContinueGameEntity;
 
