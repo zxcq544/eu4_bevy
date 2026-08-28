@@ -6,7 +6,7 @@ use crate::{
             free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
             handle_delayed_exit::handle_delayed_exit,
             main_menu_button_actions::main_menu_button_actions,
-            main_menu_button_hover::main_menu_button_hover,
+            main_menu_button_hover::main_menu_button_hover, rotate_cube::rotate_cube_system,
             spawn_main_menu_scene_with_cam::spawn_main_menu_scene_with_cam,
         },
     },
@@ -33,6 +33,7 @@ impl Plugin for MainMenuPlugin {
                 main_menu_button_actions,
                 main_menu_button_hover,
                 handle_delayed_exit,
+                rotate_cube_system,
             )
                 .run_if(in_state(GameState::MainMenu)),
         );

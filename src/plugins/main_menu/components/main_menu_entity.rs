@@ -40,8 +40,10 @@ impl MainMenuEntity {
                 position_type: PositionType::Absolute,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::End,
-                overflow: Overflow::hidden(),
+                // background_color: Color::TRANSPARENT,
+                // overflow: Overflow::hidden(),
             }
+            BackgroundColor(Color::NONE)
             Children [
                 Node {
                     display: Display::Flex,

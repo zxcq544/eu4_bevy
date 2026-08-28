@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use bevy::window::WindowPlugin;
+use bevy::{prelude::*, winit::WinitSettings};
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
 use unic_langid::langid;
@@ -22,5 +22,6 @@ fn main() {
         .add_plugins(FluentPlugin)
         // Pull in all game systems via one root plugin
         .add_plugins(GamePlugin)
+        // .insert_resource(WinitSettings::desktop_app()) // MacOS only I guess. Slows down everything on Windows
         .run();
 }
