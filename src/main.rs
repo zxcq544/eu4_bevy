@@ -1,5 +1,5 @@
+use bevy::prelude::*;
 use bevy::window::WindowPlugin;
-use bevy::{prelude::*, winit::WinitSettings};
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
 use unic_langid::langid;
