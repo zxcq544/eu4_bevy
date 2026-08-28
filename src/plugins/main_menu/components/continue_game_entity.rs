@@ -27,6 +27,7 @@ impl ContinueGameEntity {
                 align_items: AlignItems::FlexEnd,
                 // overflow: Overflow::hidden(),
             }
+            ZIndex(3)
             Children [
                 // Background image for continue button.
                 background_image_for_continue_button(main_menu_all_images_res.continue_background_image.clone())

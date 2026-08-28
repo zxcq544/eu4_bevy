@@ -27,7 +27,8 @@ impl Plugin for MainMenuPlugin {
             (
                 spawn_main_menu_scene_with_cam,
                 spawn_continue_block.after(spawn_main_menu_scene_with_cam),
-            ),
+            )
+                .chain(),
         );
         app.add_systems(
             OnExit(GameState::MainMenu),
