@@ -21,6 +21,13 @@ fn main() {
                     }),
                     ..default()
                 })
+                // .set(RenderPlugin {
+                //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
+                //         backends: Some(Backends::VULKAN),
+                //         ..default()
+                //     })),
+                //     ..default()
+                // })
                 .disable::<bevy::log::LogPlugin>()
                 .disable::<DiagnosticsPlugin>(),
         )
