@@ -1,8 +1,5 @@
 use crate::plugins::main_menu::{
-    components::{
-        continue_game_entity::ContinueGameEntity, main_menu_entity::MainMenuEntity,
-        rotating_cube::RotatingCube,
-    },
+    components::{main_menu_entity::MainMenuEntity, rotating_cube::RotatingCube},
     resources::main_menu_all_images::MainMenuAllImages,
 };
 use bevy::prelude::*;
@@ -17,7 +14,6 @@ pub fn spawn_main_menu_scene_with_cam(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    let show_continue_button = true;
     info!("Setting up main menu background");
     commands.spawn((
         Camera3d::default(),
@@ -29,13 +25,6 @@ pub fn spawn_main_menu_scene_with_cam(
         &localization_res,
         &fonts,
     ));
-    if show_continue_button {
-        commands.spawn_scene_list(ContinueGameEntity::as_scene_list(
-            &main_menu_all_images_res,
-            &localization_res,
-            &fonts,
-        ));
-    }
     // spawn cube in center
     commands.spawn((
         Mesh3d(meshes.add(Cuboid::default())),

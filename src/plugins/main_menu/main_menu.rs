@@ -7,6 +7,7 @@ use crate::{
             handle_delayed_exit::handle_delayed_exit,
             main_menu_button_actions::main_menu_button_actions,
             main_menu_button_hover::main_menu_button_hover, rotate_cube::rotate_cube_system,
+            spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene_with_cam::spawn_main_menu_scene_with_cam,
         },
     },
@@ -21,7 +22,13 @@ impl Plugin for MainMenuPlugin {
             timer: Timer::from_seconds(0.0, TimerMode::Once),
             should_exit: false,
         });
-        app.add_systems(OnEnter(GameState::MainMenu), spawn_main_menu_scene_with_cam);
+        app.add_systems(
+            OnEnter(GameState::MainMenu),
+            (
+                spawn_main_menu_scene_with_cam,
+                spawn_continue_block.after(spawn_main_menu_scene_with_cam),
+            ),
+        );
         app.add_systems(
             OnExit(GameState::MainMenu),
             free_main_menu_entity_and_resources,
