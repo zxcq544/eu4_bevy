@@ -1,5 +1,5 @@
 use bevy::window::WindowPlugin;
-use bevy::prelude::*;
+use bevy::{diagnostic::DiagnosticsPlugin, prelude::*};
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
 use unic_langid::langid;
@@ -12,15 +12,17 @@ fn main() {
         .insert_resource(eu4_settings)
         .insert_resource(Locale::new(langid!("ru-RU")))
         .add_plugins(
-            DefaultPlugins.set(WindowPlugin {
-                primary_window: Some(Window {
-                    title: "Europa Universalis 4".into(),
-                    visible: false,
+            DefaultPlugins
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Europa Universalis 4".into(),
+                        visible: false,
+                        ..default()
+                    }),
                     ..default()
-                }),
-                ..default()
-            }), // .disable::<bevy::log::LogPlugin>()
-                // .disable::<DiagnosticsPlugin>(),
+                })
+                .disable::<bevy::log::LogPlugin>()
+                .disable::<DiagnosticsPlugin>(),
         )
         .add_plugins(FluentPlugin)
         // Pull in all game systems via one root plugin
