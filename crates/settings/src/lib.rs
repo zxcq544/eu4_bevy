@@ -1,5 +1,6 @@
 use bevy::ecs::resource::Resource;
 use fonts::Fonts;
+use save_game_info::{LastSaveGameInfo, SaveGameInfo};
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, Clone, Resource)]
@@ -14,6 +15,7 @@ pub struct Settings {
     pub main_loading_screen_show_time: f32,
     pub exit_delay_time: f32,
     pub fonts: Fonts,
+    pub last_saved_game: LastSaveGameInfo,
 }
 
 pub fn get_eu4_settings() -> Settings {
@@ -46,6 +48,10 @@ pub fn get_eu4_settings() -> Settings {
                 loading_screen_loading_text_font: "fonts/FiraSans-Bold.ttf".to_string(),
                 main_font: "fonts/FiraSans-Bold.ttf".to_string(),
                 button_font: "fonts/FiraSans-Bold.ttf".to_string(),
+            },
+            last_saved_game: LastSaveGameInfo {
+                last_save_game_exists: false,
+                save_game_info: SaveGameInfo {},
             },
         };
         serde_json::to_writer_pretty(settings_file, &default_settings).unwrap();

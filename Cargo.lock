@@ -4726,6 +4726,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "save_game_info"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "scoped-tls"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4839,6 +4847,7 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "fonts",
+ "save_game_info",
  "serde",
  "serde_json",
 ]
