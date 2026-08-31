@@ -23,7 +23,7 @@ pub fn main_menu_button_system_united(
     mut exit_timer: ResMut<ExitDelayTimer>,
     settings: Res<Settings>,
     button_click_sound_effects: Res<ButtonClickSoundEffects>,
-    // Объединяем все компоненты в один запрос
+    // Get all components in one query
     mut interaction_query: Query<
         (
             Entity,
