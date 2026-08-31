@@ -6,6 +6,7 @@ use crate::{
         map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
         music_player::music_player::MusicPlayerPlugin,
+        // sound_effects::sound_effects::SoundEffectsPlugin,
     },
 };
 use bevy::prelude::*;
@@ -32,6 +33,7 @@ impl Plugin for GamePlugin {
             InitialBootStepPlugin,
             LoadingAssetsPlugin,
             MainMenuPlugin,
+            // SoundEffectsPlugin,
             //     CameraPlugin,
             //     InputPlugin,
             MusicPlayerPlugin,

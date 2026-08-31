@@ -5,8 +5,11 @@ use crate::{
         systems::{
             free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
             handle_delayed_exit::handle_delayed_exit,
-            main_menu_button_actions::main_menu_button_actions,
-            main_menu_button_hover::main_menu_button_hover, rotate_cube::rotate_cube_system,
+            // main_menu_button_actions::main_menu_button_actions,
+            // main_menu_button_hover::main_menu_button_hover,
+            // main_menu_button_sounds::main_menu_button_sounds,
+            main_menu_button_system_united::main_menu_button_system_united,
+            rotate_cube::rotate_cube_system,
             spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene_with_cam::spawn_main_menu_scene_with_cam,
         },
@@ -34,8 +37,10 @@ impl Plugin for MainMenuPlugin {
         app.add_systems(
             Update,
             (
-                main_menu_button_actions,
-                main_menu_button_hover,
+                // main_menu_button_actions,
+                // main_menu_button_hover,
+                // main_menu_button_sounds,
+                main_menu_button_system_united,
                 handle_delayed_exit,
                 rotate_cube_system,
             )

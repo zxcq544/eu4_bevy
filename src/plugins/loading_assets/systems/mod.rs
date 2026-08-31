@@ -1,5 +1,6 @@
 pub mod free_main_loading_step_resources;
 pub mod load_resources_for_main_menu;
+pub mod load_all_game_sound_effects;
 pub mod set_main_loading_step_scene;
 pub mod start_timer_for_main_loading_step;
 pub mod whole_setup_step_for_main_loading;

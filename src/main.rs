@@ -1,5 +1,5 @@
 use bevy::window::WindowPlugin;
-use bevy::{diagnostic::DiagnosticsPlugin, prelude::*};
+use bevy::prelude::*;
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
 use unic_langid::langid;
@@ -28,8 +28,8 @@ fn main() {
                 //     })),
                 //     ..default()
                 // })
-                .disable::<bevy::log::LogPlugin>()
-                .disable::<DiagnosticsPlugin>(),
+                // .disable::<bevy::log::LogPlugin>()
+                // .disable::<DiagnosticsPlugin>(),
         )
         .add_plugins(FluentPlugin)
         // Pull in all game systems via one root plugin

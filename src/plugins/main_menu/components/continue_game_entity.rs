@@ -1,5 +1,5 @@
 use crate::plugins::main_menu::{
-    components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
+    components::main_menu_entity::{MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType},
     resources::main_menu_all_images::MainMenuAllImages,
 };
 use bevy::{prelude::*, text::FontSourceTemplate};
@@ -37,6 +37,7 @@ impl ContinueGameEntity {
                         &localization_res,
                         main_menu_all_images_res.continue_button_image.clone(),
                         MainMenuButtonAction::Continue,
+                        MainMenuButtonSoundType::General,
                         button_font.clone()
                     )
                 ]
@@ -78,6 +79,7 @@ fn continue_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("continue").expect(&format!(
@@ -88,6 +90,7 @@ fn continue_button(
         // Continue button
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,

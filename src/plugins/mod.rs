@@ -4,3 +4,4 @@ pub mod main_menu;
 pub mod map;
 pub mod monitor_chooser_plugin;
 pub mod music_player;
+pub mod sound_effects;

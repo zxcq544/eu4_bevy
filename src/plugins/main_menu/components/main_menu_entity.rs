@@ -18,6 +18,15 @@ pub enum MainMenuButtonAction {
     Quit,
 }
 
+// Marker for all main menu buttons to add sound effects
+#[derive(Component, Clone, Default)]
+pub enum MainMenuButtonSoundType {
+    #[default]
+    General,
+    Ok,
+    Back,
+}
+
 // Marker for all main menu buttons to add hover effect and other effects
 #[derive(Component, Clone, Default)]
 pub struct MainMenuButton;
@@ -84,6 +93,7 @@ impl MainMenuEntity {
                                 &localization_res,
                                 main_menu_all_images_res.single_player_button_image.clone(),
                                 MainMenuButtonAction::SinglePlayer,
+                                MainMenuButtonSoundType::General,
                                 button_font.clone()
                             ),
                             // Multiplayer Button
@@ -91,6 +101,7 @@ impl MainMenuEntity {
                                 &localization_res,
                                 main_menu_all_images_res.multiplayer_button_image.clone(),
                                 MainMenuButtonAction::Multiplayer,
+                                MainMenuButtonSoundType::General,
                                 button_font.clone()
                             ),
                         ],
@@ -111,6 +122,7 @@ impl MainMenuEntity {
                                 &localization_res,
                                 main_menu_all_images_res.bg_image_lower_panel_main_menu_left_button.clone(),
                                 MainMenuButtonAction::Tutorial,
+                                MainMenuButtonSoundType::General,
                                 button_font.clone()
                             ),
                             // Credits button
@@ -118,6 +130,7 @@ impl MainMenuEntity {
                                  &localization_res,
                                  main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
                                  MainMenuButtonAction::Credits,
+                                 MainMenuButtonSoundType::General,
                                  button_font.clone()
                             ),
                             // Options button
@@ -125,6 +138,7 @@ impl MainMenuEntity {
                                 &localization_res,
                                 main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
                                 MainMenuButtonAction::Options,
+                                MainMenuButtonSoundType::General,
                                 button_font.clone()
                             ),
                             // Exit button
@@ -132,6 +146,7 @@ impl MainMenuEntity {
                                 &localization_res,
                                 main_menu_all_images_res.bg_image_lower_panel_main_menu_right_button.clone(),
                                 MainMenuButtonAction::Quit,
+                                MainMenuButtonSoundType::General,
                                 button_font.clone()
                             ),
                         ],
@@ -146,6 +161,7 @@ pub fn tutorial_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("tutorial").expect(&format!(
@@ -156,6 +172,7 @@ pub fn tutorial_button(
         // Tutorial button
         Button
         MainMenuButton
+        template_value(sound_type) // Workaround because bevy 0.19 doesn't support enum inside bsn!
         template_value(action_enum) // Workaround because bevy 0.19 doesn't support enum inside bsn!
         Node {
             display: Display::Flex,
@@ -235,6 +252,7 @@ pub fn credits_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("credits").expect(&format!(
@@ -244,6 +262,7 @@ pub fn credits_button(
     bsn! {
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,
@@ -292,6 +311,7 @@ pub fn options_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("options").expect(&format!(
@@ -301,6 +321,7 @@ pub fn options_button(
     bsn! {
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,
@@ -348,6 +369,7 @@ pub fn exit_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("exit").expect(&format!(
@@ -358,6 +380,7 @@ pub fn exit_button(
         // Exit button
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,
@@ -406,6 +429,7 @@ fn single_player_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("single_player").expect(&format!(
@@ -416,6 +440,7 @@ fn single_player_button(
         // Single player button
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,
@@ -460,6 +485,7 @@ pub fn multiplayer_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
+    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("multiplayer").expect(&format!(
@@ -470,6 +496,7 @@ pub fn multiplayer_button(
         // Multiplayer Button
         Button
         MainMenuButton
+        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,
