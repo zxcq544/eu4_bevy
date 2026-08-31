@@ -1,0 +1,8 @@
+[package]
+name = "volume_settings"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "*", features = ["derive"] }
+serde_json = { version = "*" }

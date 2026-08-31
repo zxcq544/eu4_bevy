@@ -8,6 +8,7 @@ use crate::plugins::{
     sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
 };
 use bevy::{
+    audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
@@ -58,7 +59,17 @@ pub fn main_menu_button_system_united(
                         button_click_sound_effects.button_click_general.clone()
                     }
                 };
-                commands.spawn((AudioPlayer::new(required_sound), PlaybackSettings::DESPAWN));
+                commands.spawn((
+                    AudioPlayer::new(required_sound),
+                    PlaybackSettings {
+                        mode: bevy::audio::PlaybackMode::Despawn,
+                        volume: Volume::Linear(settings.volume_settings.sound_effects_volume),
+                        speed: 1.0,
+                        paused: false,
+                        muted: false,
+                        ..default()
+                    },
+                ));
 
                 // 3. Action logic
                 match action {

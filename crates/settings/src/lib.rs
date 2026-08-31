@@ -2,12 +2,13 @@ use bevy::ecs::resource::Resource;
 use fonts::Fonts;
 use save_game_info::{LastSaveGameInfo, SaveGameInfo};
 use serde::{Deserialize, Serialize};
+use volume_settings::VolumeSettings;
 
 #[derive(Deserialize, Serialize, Debug, Clone, Resource)]
 pub struct Settings {
     pub eu4_folder: String,
     pub monitor_index: usize,
-    pub volume: f32,
+    pub volume_settings: VolumeSettings,
     pub resolution_width: u32,
     pub resolution_height: u32,
     pub window_decorations: bool,
@@ -36,7 +37,11 @@ pub fn get_eu4_settings() -> Settings {
         let default_settings = Settings {
             eu4_folder: steam_default_eu4_folder.to_string(),
             monitor_index: 0,
-            volume: 1.0,
+            volume_settings: VolumeSettings {
+                main_volume: 0.5,
+                music_volume: 0.5,
+                sound_effects_volume: 0.5,
+            },
             resolution_width: 1920,
             resolution_height: 1080,
             window_decorations: true,
