@@ -1,11 +1,17 @@
-use crate::plugins::{
-    main_menu::{
-        components::main_menu_entity::{
-            MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType,
-        },
-        resources::exit_delay_timer::ExitDelayTimer,
+use crate::{
+    core::states::{
+        GameState::{self},
+        MainMenuStates,
     },
-    sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
+    plugins::{
+        main_menu::{
+            components::main_menu_entity::{
+                MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType,
+            },
+            resources::exit_delay_timer::ExitDelayTimer,
+        },
+        sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
+    },
 };
 use bevy::{
     audio::Volume,
@@ -20,6 +26,9 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn main_menu_button_system_united(
     mut commands: Commands,
+    current_state: Res<State<GameState>>,
+    current_sub_state: Res<State<MainMenuStates>>,
+    mut next_state: ResMut<NextState<MainMenuStates>>,
     mut input_focus: ResMut<InputFocus>,
     mut exit_timer: ResMut<ExitDelayTimer>,
     settings: Res<Settings>,
@@ -73,9 +82,16 @@ pub fn main_menu_button_system_united(
 
                 // 3. Action logic
                 match action {
+                    MainMenuButtonAction::Options => {
+                        info!("Options button pressed");
+                        info!("Changing state to Options");
+                        next_state.set(MainMenuStates::OnMainMenuOptionsScreen);
+                        info!("Current state is {:?}", current_state.get());
+                        info!("Current sub state is {:?}", current_sub_state.get());
+                    }
                     MainMenuButtonAction::Quit => {
-                        let exit_time_setting = settings.exit_delay_time;
                         info!("Quit button pressed");
+                        let exit_time_setting = settings.exit_delay_time;
                         exit_timer.timer = Timer::from_seconds(exit_time_setting, TimerMode::Once);
                         exit_timer.should_exit = true;
                     }

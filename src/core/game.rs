@@ -1,8 +1,9 @@
 use crate::{
-    core::states::GameState,
+    core::states::{GameState, MainMenuStates},
     plugins::{
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
-        loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
+        loading_assets::loading_assets::LoadingAssetsPlugin,
+        main_menu::main_menu::MainMenuPlugin,
         map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
         music_player::music_player::MusicPlayerPlugin,
@@ -22,7 +23,8 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         // 1. Register core state machine
-        app.init_state::<GameState>();
+        app.init_state::<GameState>()
+            .add_sub_state::<MainMenuStates>();
         // app.add_systems(Startup, global_setup);
 
         // 2. Add subsystem plugins. Each plugin is responsible
