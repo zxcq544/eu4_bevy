@@ -1,8 +1,5 @@
 use crate::{
-    core::states::{
-        GameState::{self},
-        MainMenuStates,
-    },
+    core::states::MainMenuStates,
     plugins::{
         main_menu::{
             components::main_menu_entity::{
@@ -26,8 +23,6 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn main_menu_button_system_united(
     mut commands: Commands,
-    current_state: Res<State<GameState>>,
-    current_sub_state: Res<State<MainMenuStates>>,
     mut next_state: ResMut<NextState<MainMenuStates>>,
     mut input_focus: ResMut<InputFocus>,
     mut exit_timer: ResMut<ExitDelayTimer>,
@@ -84,10 +79,7 @@ pub fn main_menu_button_system_united(
                 match action {
                     MainMenuButtonAction::Options => {
                         info!("Options button pressed");
-                        info!("Changing state to Options");
                         next_state.set(MainMenuStates::OnMainMenuOptionsScreen);
-                        info!("Current state is {:?}", current_state.get());
-                        info!("Current sub state is {:?}", current_sub_state.get());
                     }
                     MainMenuButtonAction::Quit => {
                         info!("Quit button pressed");

@@ -7,3 +7,4 @@ pub mod main_menu_button_system_united;
 pub mod rotate_cube;
 pub mod spawn_continue_block;
 pub mod spawn_main_menu_scene_with_cam;
+pub mod spawn_options_block;

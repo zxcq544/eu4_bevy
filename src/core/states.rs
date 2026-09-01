@@ -17,5 +17,6 @@ pub enum GameState {
 #[source(GameState = GameState::MainMenu)]
 pub enum MainMenuStates {
     #[default]
+    OptionsHidden,
     OnMainMenuOptionsScreen,
 }
