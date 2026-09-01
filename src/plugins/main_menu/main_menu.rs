@@ -3,6 +3,7 @@ use crate::{
     plugins::main_menu::{
         resources::exit_delay_timer::ExitDelayTimer,
         systems::{
+            despawn_options_block::despawn_options_block,
             free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
             handle_delayed_exit::handle_delayed_exit,
             main_menu_button_system_united::main_menu_button_system_united,
@@ -29,6 +30,10 @@ impl Plugin for MainMenuPlugin {
         app.add_systems(
             OnEnter(MainMenuStates::OnMainMenuOptionsScreen),
             spawn_options_block,
+        );
+        app.add_systems(
+            OnExit(MainMenuStates::OnMainMenuOptionsScreen),
+            despawn_options_block,
         );
         app.add_systems(
             OnExit(GameState::MainMenu),

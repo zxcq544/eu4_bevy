@@ -23,6 +23,7 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn main_menu_button_system_united(
     mut commands: Commands,
+    current_main_menu_state: Res<State<MainMenuStates>>,
     mut next_state: ResMut<NextState<MainMenuStates>>,
     mut input_focus: ResMut<InputFocus>,
     mut exit_timer: ResMut<ExitDelayTimer>,
@@ -79,7 +80,15 @@ pub fn main_menu_button_system_united(
                 match action {
                     MainMenuButtonAction::Options => {
                         info!("Options button pressed");
-                        next_state.set(MainMenuStates::OnMainMenuOptionsScreen);
+                        match current_main_menu_state.get() {
+                            MainMenuStates::OnMainMenuOptionsScreen => {
+                                next_state.set(MainMenuStates::OptionsHidden)
+                            }
+                            MainMenuStates::OptionsHidden => {
+                                next_state.set(MainMenuStates::OnMainMenuOptionsScreen)
+                            }
+                        }
+                        // next_state.set(MainMenuStates::OnMainMenuOptionsScreen);
                     }
                     MainMenuButtonAction::Quit => {
                         info!("Quit button pressed");
