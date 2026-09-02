@@ -1,16 +1,15 @@
 use crate::{
-    core::states::{GameState, MainMenuStates},
+    core::states::GameState,
     plugins::main_menu::{
         resources::exit_delay_timer::ExitDelayTimer,
         systems::{
-            despawn_options_block::despawn_options_block,
-            free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
-            handle_delayed_exit::handle_delayed_exit,
+            despawn_continue_block::despawn_continue_block,
+            despawn_main_menu_entity::despawn_main_menu_entity,
+            despawn_options_block::despawn_options_block, handle_delayed_exit::handle_delayed_exit,
             main_menu_button_system_united::main_menu_button_system_united,
             options_button_system::options_button_system, rotate_cube::rotate_cube_system,
             spawn_continue_block::spawn_continue_block,
-            spawn_main_menu_scene_with_cam::spawn_main_menu_scene_with_cam,
-            spawn_options_block::spawn_options_block,
+            spawn_main_menu_scene::spawn_main_menu_scene, spawn_options_block::spawn_options_block,
         },
     },
 };
@@ -26,20 +25,12 @@ impl Plugin for MainMenuPlugin {
         });
         app.add_systems(
             OnEnter(GameState::MainMenu),
-            (spawn_main_menu_scene_with_cam, spawn_continue_block),
+            (spawn_main_menu_scene, spawn_continue_block),
         );
-        app.add_systems(
-            OnEnter(MainMenuStates::OnMainMenuOptionsScreen),
-            spawn_options_block,
-        );
-        app.add_systems(
-            OnExit(MainMenuStates::OnMainMenuOptionsScreen),
-            despawn_options_block,
-        );
-        app.add_systems(
-            OnExit(GameState::MainMenu),
-            free_main_menu_entity_and_resources,
-        );
+        app.add_systems(OnEnter(GameState::Options), spawn_options_block);
+        app.add_systems(OnExit(GameState::Options), despawn_options_block);
+        app.add_systems(OnExit(GameState::MainMenu), despawn_main_menu_entity);
+        app.add_systems(OnExit(GameState::MainMenu), despawn_continue_block);
         // Main Menu Button Checkers
         app.add_systems(
             Update,
@@ -56,7 +47,7 @@ impl Plugin for MainMenuPlugin {
         // Options Button Checkers
         app.add_systems(
             Update,
-            (options_button_system).run_if(in_state(MainMenuStates::OnMainMenuOptionsScreen)),
+            (options_button_system).run_if(in_state(GameState::Options)),
         );
     }
 }

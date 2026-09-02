@@ -1,5 +1,5 @@
 use crate::{
-    core::states::MainMenuStates,
+    core::states::GameState,
     plugins::{
         main_menu::{
             components::main_menu_entity::{
@@ -23,8 +23,7 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn main_menu_button_system_united(
     mut commands: Commands,
-    current_main_menu_state: Res<State<MainMenuStates>>,
-    mut next_state: ResMut<NextState<MainMenuStates>>,
+    mut next_state: ResMut<NextState<GameState>>,
     mut input_focus: ResMut<InputFocus>,
     mut exit_timer: ResMut<ExitDelayTimer>,
     settings: Res<Settings>,
@@ -80,15 +79,7 @@ pub fn main_menu_button_system_united(
                 match action {
                     MainMenuButtonAction::Options => {
                         info!("Options button pressed");
-                        match current_main_menu_state.get() {
-                            MainMenuStates::OnMainMenuOptionsScreen => {
-                                next_state.set(MainMenuStates::OptionsHidden)
-                            }
-                            MainMenuStates::OptionsHidden => {
-                                next_state.set(MainMenuStates::OnMainMenuOptionsScreen)
-                            }
-                        }
-                        // next_state.set(MainMenuStates::OnMainMenuOptionsScreen);
+                        next_state.set(GameState::Options);
                     }
                     MainMenuButtonAction::Quit => {
                         info!("Quit button pressed");

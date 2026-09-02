@@ -1,13 +1,12 @@
 use crate::{
-    core::states::{GameState, MainMenuStates},
+    core::states::GameState,
     plugins::{
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
-        loading_assets::loading_assets::LoadingAssetsPlugin,
-        main_menu::main_menu::MainMenuPlugin,
+        loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
         map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
         music_player::music_player::MusicPlayerPlugin,
-        // sound_effects::sound_effects::SoundEffectsPlugin,
+        pre_main_menu_setup::pre_main_menu_setup::PreMainMenuSetupPlugin,
     },
 };
 use bevy::prelude::*;
@@ -23,8 +22,7 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         // 1. Register core state machine
-        app.init_state::<GameState>()
-            .add_sub_state::<MainMenuStates>();
+        app.init_state::<GameState>();
         // app.add_systems(Startup, global_setup);
 
         // 2. Add subsystem plugins. Each plugin is responsible
@@ -34,6 +32,7 @@ impl Plugin for GamePlugin {
             MonitorChooserPlugin,
             InitialBootStepPlugin,
             LoadingAssetsPlugin,
+            PreMainMenuSetupPlugin,
             MainMenuPlugin,
             // SoundEffectsPlugin,
             //     CameraPlugin,

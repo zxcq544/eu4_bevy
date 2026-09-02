@@ -1,5 +1,6 @@
+pub mod despawn_continue_block;
+pub mod despawn_main_menu_entity;
 pub mod despawn_options_block;
-pub mod free_main_menu_entity_and_resources;
 pub mod handle_delayed_exit;
 pub mod main_menu_button_actions;
 pub mod main_menu_button_hover;
@@ -8,5 +9,5 @@ pub mod main_menu_button_system_united;
 pub mod options_button_system;
 pub mod rotate_cube;
 pub mod spawn_continue_block;
-pub mod spawn_main_menu_scene_with_cam;
+pub mod spawn_main_menu_scene;
 pub mod spawn_options_block;

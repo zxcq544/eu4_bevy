@@ -28,7 +28,7 @@ pub fn whole_setup_step_for_main_loading(
         && timer.timer.just_finished()
     {
         info!("current state is {:?}", current_state.get());
-        info!("moving to main menu state");
-        next_state.set(GameState::MainMenu);
+        info!("moving to pre main menu setup state");
+        next_state.set(GameState::PreMainMenuSetup);
     }
 }

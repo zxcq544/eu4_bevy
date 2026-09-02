@@ -1,11 +1,7 @@
 use crate::{
-    core::states::MainMenuStates,
+    core::states::GameState,
     plugins::{
-        main_menu::components::{
-            continue_game_entity::ContinueGameEntity,
-            main_menu_entity::MainMenuEntity,
-            options_entity::{OptionsButton, OptionsButtonAction},
-        },
+        main_menu::components::options_entity::{OptionsButton, OptionsButtonAction},
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
 };
@@ -22,7 +18,7 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 pub fn options_button_system(
     mut commands: Commands,
-    mut next_state: ResMut<NextState<MainMenuStates>>,
+    mut next_state: ResMut<NextState<GameState>>,
     sound_effects: Res<ButtonClickSoundEffects>,
     settings: Res<Settings>,
     mut input_focus: ResMut<InputFocus>,
@@ -35,10 +31,6 @@ pub fn options_button_system(
             &OptionsButtonAction,
         ),
         Changed<Interaction>,
-    >,
-    mut query_to_unhide_main_menu_and_continue_blocks: Query<
-        &mut Visibility,
-        Or<(With<MainMenuEntity>, With<ContinueGameEntity>)>,
     >,
 ) {
     for (entity, interaction, mut button, mut image_node, action) in &mut interaction_query {
@@ -70,11 +62,7 @@ pub fn options_button_system(
                     }
                     OptionsButtonAction::Back => {
                         info!("Back button pressed");
-                        // unhide main menu block and continue game block
-                        for mut visibility in &mut query_to_unhide_main_menu_and_continue_blocks {
-                            *visibility = Visibility::Visible;
-                        }
-                        next_state.set(MainMenuStates::OptionsHidden);
+                        next_state.set(GameState::MainMenu);
                     }
                     OptionsButtonAction::NoAction => {
                         // info!("No action button pressed");
