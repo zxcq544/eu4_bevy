@@ -23,12 +23,6 @@ impl Plugin for LoadingAssetsPlugin {
             (
                 start_timer_for_main_loading_step,
                 set_main_loading_step_scene,
-            )
-                .chain(),
-        );
-        app.add_systems(
-            OnEnter(GameState::LoadingAssets),
-            (
                 load_images_for_main_menu,
                 load_all_game_sound_effects,
                 load_images_for_options,
