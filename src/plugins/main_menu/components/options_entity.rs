@@ -25,21 +25,22 @@ impl OptionsEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
+            ZIndex(10)
             BackgroundColor(Color::NONE)
             Children [
                 Node {
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,
-                    width: Val::Percent(50.0),
-                    height: Val::Percent(50.0),
+                    width: Val::Percent(70.0),
+                    height: Val::Vh(90.0),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     // bottom: Val::Px(3.0),
                 }
-                Outline {
-                    color: Color::srgb_from_array([0.4, 0.7, 0.5]),
-                    width: Val::Px(2.0),
-                }
+                // Outline {
+                //     color: Color::srgb_from_array([0.4, 0.7, 0.5]),
+                //     width: Val::Px(2.0),
+                // }
                 Children [
                     Node {
                         display: Display::Flex,
@@ -50,10 +51,10 @@ impl OptionsEntity {
                         align_items: AlignItems::Center,
                         // bottom: Val::Px(3.0),
                     }
-                    Outline {
-                        color: Color::srgb_from_array([0.4, 0.7, 0.5]),
-                        width: Val::Px(2.0),
-                    }
+                    // Outline {
+                    //     color: Color::srgb_from_array([0.4, 0.7, 0.5]),
+                    //     width: Val::Px(2.0),
+                    // }
                     ImageNode {
                         image: settings_bg_image,
                         image_mode: NodeImageMode::Stretch,
