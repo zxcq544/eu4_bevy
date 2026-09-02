@@ -1,7 +1,4 @@
-use crate::plugins::{
-    initial_boot_step::resources::locale_folder,
-    main_menu::resources::options_images::OptionsImages,
-};
+use crate::plugins::main_menu::resources::options_images::OptionsImages;
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
@@ -100,8 +97,8 @@ impl OptionsEntity {
                             Node {
                                 display: Display::Flex,
                                 flex_direction: FlexDirection::Row,
-                                width: Val::Percent(30.0),
-                                height: Val::Percent(5.0),
+                                width: Val::Percent(35.0),
+                                height: Val::Percent(8.0),
                                 justify_content: JustifyContent::SpaceBetween,
                                 align_items: AlignItems::Center,
                                 // bottom: Val::Px(3.0),
@@ -114,11 +111,15 @@ impl OptionsEntity {
                                 // Node for Apply button
                                 apply_button(
                                     &localization_res,
-                                    fonts.button_font.clone()),
+                                    fonts.button_font.clone(),
+                                    options_images.apply_and_back_button_image.clone(),
+                                ),
                                 // Node for Back button
                                 back_button(
                                     &localization_res,
-                                    fonts.button_font.clone()),
+                                    fonts.button_font.clone(),
+                                    options_images.apply_and_back_button_image.clone(),
+                                ),
                             ],
                         ]
                     ]
@@ -128,7 +129,11 @@ impl OptionsEntity {
     }
 }
 
-fn apply_button(localization_res: &Res<Localization>, font: Handle<Font>) -> impl Scene {
+fn apply_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    image: Handle<Image>,
+) -> impl Scene {
     let label = localization_res.content("apply").expect(&format!(
         "missing apply in localisation files {:?}",
         localization_res
@@ -147,20 +152,28 @@ fn apply_button(localization_res: &Res<Localization>, font: Handle<Font>) -> imp
             color: Color::srgb_from_array([0.7, 0.2, 0.5]),
             width: Val::Px(2.0),
         }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
         Children [
             Text::new(label)
             TextFont {
-                font_size: FontSize::Px(16.0),
+                font_size: FontSize::Px(14.0),
                 font: FontSourceTemplate::Handle(font),
             }
             TextLayout {
                 justify: Justify::Center,
-            }
+            }           
         ]
     }
 }
 
-fn back_button(localization_res: &Res<Localization>, font: Handle<Font>) -> impl Scene {
+fn back_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    image: Handle<Image>,
+) -> impl Scene {
     let label = localization_res.content("back").expect(&format!(
         "missing back in localisation files {:?}",
         localization_res
@@ -179,10 +192,14 @@ fn back_button(localization_res: &Res<Localization>, font: Handle<Font>) -> impl
             color: Color::srgb_from_array([0.2, 0.7, 0.2]),
             width: Val::Px(2.0),
         }
+        ImageNode {
+            image: image,
+            image_mode: NodeImageMode::Stretch,
+        }
         Children [
             Text::new(label)
             TextFont {
-                font_size: FontSize::Px(16.0),
+                font_size: FontSize::Px(14.0),
                 font: FontSourceTemplate::Handle(font),
             }
             TextLayout {
