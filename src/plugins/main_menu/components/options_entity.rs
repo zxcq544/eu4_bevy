@@ -4,6 +4,17 @@ use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
 
+#[derive(Component, Clone, Default, Reflect)]
+pub struct OptionsButton;
+
+#[derive(Component, Clone, Default)]
+pub enum OptionsButtonAction {
+    #[default]
+    NoAction,
+    Apply,
+    Back,
+}
+
 #[derive(Component, Clone, Default)]
 pub struct OptionsEntity;
 
@@ -113,12 +124,14 @@ impl OptionsEntity {
                                     &localization_res,
                                     fonts.button_font.clone(),
                                     options_images.apply_and_back_button_image.clone(),
+                                    OptionsButtonAction::Apply,
                                 ),
                                 // Node for Back button
                                 back_button(
                                     &localization_res,
                                     fonts.button_font.clone(),
                                     options_images.apply_and_back_button_image.clone(),
+                                    OptionsButtonAction::Back,
                                 ),
                             ],
                         ]
@@ -133,12 +146,16 @@ fn apply_button(
     localization_res: &Res<Localization>,
     font: Handle<Font>,
     image: Handle<Image>,
+    action_enum: OptionsButtonAction,
 ) -> impl Scene {
     let label = localization_res.content("apply").expect(&format!(
         "missing apply in localisation files {:?}",
         localization_res
     ));
     bsn! {
+        Button
+        OptionsButton
+        template_value(action_enum)
         Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Column,
@@ -164,7 +181,7 @@ fn apply_button(
             }
             TextLayout {
                 justify: Justify::Center,
-            }           
+            }
         ]
     }
 }
@@ -173,12 +190,16 @@ fn back_button(
     localization_res: &Res<Localization>,
     font: Handle<Font>,
     image: Handle<Image>,
+    action_enum: OptionsButtonAction,
 ) -> impl Scene {
     let label = localization_res.content("back").expect(&format!(
         "missing back in localisation files {:?}",
         localization_res
     ));
     bsn! {
+        Button
+        OptionsButton
+        template_value(action_enum)
         Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Column,

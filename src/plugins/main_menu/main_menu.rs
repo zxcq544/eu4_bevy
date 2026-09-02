@@ -7,7 +7,8 @@ use crate::{
             free_main_menu_entity_and_resources::free_main_menu_entity_and_resources,
             handle_delayed_exit::handle_delayed_exit,
             main_menu_button_system_united::main_menu_button_system_united,
-            rotate_cube::rotate_cube_system, spawn_continue_block::spawn_continue_block,
+            options_button_system::options_button_system, rotate_cube::rotate_cube_system,
+            spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene_with_cam::spawn_main_menu_scene_with_cam,
             spawn_options_block::spawn_options_block,
         },
@@ -39,7 +40,7 @@ impl Plugin for MainMenuPlugin {
             OnExit(GameState::MainMenu),
             free_main_menu_entity_and_resources,
         );
-        // Button checkers
+        // Main Menu Button Checkers
         app.add_systems(
             Update,
             (
@@ -51,6 +52,11 @@ impl Plugin for MainMenuPlugin {
                 rotate_cube_system,
             )
                 .run_if(in_state(GameState::MainMenu)),
+        );
+        // Options Button Checkers
+        app.add_systems(
+            Update,
+            (options_button_system).run_if(in_state(MainMenuStates::OnMainMenuOptionsScreen)),
         );
     }
 }
