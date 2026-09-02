@@ -1,6 +1,10 @@
-use crate::plugins::main_menu::resources::options_images::OptionsImages;
+use crate::plugins::{
+    initial_boot_step::resources::locale_folder,
+    main_menu::resources::options_images::OptionsImages,
+};
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
+use fluent_content::Content;
 use fonts::FontHandles;
 
 #[derive(Component, Clone, Default)]
@@ -96,21 +100,25 @@ impl OptionsEntity {
                             Node {
                                 display: Display::Flex,
                                 flex_direction: FlexDirection::Row,
-                                width: Val::Percent(20.0),
+                                width: Val::Percent(30.0),
                                 height: Val::Percent(5.0),
                                 justify_content: JustifyContent::SpaceBetween,
                                 align_items: AlignItems::Center,
                                 // bottom: Val::Px(3.0),
                             }
-                            // Outline {
-                            //     color: Color::srgb_from_array([0.4, 0.3, 0.8]),
-                            //     width: Val::Px(2.0),
-                            // }
+                            Outline {
+                                color: Color::srgb_from_array([0.4, 0.3, 0.8]),
+                                width: Val::Px(2.0),
+                            }
                             Children [
                                 // Node for Apply button
-                                apply_button(fonts.button_font.clone()),
+                                apply_button(
+                                    &localization_res,
+                                    fonts.button_font.clone()),
                                 // Node for Back button
-                                back_button(fonts.button_font.clone()),
+                                back_button(
+                                    &localization_res,
+                                    fonts.button_font.clone()),
                             ],
                         ]
                     ]
@@ -120,7 +128,11 @@ impl OptionsEntity {
     }
 }
 
-fn apply_button(font: Handle<Font>) -> impl Scene {
+fn apply_button(localization_res: &Res<Localization>, font: Handle<Font>) -> impl Scene {
+    let label = localization_res.content("apply").expect(&format!(
+        "missing apply in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         Node {
             display: Display::Flex,
@@ -131,14 +143,14 @@ fn apply_button(font: Handle<Font>) -> impl Scene {
             align_items: AlignItems::Center,
             // bottom: Val::Px(3.0),
         }
-        // Outline {
-        //     color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-        //     width: Val::Px(2.0),
-        // }
+        Outline {
+            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            width: Val::Px(2.0),
+        }
         Children [
-            Text::new("Apply")
+            Text::new(label)
             TextFont {
-                font_size: FontSize::Px(14.0),
+                font_size: FontSize::Px(16.0),
                 font: FontSourceTemplate::Handle(font),
             }
             TextLayout {
@@ -148,7 +160,11 @@ fn apply_button(font: Handle<Font>) -> impl Scene {
     }
 }
 
-fn back_button(font: Handle<Font>) -> impl Scene {
+fn back_button(localization_res: &Res<Localization>, font: Handle<Font>) -> impl Scene {
+    let label = localization_res.content("back").expect(&format!(
+        "missing back in localisation files {:?}",
+        localization_res
+    ));
     bsn! {
         Node {
             display: Display::Flex,
@@ -159,14 +175,14 @@ fn back_button(font: Handle<Font>) -> impl Scene {
             align_items: AlignItems::Center,
             // bottom: Val::Px(3.0),
         }
-        // Outline {
-        //     color: Color::srgb_from_array([0.2, 0.7, 0.2]),
-        //     width: Val::Px(2.0),
-        // }
+        Outline {
+            color: Color::srgb_from_array([0.2, 0.7, 0.2]),
+            width: Val::Px(2.0),
+        }
         Children [
-            Text::new("Back")
+            Text::new(label)
             TextFont {
-                font_size: FontSize::Px(14.0),
+                font_size: FontSize::Px(16.0),
                 font: FontSourceTemplate::Handle(font),
             }
             TextLayout {
