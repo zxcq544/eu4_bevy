@@ -1,3 +1,5 @@
+use std::{fs::File, path::Path};
+
 use crate::{
     core::states::GameState,
     plugins::{
@@ -20,7 +22,7 @@ pub fn options_button_system(
     mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
     sound_effects: Res<ButtonClickSoundEffects>,
-    settings: Res<Settings>,
+    mut settings: ResMut<Settings>,
     mut input_focus: ResMut<InputFocus>,
     mut interaction_query: Query<
         (
@@ -59,6 +61,8 @@ pub fn options_button_system(
                 match action {
                     OptionsButtonAction::Apply => {
                         info!("Apply button pressed");
+                        settings.initial_bootscreen_show_time = 2.0;
+                        save_settings_to_json(&settings);
                     }
                     OptionsButtonAction::Back => {
                         info!("Back button pressed");
@@ -80,5 +84,17 @@ pub fn options_button_system(
                 button.set_changed();
             }
         }
+    }
+}
+
+fn save_settings_to_json(settings: &Settings) {
+    let file_path = Path::new(&settings.file_name);
+    info!("Saving settings to {:?}", file_path);
+    if file_path.exists() {
+        let mut file = File::create(file_path)
+            .expect("file settings.json doesn't exist in root of game or blocked for write");
+        serde_json::to_writer_pretty(&mut file, &settings).expect("Unable to write to file");
+    } else {
+        info!("File settings.json doesn't exist in root of game or blocked for write");
     }
 }

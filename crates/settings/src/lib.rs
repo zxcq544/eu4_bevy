@@ -7,6 +7,7 @@ use volume_settings::VolumeSettings;
 #[derive(Deserialize, Serialize, Debug, Clone, Resource)]
 pub struct Settings {
     pub eu4_folder: String,
+    pub file_name: String,
     pub monitor_index: usize,
     pub volume_settings: VolumeSettings,
     pub resolution_width: u32,
@@ -36,6 +37,7 @@ pub fn get_eu4_settings() -> Settings {
         let settings_file = std::fs::File::create(settings_filename).unwrap();
         let default_settings = Settings {
             eu4_folder: steam_default_eu4_folder.to_string(),
+            file_name: "settings.json".to_string(),
             monitor_index: 0,
             volume_settings: VolumeSettings {
                 main_volume: 0.5,
