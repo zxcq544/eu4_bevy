@@ -37,7 +37,7 @@ impl OptionsEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
-            ZIndex(10)
+            ZIndex(1)
             BackgroundColor(Color::NONE)
             Children [
                 Node {
