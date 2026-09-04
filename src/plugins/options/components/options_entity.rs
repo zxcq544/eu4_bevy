@@ -1,4 +1,4 @@
-use crate::plugins::main_menu::resources::options_images::OptionsImages;
+use crate::plugins::options::resources::options_images::OptionsImages;
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
@@ -119,24 +119,38 @@ impl OptionsEntity {
                                     width: Val::Px(2.0),
                                 }
                                 Children [
-                                    // Node for Video button
+                                    // Video button
                                     video_button(
                                         &localization_res,
                                         fonts.button_font.clone()
                                     ),
-                                    // Node for Audio button
+                                    // Audio button
                                     audio_button( &localization_res,
                                         fonts.button_font.clone()
                                     ),
-                                    // Node for Game button
+                                    // Game button
                                     game_button( &localization_res,
                                         fonts.button_font.clone()
                                     ),
-                                    // Node for Controls button
+                                    // Controls button
                                     controls_button( &localization_res,
                                         fonts.button_font.clone()
                                     ),
-                                ]
+                                ],
+                                // Bottom block with settings
+                                Node {
+                                    display: Display::Flex,
+                                    flex_direction: FlexDirection::Column,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(90.0),
+                                    justify_content: JustifyContent::FlexStart,
+                                    align_items: AlignItems::Center,
+                                    // bottom: Val::Px(3.0),
+                                }
+                                Outline {
+                                    color: Color::srgb_from_array([0.9, 0.9, 0.5]),
+                                    width: Val::Px(2.0),
+                                },
                             ],
 
                             // Buttons block with Apply and Back

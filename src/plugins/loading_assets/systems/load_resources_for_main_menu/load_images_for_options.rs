@@ -1,4 +1,4 @@
-use crate::plugins::main_menu::resources::options_images::OptionsImages;
+use crate::plugins::options::resources::options_images::OptionsImages;
 use bevy::prelude::*;
 
 pub fn load_images_for_options(asset_server: Res<AssetServer>, mut commands: Commands) {

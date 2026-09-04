@@ -3,7 +3,7 @@ use std::{fs::File, path::Path};
 use crate::{
     core::states::GameState,
     plugins::{
-        main_menu::components::options_entity::{OptionsButton, OptionsButtonAction},
+        options::components::options_entity::{OptionsButton, OptionsButtonAction},
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
 };

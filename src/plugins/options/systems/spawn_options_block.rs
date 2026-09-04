@@ -1,4 +1,4 @@
-use crate::plugins::main_menu::{
+use crate::plugins::options::{
     components::options_entity::OptionsEntity, resources::options_images::OptionsImages,
 };
 use bevy::prelude::*;

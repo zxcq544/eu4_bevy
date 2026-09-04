@@ -4,5 +4,6 @@ pub mod main_menu;
 pub mod map;
 pub mod monitor_chooser_plugin;
 pub mod music_player;
+pub mod options;
 pub mod pre_main_menu_setup;
 pub mod sound_effects;

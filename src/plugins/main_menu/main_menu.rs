@@ -5,11 +5,10 @@ use crate::{
         systems::{
             despawn_continue_block::despawn_continue_block,
             despawn_main_menu_entity::despawn_main_menu_entity,
-            despawn_options_block::despawn_options_block, handle_delayed_exit::handle_delayed_exit,
+            handle_delayed_exit::handle_delayed_exit,
             main_menu_button_system_united::main_menu_button_system_united,
-            options_button_system::options_button_system, rotate_cube::rotate_cube_system,
-            spawn_continue_block::spawn_continue_block,
-            spawn_main_menu_scene::spawn_main_menu_scene, spawn_options_block::spawn_options_block,
+            rotate_cube::rotate_cube_system, spawn_continue_block::spawn_continue_block,
+            spawn_main_menu_scene::spawn_main_menu_scene,
         },
     },
 };
@@ -27,8 +26,6 @@ impl Plugin for MainMenuPlugin {
             OnEnter(GameState::MainMenu),
             (spawn_main_menu_scene, spawn_continue_block),
         );
-        app.add_systems(OnEnter(GameState::Options), spawn_options_block);
-        app.add_systems(OnExit(GameState::Options), despawn_options_block);
         app.add_systems(OnExit(GameState::MainMenu), despawn_main_menu_entity);
         app.add_systems(OnExit(GameState::MainMenu), despawn_continue_block);
         // Main Menu Button Checkers
@@ -43,11 +40,6 @@ impl Plugin for MainMenuPlugin {
                 rotate_cube_system,
             )
                 .run_if(in_state(GameState::MainMenu)),
-        );
-        // Options Button Checkers
-        app.add_systems(
-            Update,
-            (options_button_system).run_if(in_state(GameState::Options)),
         );
     }
 }

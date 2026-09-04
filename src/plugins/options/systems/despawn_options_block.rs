@@ -1,4 +1,4 @@
-use crate::plugins::main_menu::components::options_entity::OptionsEntity;
+use crate::plugins::options::components::options_entity::OptionsEntity;
 use bevy::prelude::*;
 
 pub fn despawn_options_block(mut commands: Commands, query: Query<Entity, With<OptionsEntity>>) {

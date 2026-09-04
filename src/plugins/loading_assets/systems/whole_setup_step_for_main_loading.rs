@@ -2,9 +2,8 @@ use crate::{
     core::states::GameState,
     plugins::{
         loading_assets::resources::timer_for_main_loading_step::TimerForMainLoadingStep,
-        main_menu::resources::{
-            main_menu_all_images::MainMenuAllImages, options_images::OptionsImages,
-        },
+        main_menu::resources::main_menu_all_images::MainMenuAllImages,
+        options::resources::options_images::OptionsImages,
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
 };

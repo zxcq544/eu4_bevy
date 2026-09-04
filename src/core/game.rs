@@ -5,7 +5,7 @@ use crate::{
         loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
         map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
-        music_player::music_player::MusicPlayerPlugin,
+        music_player::music_player::MusicPlayerPlugin, options::options::OptionsPlugin,
         pre_main_menu_setup::pre_main_menu_setup::PreMainMenuSetupPlugin,
     },
 };
@@ -34,6 +34,7 @@ impl Plugin for GamePlugin {
             LoadingAssetsPlugin,
             PreMainMenuSetupPlugin,
             MainMenuPlugin,
+            OptionsPlugin,
             // SoundEffectsPlugin,
             //     CameraPlugin,
             //     InputPlugin,
