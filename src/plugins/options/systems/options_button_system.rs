@@ -1,9 +1,7 @@
-use std::{fs::File, path::Path};
-
 use crate::{
     core::states::GameState,
     plugins::{
-        options::components::options_entity::{OptionsButton, OptionsButtonAction},
+        options::components::options_top_tabs_row_entity::{OptionsButton, OptionsButtonAction},
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
 };
@@ -13,6 +11,7 @@ use bevy::{
     prelude::*,
 };
 use settings::Settings;
+use std::{fs::File, path::Path};
 
 pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
 pub const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
