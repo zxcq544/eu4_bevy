@@ -40,6 +40,7 @@ impl OptionsEntity {
             ZIndex(1)
             BackgroundColor(Color::NONE)
             Children [
+                // Options Background image node
                 Node {
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,
@@ -53,112 +54,49 @@ impl OptionsEntity {
                     color: Color::srgb_from_array([0.4, 0.7, 0.5]),
                     width: Val::Px(2.0),
                 }
+                ImageNode {
+                    image: settings_bg_image,
+                    image_mode: NodeImageMode::Stretch,
+                }
                 Children [
+                    // Main smaller block with all controls
                     Node {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Column,
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
+                        width: Val::Percent(70.0),
+                        height: Val::Percent(55.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        top: Val::Percent(5.0),
                         // bottom: Val::Px(3.0),
                     }
-                    // Outline {
-                    //     color: Color::srgb_from_array([0.4, 0.7, 0.5]),
-                    //     width: Val::Px(2.0),
-                    // }
-                    ImageNode {
-                        image: settings_bg_image,
-                        image_mode: NodeImageMode::Stretch,
+                    Outline {
+                        color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                        width: Val::Px(2.0),
                     }
+                    // Two blocks. One with all controls, second with two buttons: Apply and Back
                     Children [
-                        // Main smaller block with all controls
+                        // Main settings block with all controls
                         Node {
                             display: Display::Flex,
                             flex_direction: FlexDirection::Column,
-                            width: Val::Percent(70.0),
-                            height: Val::Percent(55.0),
-                            justify_content: JustifyContent::Center,
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(95.0),
+                            justify_content: JustifyContent::FlexStart,
                             align_items: AlignItems::Center,
-                            top: Val::Percent(5.0),
                             // bottom: Val::Px(3.0),
                         }
                         Outline {
-                            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                            color: Color::srgb_from_array([0.4, 0.9, 0.5]),
                             width: Val::Px(2.0),
                         }
-                        // Two blocks. One with all controls, second with two buttons: Apply and Back
                         Children [
-                            // Main settings block with all controls
-                            Node {
-                                display: Display::Flex,
-                                flex_direction: FlexDirection::Column,
-                                width: Val::Percent(100.0),
-                                height: Val::Percent(95.0),
-                                justify_content: JustifyContent::FlexStart,
-                                align_items: AlignItems::Center,
-                                // bottom: Val::Px(3.0),
-                            }
-                            Outline {
-                                color: Color::srgb_from_array([0.4, 0.9, 0.5]),
-                                width: Val::Px(2.0),
-                            }
-                            Children [
-                                // Top block with buttons Video, Audio, Game, Controls, etc.
-                                Node {
-                                    display: Display::Flex,
-                                    flex_direction: FlexDirection::Row,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(10.0),
-                                    justify_content: JustifyContent::SpaceBetween,
-                                    align_items: AlignItems::Center,
-                                    // bottom: Val::Px(3.0),
-                                }
-                                Outline {
-                                    color: Color::srgb_from_array([0.4, 0.3, 0.8]),
-                                    width: Val::Px(2.0),
-                                }
-                                Children [
-                                    // Video button
-                                    video_button(
-                                        &localization_res,
-                                        fonts.button_font.clone()
-                                    ),
-                                    // Audio button
-                                    audio_button( &localization_res,
-                                        fonts.button_font.clone()
-                                    ),
-                                    // Game button
-                                    game_button( &localization_res,
-                                        fonts.button_font.clone()
-                                    ),
-                                    // Controls button
-                                    controls_button( &localization_res,
-                                        fonts.button_font.clone()
-                                    ),
-                                ],
-                                // Bottom block with settings
-                                Node {
-                                    display: Display::Flex,
-                                    flex_direction: FlexDirection::Column,
-                                    width: Val::Percent(100.0),
-                                    height: Val::Percent(90.0),
-                                    justify_content: JustifyContent::FlexStart,
-                                    align_items: AlignItems::Center,
-                                    // bottom: Val::Px(3.0),
-                                }
-                                Outline {
-                                    color: Color::srgb_from_array([0.9, 0.9, 0.5]),
-                                    width: Val::Px(2.0),
-                                },
-                            ],
-
-                            // Buttons block with Apply and Back
+                            // Top block with buttons Video, Audio, Game, Controls, etc.
                             Node {
                                 display: Display::Flex,
                                 flex_direction: FlexDirection::Row,
-                                width: Val::Percent(35.0),
-                                height: Val::Percent(8.0),
+                                width: Val::Percent(100.0),
+                                height: Val::Percent(10.0),
                                 justify_content: JustifyContent::SpaceBetween,
                                 align_items: AlignItems::Center,
                                 // bottom: Val::Px(3.0),
@@ -168,22 +106,70 @@ impl OptionsEntity {
                                 width: Val::Px(2.0),
                             }
                             Children [
-                                // Node for Apply button
-                                apply_button(
+                                // Video button
+                                video_button(
                                     &localization_res,
-                                    fonts.button_font.clone(),
-                                    options_images.apply_and_back_button_image.clone(),
-                                    OptionsButtonAction::Apply,
+                                    fonts.button_font.clone()
                                 ),
-                                // Node for Back button
-                                back_button(
-                                    &localization_res,
-                                    fonts.button_font.clone(),
-                                    options_images.apply_and_back_button_image.clone(),
-                                    OptionsButtonAction::Back,
+                                // Audio button
+                                audio_button( &localization_res,
+                                    fonts.button_font.clone()
+                                ),
+                                // Game button
+                                game_button( &localization_res,
+                                    fonts.button_font.clone()
+                                ),
+                                // Controls button
+                                controls_button( &localization_res,
+                                    fonts.button_font.clone()
                                 ),
                             ],
-                        ]
+                            // Bottom block with settings
+                            Node {
+                                display: Display::Flex,
+                                flex_direction: FlexDirection::Column,
+                                width: Val::Percent(100.0),
+                                height: Val::Percent(90.0),
+                                justify_content: JustifyContent::FlexStart,
+                                align_items: AlignItems::Center,
+                                // bottom: Val::Px(3.0),
+                            }
+                            Outline {
+                                color: Color::srgb_from_array([0.9, 0.9, 0.5]),
+                                width: Val::Px(2.0),
+                            },
+                        ],
+
+                        // Buttons block with Apply and Back
+                        Node {
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Row,
+                            width: Val::Percent(35.0),
+                            height: Val::Percent(8.0),
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::Center,
+                            // bottom: Val::Px(3.0),
+                        }
+                        Outline {
+                            color: Color::srgb_from_array([0.4, 0.3, 0.8]),
+                            width: Val::Px(2.0),
+                        }
+                        Children [
+                            // Node for Apply button
+                            apply_button(
+                                &localization_res,
+                                fonts.button_font.clone(),
+                                options_images.apply_and_back_button_image.clone(),
+                                OptionsButtonAction::Apply,
+                            ),
+                            // Node for Back button
+                            back_button(
+                                &localization_res,
+                                fonts.button_font.clone(),
+                                options_images.apply_and_back_button_image.clone(),
+                                OptionsButtonAction::Back,
+                            ),
+                        ],
                     ]
                 ]
             ]
