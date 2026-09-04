@@ -87,23 +87,58 @@ impl OptionsEntity {
                             color: Color::srgb_from_array([0.7, 0.2, 0.5]),
                             width: Val::Px(2.0),
                         }
-
                         // Two blocks. One with all controls, second with two buttons: Apply and Back
                         Children [
                             // Main settings block with all controls
                             Node {
                                 display: Display::Flex,
-                                flex_direction: FlexDirection::Row,
+                                flex_direction: FlexDirection::Column,
                                 width: Val::Percent(100.0),
                                 height: Val::Percent(95.0),
-                                justify_content: JustifyContent::Center,
+                                justify_content: JustifyContent::FlexStart,
                                 align_items: AlignItems::Center,
                                 // bottom: Val::Px(3.0),
-                            },
-                            // Outline {
-                            //     color: Color::srgb_from_array([0.4, 0.9, 0.5]),
-                            //     width: Val::Px(2.0),
-                            // },
+                            }
+                            Outline {
+                                color: Color::srgb_from_array([0.4, 0.9, 0.5]),
+                                width: Val::Px(2.0),
+                            }
+                            Children [
+                                // Top block with buttons Video, Audio, Game, Controls, etc.
+                                Node {
+                                    display: Display::Flex,
+                                    flex_direction: FlexDirection::Row,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(10.0),
+                                    justify_content: JustifyContent::SpaceBetween,
+                                    align_items: AlignItems::Center,
+                                    // bottom: Val::Px(3.0),
+                                }
+                                Outline {
+                                    color: Color::srgb_from_array([0.4, 0.3, 0.8]),
+                                    width: Val::Px(2.0),
+                                }
+                                Children [
+                                    // Node for Video button
+                                    video_button(
+                                        &localization_res,
+                                        fonts.button_font.clone()
+                                    ),
+                                    // Node for Audio button
+                                    audio_button( &localization_res,
+                                        fonts.button_font.clone()
+                                    ),
+                                    // Node for Game button
+                                    game_button( &localization_res,
+                                        fonts.button_font.clone()
+                                    ),
+                                    // Node for Controls button
+                                    controls_button( &localization_res,
+                                        fonts.button_font.clone()
+                                    ),
+                                ]
+                            ],
+
                             // Buttons block with Apply and Back
                             Node {
                                 display: Display::Flex,
@@ -217,6 +252,170 @@ fn back_button(
             image: image,
             image_mode: NodeImageMode::Stretch,
         }
+        Children [
+            Text::new(label)
+            TextFont {
+                font_size: FontSize::Px(14.0),
+                font: FontSourceTemplate::Handle(font),
+            }
+            TextLayout {
+                justify: Justify::Center,
+            }
+        ]
+    }
+}
+
+fn video_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    // image: Handle<Image>,
+    // action_enum: OptionsButtonAction,
+) -> impl Scene {
+    let label = localization_res.content("video").expect(&format!(
+        "missing video in localisation files {:?}",
+        localization_res
+    ));
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(20.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            // bottom: Val::Px(3.0),
+        }
+        Outline {
+            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            width: Val::Px(2.0),
+        }
+        // ImageNode {
+        //     image: image,
+        //     image_mode: NodeImageMode::Stretch,
+        // }
+        Children [
+            Text::new(label)
+            TextFont {
+                font_size: FontSize::Px(14.0),
+                font: FontSourceTemplate::Handle(font),
+            }
+            TextLayout {
+                justify: Justify::Center,
+            }
+        ]
+    }
+}
+
+fn audio_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    // image: Handle<Image>,
+    // action_enum: OptionsButtonAction,
+) -> impl Scene {
+    let label = localization_res.content("audio").expect(&format!(
+        "missing audio in localisation files {:?}",
+        localization_res
+    ));
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(20.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            // bottom: Val::Px(3.0),
+        }
+        Outline {
+            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            width: Val::Px(2.0),
+        }
+        // ImageNode {
+        //     image: image,
+        //     image_mode: NodeImageMode::Stretch,
+        // }
+        Children [
+            Text::new(label)
+            TextFont {
+                font_size: FontSize::Px(14.0),
+                font: FontSourceTemplate::Handle(font),
+            }
+            TextLayout {
+                justify: Justify::Center,
+            }
+        ]
+    }
+}
+
+fn game_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    // image: Handle<Image>,
+    // action_enum: OptionsButtonAction,
+) -> impl Scene {
+    let label = localization_res.content("game").expect(&format!(
+        "missing game in localisation files {:?}",
+        localization_res
+    ));
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(20.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            // bottom: Val::Px(3.0),
+        }
+        Outline {
+            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            width: Val::Px(2.0),
+        }
+        // ImageNode {
+        //     image: image,
+        //     image_mode: NodeImageMode::Stretch,
+        // }
+        Children [
+            Text::new(label)
+            TextFont {
+                font_size: FontSize::Px(14.0),
+                font: FontSourceTemplate::Handle(font),
+            }
+            TextLayout {
+                justify: Justify::Center,
+            }
+        ]
+    }
+}
+
+fn controls_button(
+    localization_res: &Res<Localization>,
+    font: Handle<Font>,
+    // image: Handle<Image>,
+    // action_enum: OptionsButtonAction,
+) -> impl Scene {
+    let label = localization_res.content("controls").expect(&format!(
+        "missing controls in localisation files {:?}",
+        localization_res
+    ));
+    bsn! {
+        Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            width: Val::Percent(20.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            // bottom: Val::Px(3.0),
+        }
+        Outline {
+            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            width: Val::Px(2.0),
+        }
+        // ImageNode {
+        //     image: image,
+        //     image_mode: NodeImageMode::Stretch,
+        // }
         Children [
             Text::new(label)
             TextFont {
