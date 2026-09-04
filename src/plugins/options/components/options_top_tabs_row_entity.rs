@@ -38,7 +38,7 @@ impl OptionsTopTabsRowEntity {
             ZIndex(2)
             BackgroundColor(Color::NONE)
             Children [
-                // Options Background image node
+                // Options block with all controls
                 Node {
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,

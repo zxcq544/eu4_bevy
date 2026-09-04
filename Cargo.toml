@@ -13,7 +13,7 @@ dynamic = ["bevy/dynamic_linking"]
 debug = ["bevy/debug"]
 
 [dependencies]
-bevy = { version = "0.19.1", features = ["dds","wav"] }
+bevy = { version = "0.19.1", features = ["dds","wav","bevy_dev_tools"] }
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
