@@ -16,16 +16,16 @@ pub enum OptionsButtonAction {
 }
 
 #[derive(Component, Clone, Default)]
-pub struct OptionsTopTabsRowEntity;
+pub struct OptionsButtonsTopAndBottomRows;
 
-impl OptionsTopTabsRowEntity {
+impl OptionsButtonsTopAndBottomRows {
     pub fn as_scene_list(
         localization_res: &Res<Localization>,
         fonts: &Res<FontHandles>,
         options_images: &Res<OptionsImages>,
     ) -> impl SceneList {
         bsn_list! {
-            OptionsTopTabsRowEntity
+            OptionsButtonsTopAndBottomRows
             Node {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
@@ -35,6 +35,7 @@ impl OptionsTopTabsRowEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
+            Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
             ZIndex(2)
             BackgroundColor(Color::NONE)
             Children [

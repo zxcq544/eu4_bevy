@@ -1,5 +1,5 @@
 use crate::plugins::options::{
-    components::options_top_tabs_row_entity::OptionsTopTabsRowEntity,
+    components::options_top_tabs_row_entity::OptionsButtonsTopAndBottomRows,
     resources::options_images::OptionsImages,
 };
 use bevy::prelude::*;
@@ -13,7 +13,7 @@ pub fn spawn_options_top_and_bottom_buttons(
     options_images: Res<OptionsImages>,
 ) {
     info!("Spawning options top and bottom buttons");
-    commands.spawn_scene_list(OptionsTopTabsRowEntity::as_scene_list(
+    commands.spawn_scene_list(OptionsButtonsTopAndBottomRows::as_scene_list(
         &localization_res,
         &fonts,
         &options_images,

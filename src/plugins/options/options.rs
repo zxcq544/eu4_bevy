@@ -1,10 +1,11 @@
 use crate::{
     core::states::GameState,
     plugins::options::systems::{
-        despawn_options_block::despawn_options_block,
-        despawn_options_top_and_bottom_buttons::despawn_options_top_and_bottom_buttons,
-        options_button_system::options_button_system, spawn_options_block::spawn_options_block,
-        spawn_options_top_and_bottom_buttons::spawn_options_top_and_bottom_buttons,
+        hide_options_block::hide_options_block,
+        hide_options_block_top_and_bottom_buttons::hide_options_block_top_and_bottom_buttons,
+        options_button_system::options_button_system,
+        set_visible_options_block::set_visible_options_block,
+        set_visible_options_buttons_top_and_buttom_rows::set_visible_options_block_top_and_bottom_buttons,
     },
 };
 use bevy::prelude::*;
@@ -15,13 +16,17 @@ impl Plugin for OptionsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::Options),
-            (spawn_options_block, spawn_options_top_and_bottom_buttons),
+            (
+                set_visible_options_block,
+                set_visible_options_block_top_and_bottom_buttons,
+            ),
         );
+        // We don't despawn ingame ui elements here because we want to keep them in memory
         app.add_systems(
             OnExit(GameState::Options),
             (
-                despawn_options_block,
-                despawn_options_top_and_bottom_buttons,
+                hide_options_block,
+                hide_options_block_top_and_bottom_buttons,
             ),
         );
 

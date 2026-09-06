@@ -19,6 +19,7 @@ impl OptionsEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
+            Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
             ZIndex(1)
             BackgroundColor(Color::NONE)
             Children [

@@ -1,5 +1,9 @@
 pub mod despawn_options_block;
 pub mod despawn_options_top_and_bottom_buttons;
+pub mod hide_options_block;
+pub mod hide_options_block_top_and_bottom_buttons;
 pub mod options_button_system;
+pub mod set_visible_options_block;
+pub mod set_visible_options_buttons_top_and_buttom_rows;
 pub mod spawn_options_block;
 pub mod spawn_options_top_and_bottom_buttons;
