@@ -6,6 +6,7 @@ use crate::{
         options_button_system::options_button_system,
         set_visible_options_block::set_visible_options_block,
         set_visible_options_buttons_top_and_buttom_rows::set_visible_options_block_top_and_bottom_buttons,
+        spawn_options_video_tab::spawn_options_video_tab,
     },
 };
 use bevy::prelude::*;
@@ -19,6 +20,7 @@ impl Plugin for OptionsPlugin {
             (
                 set_visible_options_block,
                 set_visible_options_block_top_and_bottom_buttons,
+                spawn_options_video_tab,
             ),
         );
         // We don't despawn ingame ui elements here because we want to keep them in memory

@@ -1,2 +1,3 @@
 pub mod options_background_entity;
 pub mod options_top_tabs_row_entity;
+pub mod options_video_tab_entity;

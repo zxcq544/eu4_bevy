@@ -7,3 +7,4 @@ pub mod set_visible_options_block;
 pub mod set_visible_options_buttons_top_and_buttom_rows;
 pub mod spawn_options_block;
 pub mod spawn_options_top_and_bottom_buttons;
+pub mod spawn_options_video_tab;
