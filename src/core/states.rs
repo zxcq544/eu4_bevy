@@ -14,3 +14,13 @@ pub enum GameState {
     Paused,
     GameOver,
 }
+
+#[derive(SubStates, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+#[source(GameState = GameState::Options)]
+pub enum OptionsTab {
+    #[default]
+    Video,
+    Audio,
+    Game,
+    Controls,
+}

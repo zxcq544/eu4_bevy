@@ -15,6 +15,7 @@ use crate::{
         options::systems::{
             spawn_options_block::spawn_options_block,
             spawn_options_top_and_bottom_buttons::spawn_options_top_and_bottom_buttons,
+            spawn_options_video_tab::spawn_options_video_tab,
         },
     },
 };
@@ -36,6 +37,7 @@ impl Plugin for MainMenuPlugin {
                 // Spawn options block here as hidden so we don't spawn despawn often
                 spawn_options_block,
                 spawn_options_top_and_bottom_buttons,
+                spawn_options_video_tab,
             ),
         );
         app.add_systems(OnExit(GameState::MainMenu), despawn_main_menu_entity);

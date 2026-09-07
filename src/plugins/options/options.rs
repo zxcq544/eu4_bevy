@@ -1,12 +1,13 @@
 use crate::{
-    core::states::GameState,
+    core::states::{GameState, OptionsTab},
     plugins::options::systems::{
         hide_options_block::hide_options_block,
         hide_options_block_top_and_bottom_buttons::hide_options_block_top_and_bottom_buttons,
+        hide_options_video_tab::hide_options_video_tab,
         options_button_system::options_button_system,
         set_visible_options_block::set_visible_options_block,
         set_visible_options_buttons_top_and_buttom_rows::set_visible_options_block_top_and_bottom_buttons,
-        spawn_options_video_tab::spawn_options_video_tab,
+        set_visible_options_video_tab::set_visible_options_video_tab,
     },
 };
 use bevy::prelude::*;
@@ -20,7 +21,7 @@ impl Plugin for OptionsPlugin {
             (
                 set_visible_options_block,
                 set_visible_options_block_top_and_bottom_buttons,
-                spawn_options_video_tab,
+                set_visible_options_video_tab, // move this when video tab active
             ),
         );
         // We don't despawn ingame ui elements here because we want to keep them in memory
@@ -31,6 +32,7 @@ impl Plugin for OptionsPlugin {
                 hide_options_block_top_and_bottom_buttons,
             ),
         );
+        app.add_systems(OnExit(OptionsTab::Video), hide_options_video_tab);
 
         // Options Button Checkers
         app.add_systems(
