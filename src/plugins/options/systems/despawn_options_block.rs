@@ -1,7 +1,10 @@
-use crate::plugins::options::components::options_entity::OptionsEntity;
+use crate::plugins::options::components::options_background_entity::OptionsBackgroundEntity;
 use bevy::prelude::*;
 
-pub fn despawn_options_block(mut commands: Commands, query: Query<Entity, With<OptionsEntity>>) {
+pub fn despawn_options_block(
+    mut commands: Commands,
+    query: Query<Entity, With<OptionsBackgroundEntity>>,
+) {
     info!("Despawning options block");
     for entity in query.iter() {
         commands.entity(entity).despawn();
