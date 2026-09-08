@@ -7,7 +7,7 @@ use bevy_fluent::Localization;
 use fonts::FontHandles;
 
 pub fn spawn_options_top_and_bottom_buttons(
-    mut commands: Commands,
+    commands: Commands,
     fonts: Res<FontHandles>,
     localization_res: Res<Localization>,
     options_images: Res<OptionsImages>,

@@ -1,5 +1,5 @@
 use crate::plugins::options::resources::options_images::OptionsImages;
-use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*, text::FontSourceTemplate};
+use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
