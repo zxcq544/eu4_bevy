@@ -19,158 +19,6 @@ pub enum OptionsButtonAction {
 pub struct OptionsButtonsTopAndBottomRows;
 
 impl OptionsButtonsTopAndBottomRows {
-    // pub fn as_scene_list(
-    //     localization_res: &Res<Localization>,
-    //     fonts: &Res<FontHandles>,
-    //     options_images: &Res<OptionsImages>,
-    // ) -> impl SceneList {
-    //     bsn_list! {
-    //         OptionsButtonsTopAndBottomRows
-    //         Node {
-    //             width: Val::Percent(100.0),
-    //             height: Val::Percent(100.0),
-    //             position_type: PositionType::Absolute,
-    //             justify_content: JustifyContent::Center,
-    //             align_items: AlignItems::Center,
-    //             // background_color: Color::TRANSPARENT,
-    //             // overflow: Overflow::hidden(),
-    //         }
-    //         Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
-    //         ZIndex(2)
-    //         BackgroundColor(Color::NONE)
-    //         Children [
-    //             // Options block with all controls
-    //             Node {
-    //                 display: Display::Flex,
-    //                 flex_direction: FlexDirection::Column,
-    //                 width: Val::Percent(70.0),
-    //                 height: Val::Vh(90.0),
-    //                 justify_content: JustifyContent::Center,
-    //                 align_items: AlignItems::Center,
-    //                 // bottom: Val::Px(3.0),
-    //             }
-    //             Outline {
-    //                 color: Color::srgb_from_array([0.4, 0.7, 0.5]),
-    //                 width: Val::Px(2.0),
-    //             }
-    //             Children [
-    //                 // Main smaller block with all controls
-    //                 Node {
-    //                     display: Display::Flex,
-    //                     flex_direction: FlexDirection::Column,
-    //                     width: Val::Percent(70.0),
-    //                     height: Val::Percent(55.0),
-    //                     justify_content: JustifyContent::Center,
-    //                     align_items: AlignItems::Center,
-    //                     top: Val::Percent(5.0),
-    //                     // bottom: Val::Px(3.0),
-    //                 }
-    //                 Outline {
-    //                     color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-    //                     width: Val::Px(2.0),
-    //                 }
-    //                 // Two blocks. One with all controls, second with two buttons: Apply and Back
-    //                 Children [
-    //                     // Main settings block with all controls
-    //                     Node {
-    //                         display: Display::Flex,
-    //                         flex_direction: FlexDirection::Column,
-    //                         width: Val::Percent(100.0),
-    //                         height: Val::Percent(95.0),
-    //                         justify_content: JustifyContent::FlexStart,
-    //                         align_items: AlignItems::Center,
-    //                         // bottom: Val::Px(3.0),
-    //                     }
-    //                     Outline {
-    //                         color: Color::srgb_from_array([0.4, 0.9, 0.5]),
-    //                         width: Val::Px(2.0),
-    //                     }
-    //                     Children [
-    //                         // Top block with buttons Video, Audio, Game, Controls, etc.
-    //                         Node {
-    //                             display: Display::Flex,
-    //                             flex_direction: FlexDirection::Row,
-    //                             width: Val::Percent(100.0),
-    //                             height: Val::Percent(10.0),
-    //                             justify_content: JustifyContent::SpaceBetween,
-    //                             align_items: AlignItems::Center,
-    //                             // bottom: Val::Px(3.0),
-    //                         }
-    //                         Outline {
-    //                             color: Color::srgb_from_array([0.4, 0.3, 0.8]),
-    //                             width: Val::Px(2.0),
-    //                         }
-    //                         Children [
-    //                             // Video button
-    //                             video_button(
-    //                                 &localization_res,
-    //                                 fonts.button_font.clone()
-    //                             ),
-    //                             // Audio button
-    //                             audio_button( &localization_res,
-    //                                 fonts.button_font.clone()
-    //                             ),
-    //                             // Game button
-    //                             game_button( &localization_res,
-    //                                 fonts.button_font.clone()
-    //                             ),
-    //                             // Controls button
-    //                             controls_button( &localization_res,
-    //                                 fonts.button_font.clone()
-    //                             ),
-    //                         ],
-    //                         // Bottom block with settings
-    //                         Node {
-    //                             display: Display::Flex,
-    //                             flex_direction: FlexDirection::Column,
-    //                             width: Val::Percent(100.0),
-    //                             height: Val::Percent(90.0),
-    //                             justify_content: JustifyContent::FlexStart,
-    //                             align_items: AlignItems::Center,
-    //                             // bottom: Val::Px(3.0),
-    //                         }
-    //                         Outline {
-    //                             color: Color::srgb_from_array([0.9, 0.9, 0.5]),
-    //                             width: Val::Px(2.0),
-    //                         },
-    //                     ],
-
-    //                     // Buttons block with Apply and Back
-    //                     Node {
-    //                         display: Display::Flex,
-    //                         flex_direction: FlexDirection::Row,
-    //                         width: Val::Percent(35.0),
-    //                         height: Val::Percent(8.0),
-    //                         justify_content: JustifyContent::SpaceBetween,
-    //                         align_items: AlignItems::Center,
-    //                         // bottom: Val::Px(3.0),
-    //                     }
-    //                     Outline {
-    //                         color: Color::srgb_from_array([0.4, 0.3, 0.8]),
-    //                         width: Val::Px(2.0),
-    //                     }
-    //                     Children [
-    //                         // Node for Apply button
-    //                         apply_button(
-    //                             &localization_res,
-    //                             fonts.button_font.clone(),
-    //                             options_images.apply_and_back_button_image.clone(),
-    //                             OptionsButtonAction::Apply,
-    //                         ),
-    //                         // Node for Back button
-    //                         back_button(
-    //                             &localization_res,
-    //                             fonts.button_font.clone(),
-    //                             options_images.apply_and_back_button_image.clone(),
-    //                             OptionsButtonAction::Back,
-    //                         ),
-    //                     ],
-    //                 ]
-    //             ]
-    //         ]
-    //     }
-    // }
-
     pub fn spawn_using_commands(
         mut commands: Commands,
         localization_res: &Res<Localization>,
@@ -275,29 +123,30 @@ impl OptionsButtonsTopAndBottomRows {
                                             ))
                                             .with_children(
                                                 |top_block_with_video_audio_and_other_buttons| {
-                                                    top_block_with_video_audio_and_other_buttons
-                                                        .spawn((
-                                                            // Video button
-                                                            // video_button(
-                                                            //     &localization_res,
-                                                            //     fonts.button_font.clone(),
-                                                            // ),
-                                                            // Audio button
-                                                            // audio_button(
-                                                            //     &localization_res,
-                                                            //     fonts.button_font.clone(),
-                                                            // ),
-                                                            // Game button
-                                                            // game_button(
-                                                            //     &localization_res,
-                                                            //     fonts.button_font.clone(),
-                                                            // ),
-                                                            // Controls button
-                                                            // controls_button(
-                                                            //     &localization_res,
-                                                            //     fonts.button_font.clone(),
-                                                            // ),
-                                                        ));
+                                                    // Video button
+                                                    video_button(
+                                                        top_block_with_video_audio_and_other_buttons,
+                                                        &localization_res,
+                                                        fonts.button_font.clone(),
+                                                    );                                                   
+                                                    // Audio button
+                                                    audio_button(
+                                                        top_block_with_video_audio_and_other_buttons,
+                                                        &localization_res,
+                                                        fonts.button_font.clone(),
+                                                    );                                                   
+                                                    // Game button
+                                                    game_button(
+                                                        top_block_with_video_audio_and_other_buttons,
+                                                        &localization_res,
+                                                        fonts.button_font.clone(),
+                                                    );                                                    
+                                                    // Controls button
+                                                    controls_button(
+                                                        top_block_with_video_audio_and_other_buttons,
+                                                        &localization_res,
+                                                        fonts.button_font.clone(),
+                                                    );                                                    
                                                 },
                                             );
                                         main_settings_block_with_all_controls.spawn((
@@ -339,7 +188,7 @@ impl OptionsButtonsTopAndBottomRows {
                                             ))
                                             .with_children(|bottom_buttons_block| {
                                                 // Node for Apply button
-                                                apply_button_using_commands(
+                                                apply_button(
                                                     bottom_buttons_block,
                                                     &localization_res,
                                                     fonts.button_font.clone(),
@@ -349,7 +198,7 @@ impl OptionsButtonsTopAndBottomRows {
                                                     OptionsButtonAction::Apply,
                                                 );
                                                 // Node for Back button
-                                                back_button_using_commands(
+                                                back_button(
                                                     bottom_buttons_block,
                                                     &localization_res,
                                                     fonts.button_font.clone(),
@@ -375,50 +224,6 @@ impl OptionsButtonsTopAndBottomRows {
 }
 
 fn apply_button(
-    localization_res: &Res<Localization>,
-    font: Handle<Font>,
-    image: Handle<Image>,
-    action_enum: OptionsButtonAction,
-) -> impl Scene {
-    let label = localization_res.content("apply").expect(&format!(
-        "missing apply in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        Button
-        OptionsButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(40.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-            width: Val::Px(2.0),
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
-}
-
-fn apply_button_using_commands(
     bottom_buttons_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
@@ -470,51 +275,8 @@ fn apply_button_using_commands(
             ));
         });
 }
-fn back_button(
-    localization_res: &Res<Localization>,
-    font: Handle<Font>,
-    image: Handle<Image>,
-    action_enum: OptionsButtonAction,
-) -> impl Scene {
-    let label = localization_res.content("back").expect(&format!(
-        "missing back in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        Button
-        OptionsButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(40.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.2, 0.7, 0.2]),
-            width: Val::Px(2.0),
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
-}
 
-fn back_button_using_commands(
+fn back_button(
     bottom_buttons_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
@@ -568,165 +330,173 @@ fn back_button_using_commands(
 }
 
 fn video_button(
+    top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
-    // image: Handle<Image>,
-    // action_enum: OptionsButtonAction,
-) -> impl Scene {
+) {
     let label = localization_res.content("video").expect(&format!(
         "missing video in localisation files {:?}",
         localization_res
     ));
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(20.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-            width: Val::Px(2.0),
-        }
-        // ImageNode {
-        //     image: image,
-        //     image_mode: NodeImageMode::Stretch,
-        // }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
+    top_block_with_video_audio_and_other_buttons
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                width: Val::Percent(20.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // bottom: Val::Px(3.0),
+                ..default()
+            },
+            Outline {
+                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                width: Val::Px(2.0),
+                ..default()
+            },
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                Text::new(label),
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                    font: FontSource::Handle(font),
+                    ..default()
+                },
+                TextLayout {
+                    justify: Justify::Center,
+                    ..default()
+                },
+            ));
+        });
 }
 
 fn audio_button(
+    top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
-    // image: Handle<Image>,
-    // action_enum: OptionsButtonAction,
-) -> impl Scene {
+) {
     let label = localization_res.content("audio").expect(&format!(
         "missing audio in localisation files {:?}",
         localization_res
     ));
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(20.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-            width: Val::Px(2.0),
-        }
-        // ImageNode {
-        //     image: image,
-        //     image_mode: NodeImageMode::Stretch,
-        // }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
+    top_block_with_video_audio_and_other_buttons
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                width: Val::Percent(20.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // bottom: Val::Px(3.0),
+                ..default()
+            },
+            Outline {
+                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                width: Val::Px(2.0),
+                ..default()
+            },
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                Text::new(label),
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                    font: FontSource::Handle(font),
+                    ..default()
+                },
+                TextLayout {
+                    justify: Justify::Center,
+                    ..default()
+                },
+            ));
+        });
 }
 
 fn game_button(
+    top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
-    // image: Handle<Image>,
-    // action_enum: OptionsButtonAction,
-) -> impl Scene {
+) {
     let label = localization_res.content("game").expect(&format!(
         "missing game in localisation files {:?}",
         localization_res
     ));
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(20.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-            width: Val::Px(2.0),
-        }
-        // ImageNode {
-        //     image: image,
-        //     image_mode: NodeImageMode::Stretch,
-        // }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
+    top_block_with_video_audio_and_other_buttons
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                width: Val::Percent(20.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // bottom: Val::Px(3.0),
+                ..default()
+            },
+            Outline {
+                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                width: Val::Px(2.0),
+                ..default()
+            },
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                Text::new(label),
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                    font: FontSource::Handle(font),
+                    ..default()
+                },
+                TextLayout {
+                    justify: Justify::Center,
+                    ..default()
+                },
+            ));
+        });
 }
 
 fn controls_button(
+    top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
-    // image: Handle<Image>,
-    // action_enum: OptionsButtonAction,
-) -> impl Scene {
+) {
     let label = localization_res.content("controls").expect(&format!(
         "missing controls in localisation files {:?}",
         localization_res
     ));
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(20.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            // bottom: Val::Px(3.0),
-        }
-        Outline {
-            color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-            width: Val::Px(2.0),
-        }
-        // ImageNode {
-        //     image: image,
-        //     image_mode: NodeImageMode::Stretch,
-        // }
-        Children [
-            Text::new(label)
-            TextFont {
-                font_size: FontSize::Px(14.0),
-                font: FontSourceTemplate::Handle(font),
-            }
-            TextLayout {
-                justify: Justify::Center,
-            }
-        ]
-    }
+    top_block_with_video_audio_and_other_buttons
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                width: Val::Percent(20.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                // bottom: Val::Px(3.0),
+                ..default()
+            },
+            Outline {
+                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+                width: Val::Px(2.0),
+                ..default()
+            },
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                Text::new(label),
+                TextFont {
+                    font_size: FontSize::Px(14.0),
+                    font: FontSource::Handle(font),
+                    ..default()
+                },
+                TextLayout {
+                    justify: Justify::Center,
+                    ..default()
+                },
+            ));
+        });
 }
