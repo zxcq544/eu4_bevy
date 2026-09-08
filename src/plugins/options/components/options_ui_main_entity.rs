@@ -15,9 +15,9 @@ pub enum OptionsButtonAction {
 }
 
 #[derive(Component, Clone, Default)]
-pub struct OptionsButtonsTopAndBottomRows;
+pub struct OptionsUiMainEntity;
 
-impl OptionsButtonsTopAndBottomRows {
+impl OptionsUiMainEntity {
     pub fn spawn_using_commands(
         mut commands: Commands,
         localization_res: &Res<Localization>,
@@ -26,7 +26,7 @@ impl OptionsButtonsTopAndBottomRows {
     ) {
         commands
             .spawn((
-                OptionsButtonsTopAndBottomRows,
+                OptionsUiMainEntity,
                 Node {
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
@@ -56,6 +56,11 @@ impl OptionsButtonsTopAndBottomRows {
                         Outline {
                             color: Color::srgb_from_array([0.4, 0.7, 0.5]),
                             width: Val::Px(2.0),
+                            ..default()
+                        },
+                        ImageNode {
+                            image: options_images.settings_bg_image.clone(),
+                            image_mode: NodeImageMode::Stretch,
                             ..default()
                         },
                     ))

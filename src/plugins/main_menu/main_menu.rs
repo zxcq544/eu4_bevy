@@ -13,8 +13,7 @@ use crate::{
             },
         },
         options::systems::{
-            spawn_options_block::spawn_options_block,
-            spawn_options_top_and_bottom_buttons::spawn_options_top_and_bottom_buttons,
+            spawn_options_ui_main_entity::spawn_options_ui_main_entity,
             spawn_options_video_tab::spawn_options_video_tab,
         },
     },
@@ -35,8 +34,7 @@ impl Plugin for MainMenuPlugin {
                 spawn_main_menu_scene,
                 spawn_continue_block,
                 // Spawn options block here as hidden so we don't spawn despawn often
-                spawn_options_block,
-                spawn_options_top_and_bottom_buttons,
+                spawn_options_ui_main_entity,
                 spawn_options_video_tab,
             ),
         );

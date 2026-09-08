@@ -1,7 +1,7 @@
 use crate::{
     core::states::GameState,
     plugins::{
-        options::components::options_top_tabs_row_entity::{OptionsButton, OptionsButtonAction},
+        options::components::options_ui_main_entity::{OptionsButton, OptionsButtonAction},
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
 };

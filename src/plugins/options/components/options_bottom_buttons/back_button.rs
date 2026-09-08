@@ -1,4 +1,4 @@
-use crate::plugins::options::components::options_top_tabs_row_entity::{
+use crate::plugins::options::components::options_ui_main_entity::{
     OptionsButton, OptionsButtonAction,
 };
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
