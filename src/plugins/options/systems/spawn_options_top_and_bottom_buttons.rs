@@ -13,9 +13,15 @@ pub fn spawn_options_top_and_bottom_buttons(
     options_images: Res<OptionsImages>,
 ) {
     info!("Spawning options top and bottom buttons");
-    commands.spawn_scene_list(OptionsButtonsTopAndBottomRows::as_scene_list(
+    // commands.spawn_scene_list(OptionsButtonsTopAndBottomRows::as_scene_list(
+    //     &localization_res,
+    //     &fonts,
+    //     &options_images,
+    // ));
+    OptionsButtonsTopAndBottomRows::spawn_using_commands(
+        commands,
         &localization_res,
         &fonts,
         &options_images,
-    ));
+    );
 }
