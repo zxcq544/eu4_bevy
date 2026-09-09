@@ -5,7 +5,7 @@ pub fn despawn_main_menu_entity(
     mut commands: Commands,
     query: Query<Entity, With<MainMenuEntity>>,
 ) {
-    info!("Freeing main menu entity and timer");
+    info!("Despawning main menu entity and timer");
     for entity in query.iter() {
         commands.entity(entity).despawn();
     }

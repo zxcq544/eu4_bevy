@@ -27,6 +27,7 @@ impl ContinueGameEntity {
                 align_items: AlignItems::FlexEnd,
                 // overflow: Overflow::hidden(),
             }
+            Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
             ZIndex(3)
             Children [
                 // Background image for continue button.

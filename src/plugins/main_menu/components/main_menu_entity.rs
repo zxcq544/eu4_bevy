@@ -52,6 +52,7 @@ impl MainMenuEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
+            Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
             BackgroundColor(Color::NONE)
             Children [
                 Node {

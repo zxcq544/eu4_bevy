@@ -1,10 +1,14 @@
 pub mod despawn_continue_block;
 pub mod despawn_main_menu_entity;
 pub mod handle_delayed_exit;
+pub mod hide_continue_block;
+pub mod hide_main_menu_block;
 pub mod main_menu_button_actions;
 pub mod main_menu_button_hover;
 pub mod main_menu_button_sounds;
 pub mod main_menu_button_system_united;
 pub mod rotate_cube;
+pub mod set_visible_continue_block;
+pub mod set_visible_main_menu_block;
 pub mod spawn_continue_block;
 pub mod spawn_main_menu_scene;

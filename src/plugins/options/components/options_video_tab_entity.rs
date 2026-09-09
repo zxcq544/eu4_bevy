@@ -1,13 +1,13 @@
 use bevy::{
-    feathers::{
-        controls::{
-            FeathersMenu, FeathersMenuButton, FeathersMenuDivider, FeathersMenuItem,
-            FeathersMenuPopup,
-        },
-        theme::ThemedText,
-    },
+    // feathers::{
+    //     controls::{
+    //         FeathersMenu, FeathersMenuButton, FeathersMenuDivider, FeathersMenuItem,
+    //         FeathersMenuPopup,
+    //     },
+    //     theme::ThemedText,
+    // },
     prelude::*,
-    ui_widgets::Activate,
+    // ui_widgets::Activate,
 };
 
 #[derive(Component, Clone, Default)]
@@ -55,49 +55,49 @@ impl OptionsVideoTabEntity {
                         color: Color::srgb_from_array([0.2, 0.8, 0.8]),
                         width: Val::Px(2.0),
                     }
-
-                    @FeathersMenu
-                    Children [
-                        (
-                            @FeathersMenuButton {
-                                @caption: bsn! { Text("Menu") ThemedText },
-                            }
-                            AccessibleLabel("Menu Example")
-                            Node {
-                                flex_grow: 1.0,
-                            }
-                        ),
-                        (
-                            @FeathersMenuPopup
-                            Children [
-                                (
-                                    @FeathersMenuItem {
-                                        @caption: bsn! { Text("MenuItem 1") ThemedText },
-                                    }
-                                    on(|_: On<Activate>| {
-                                        info!("Menu item 1 clicked!");
-                                    })
-                                ),
-                                (
-                                    @FeathersMenuItem {
-                                        @caption: bsn! { Text("MenuItem 2") ThemedText },
-                                    }
-                                    on(|_: On<Activate>| {
-                                        info!("Menu item 2 clicked!");
-                                    })
-                                ),
-                                @FeathersMenuDivider,
-                                (
-                                    @FeathersMenuItem {
-                                        @caption: bsn! { Text("MenuItem 3") ThemedText },
-                                    }
-                                    on(|_: On<Activate>| {
-                                        info!("Menu item 3 clicked!");
-                                    })
-                                ),
-                            ]
-                        ),
-                    ]
+                    Text::new("Video")
+                    //     @FeathersMenu
+                    //     Children [
+                    //         (
+                    //             @FeathersMenuButton {
+                    //                 @caption: bsn! { Text("Menu") ThemedText },
+                    //             }
+                    //             AccessibleLabel("Menu Example")
+                    //             Node {
+                    //                 flex_grow: 1.0,
+                    //             }
+                    //         ),
+                    //         (
+                    //             @FeathersMenuPopup
+                    //             Children [
+                    //                 (
+                    //                     @FeathersMenuItem {
+                    //                         @caption: bsn! { Text("MenuItem 1") ThemedText },
+                    //                     }
+                    //                     on(|_: On<Activate>| {
+                    //                         info!("Menu item 1 clicked!");
+                    //                     })
+                    //                 ),
+                    //                 (
+                    //                     @FeathersMenuItem {
+                    //                         @caption: bsn! { Text("MenuItem 2") ThemedText },
+                    //                     }
+                    //                     on(|_: On<Activate>| {
+                    //                         info!("Menu item 2 clicked!");
+                    //                     })
+                    //                 ),
+                    //                 @FeathersMenuDivider,
+                    //                 (
+                    //                     @FeathersMenuItem {
+                    //                         @caption: bsn! { Text("MenuItem 3") ThemedText },
+                    //                     }
+                    //                     on(|_: On<Activate>| {
+                    //                         info!("Menu item 3 clicked!");
+                    //                     })
+                    //                 ),
+                    //             ]
+                    //         ),
+                    //     ]
                 ]
             ]
         }
