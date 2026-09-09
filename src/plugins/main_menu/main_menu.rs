@@ -14,7 +14,6 @@ use crate::{
 };
 use bevy::prelude::*;
 
-
 pub struct MainMenuPlugin;
 
 impl Plugin for MainMenuPlugin {
@@ -25,15 +24,7 @@ impl Plugin for MainMenuPlugin {
         });
         app.add_systems(
             OnEnter(GameState::MainMenu),
-            (
-                // spawn_main_menu_scene,
-                set_visible_main_menu_block,
-                set_visible_continue_block,
-                // spawn_continue_block,
-                // Spawn options block here as hidden so we don't spawn despawn often
-                // spawn_options_ui_main_entity,
-                // spawn_options_video_tab,
-            ),
+            (set_visible_main_menu_block, set_visible_continue_block),
         );
         app.add_systems(OnExit(GameState::MainMenu), hide_main_menu_block);
         app.add_systems(OnExit(GameState::MainMenu), hide_continue_block);
