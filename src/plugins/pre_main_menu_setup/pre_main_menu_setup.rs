@@ -5,10 +5,7 @@ use crate::{
             spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene::spawn_main_menu_scene,
         },
-        options::systems::{
-            spawn_options_ui_main_entity::spawn_options_ui_main_entity,
-            spawn_options_video_tab::spawn_options_video_tab,
-        },
+        options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         pre_main_menu_setup::systems::insert_cam_and_cube::insert_cam_and_cube,
     },
 };
@@ -24,7 +21,6 @@ impl Plugin for PreMainMenuSetupPlugin {
                 spawn_main_menu_scene,
                 spawn_continue_block,
                 spawn_options_ui_main_entity,
-                spawn_options_video_tab,
             ),
         );
         app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cam_and_cube);

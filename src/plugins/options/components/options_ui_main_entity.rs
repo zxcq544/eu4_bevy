@@ -1,4 +1,4 @@
-use crate::plugins::options::{components::{options_bottom_buttons::{apply_button::apply_button, back_button::back_button}, options_top_buttons::{audio_button::audio_button, controls_button::controls_button, game_button::game_button, video_button::video_button}}, resources::options_images::OptionsImages};
+use crate::plugins::options::{components::{options_bottom_buttons::{apply_button::apply_button, back_button::back_button}, options_middle_block::video_tab::video_tab, options_top_buttons::{audio_button::audio_button, controls_button::controls_button, game_button::game_button, video_button::video_button}}, resources::options_images::OptionsImages};
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
@@ -170,7 +170,9 @@ impl OptionsUiMainEntity {
                                                 width: Val::Px(2.0),
                                                 ..default()
                                             },
-                                        ));
+                                        )).with_children(|options_middle_block|{
+                                            video_tab(options_middle_block);
+                                        });
                                         main_settings_block_with_all_controls
                                             .spawn((
                                                 // Lower block with buttons Apply and Back
