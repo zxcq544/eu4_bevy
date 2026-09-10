@@ -12,7 +12,7 @@ use crate::{
         pre_main_menu_setup::systems::insert_cam_and_cube::insert_cam_and_cube,
     },
 };
-use bevy::{prelude::*, ui_widgets::TrackClick};
+use bevy::prelude::*;
 
 pub struct PreMainMenuSetupPlugin;
 

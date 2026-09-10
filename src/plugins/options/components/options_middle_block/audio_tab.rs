@@ -19,7 +19,7 @@ pub struct OptionsUiAudioTab;
 
 pub fn audio_tab(
     options_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
-    mut settings: ResMut<Settings>,
+    settings: ResMut<Settings>,
     // localization_res: &Res<Localization>,
     // fonts: &Res<FontHandles>,
 ) {
@@ -103,13 +103,13 @@ pub struct DemoSlider;
 #[derive(Component, Default)]
 pub struct DemoSliderThumb;
 
-const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
-const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
-const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
+// const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
+// const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
+// const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
 const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
 const SLIDER_THUMB: Color = Color::srgb(0.35, 0.75, 0.35);
-const ELEMENT_OUTLINE: Color = Color::srgb(0.45, 0.45, 0.45);
-const ELEMENT_FILL: Color = Color::srgb(0.35, 0.75, 0.35);
+// const ELEMENT_OUTLINE: Color = Color::srgb(0.45, 0.45, 0.45);
+// const ELEMENT_FILL: Color = Color::srgb(0.35, 0.75, 0.35);
 const ELEMENT_FILL_DISABLED: Color = Color::srgb(0.5019608, 0.5019608, 0.5019608);
 /// Create a demo slider
 fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
