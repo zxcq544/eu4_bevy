@@ -21,10 +21,7 @@ impl Plugin for OptionsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::Options),
-            (
-                set_visible_options_ui_main_entity,
-                set_display_flex_options_video_tab, // move this when video tab active
-            ),
+            (set_visible_options_ui_main_entity,),
         );
         app.add_systems(
             OnEnter(OptionsTabState::Video),
