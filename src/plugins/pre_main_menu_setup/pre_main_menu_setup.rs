@@ -6,7 +6,6 @@ use crate::{
             spawn_main_menu_scene::spawn_main_menu_scene,
         },
         options::{
-            components::options_middle_block::audio_tab::DemoWidgetStates,
             systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         },
         pre_main_menu_setup::systems::insert_cam_and_cube::insert_cam_and_cube,
@@ -28,6 +27,5 @@ impl Plugin for PreMainMenuSetupPlugin {
             ),
         );
         app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cam_and_cube);
-        app.init_resource::<DemoWidgetStates>();
     }
 }

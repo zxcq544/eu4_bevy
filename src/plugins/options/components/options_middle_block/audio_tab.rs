@@ -6,7 +6,7 @@ use bevy::{
     ui::InteractionDisabled,
     ui_widgets::{
         Slider, SliderDragState, SliderRange, SliderThumb, SliderValue, TrackClick, ValueChange,
-        observe,
+        observe, slider_self_update,
     },
 };
 use bevy_fluent::Localization;
@@ -16,6 +16,30 @@ use settings::Settings;
 
 #[derive(Component, Clone, Default)]
 pub struct OptionsUiAudioTab;
+
+#[derive(Component, Clone, Copy, Debug)]
+pub enum AudioChannel {
+    Master,
+    Music,
+    Sfx,
+}
+
+impl AudioChannel {
+    fn get(self, s: &Settings) -> f32 {
+        match self {
+            Self::Master => s.volume_settings.get_master_volume(),
+            Self::Music => s.volume_settings.get_music_volume(),
+            Self::Sfx => s.volume_settings.get_sound_effects_volume(),
+        }
+    }
+    fn set(self, s: &mut Settings, v: f32) {
+        match self {
+            Self::Master => s.volume_settings.set_master_volume(v),
+            Self::Music => s.volume_settings.set_music_volume(v),
+            Self::Sfx => s.volume_settings.set_sound_effects_volume(v),
+        }
+    }
+}
 
 pub fn audio_tab(
     options_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
@@ -86,13 +110,7 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
-                    right_block_top.spawn((
-                        slider(0.0, 1.0, settings.volume_settings.get_master_volume()),
-                        observe(|value_change: On<ValueChange<f32>>,
-                            mut widget_states: ResMut<DemoWidgetStates>| {
-                                widget_states.slider_value = value_change.value;
-                            },)
-                        ));
+                    right_block_top.spawn(sound_volume_slider(settings, AudioChannel::Master));
                 });
         });
 }
@@ -206,56 +224,6 @@ fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
     )
 }
 
-/// A struct to hold the state of various widgets shown in the demo.
-///
-/// While it is possible to use the widget's own state components as the source of truth,
-/// in many cases widgets will be used to display dynamic data coming from deeper within the app,
-/// using some kind of data-binding. This example shows how to maintain an external source of
-/// truth for widget states.
-#[derive(Resource)]
-pub struct DemoWidgetStates {
-    pub slider_value: f32,
-    pub slider_click: TrackClick,
-}
-
-impl FromWorld for DemoWidgetStates {
-    fn from_world(world: &mut World) -> Self {
-        // 1. Retrieve the existing Settings resource from the world.
-        // If Settings might not be loaded yet, use world.get_resource::<Settings>() instead.
-        let settings = world.resource::<Settings>();
-
-        // 2. Extract the volume setting you need.
-        // (Assuming volume_settings has a field or method returning a f32, like master_volume)
-        let initial_volume = settings.volume_settings.get_master_volume();
-
-        // 3. Construct your resource with the dependency fulfilled
-        DemoWidgetStates {
-            slider_value: initial_volume,
-            slider_click: TrackClick::default(), // active fallback/default
-        }
-    }
-}
-
-/// Update the widget states based on the changing resource.
-pub fn update_widget_values(
-    mut settings: ResMut<Settings>,
-    res: Res<DemoWidgetStates>,
-    mut sliders: Query<(Entity, &mut Slider), With<DemoSlider>>,
-    mut commands: Commands,
-) {
-    if res.is_changed() {
-        for (slider_ent, mut slider) in sliders.iter_mut() {
-            commands
-                .entity(slider_ent)
-                .insert(SliderValue(res.slider_value));
-            slider.track_click = res.slider_click;
-            settings.volume_settings.set_master_volume(res.slider_value);
-            // info!("volume {:?}", volume);
-            // info!("slider value {:?}", res.slider_value);
-        }
-    }
-}
-
 /// Update the visuals of the slider based on the slider state.
 pub fn update_slider_style(
     sliders: Query<
@@ -323,4 +291,17 @@ fn thumb_color(disabled: bool, hovered: bool) -> Color {
 
         _ => SLIDER_THUMB,
     }
+}
+
+fn sound_volume_slider(settings: ResMut<Settings>, audio_channel: AudioChannel) -> impl Bundle {
+    (
+        audio_channel,
+        slider(0.0, 1.0, audio_channel.get(&settings)),
+        observe(slider_self_update),
+        observe(
+            move |change: On<ValueChange<f32>>, mut settings: ResMut<Settings>| {
+                audio_channel.set(&mut settings, change.value);
+            },
+        ),
+    )
 }
