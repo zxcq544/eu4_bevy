@@ -7,6 +7,7 @@ use crate::{
             hide_options_video_tab::hide_options_video_tab,
             set_display_flex_options_video_tab::set_display_flex_options_video_tab,
         },
+        options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
         set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
     },
 };
@@ -30,7 +31,8 @@ impl Plugin for OptionsPlugin {
         // Options Button Checkers
         app.add_systems(
             Update,
-            (options_button_system).run_if(in_state(GameState::Options)),
+            (options_button_system, options_top_buttons_system_united)
+                .run_if(in_state(GameState::Options)),
         );
     }
 }

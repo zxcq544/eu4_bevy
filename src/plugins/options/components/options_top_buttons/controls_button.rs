@@ -2,6 +2,8 @@ use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
+use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{OptionsTopTabButton, OptionsTopTabButtonAction};
+
 pub fn controls_button(
     top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
@@ -13,6 +15,9 @@ pub fn controls_button(
     ));
     top_block_with_video_audio_and_other_buttons
         .spawn((
+            Button,
+            OptionsTopTabButton,
+            OptionsTopTabButtonAction::Controls,
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,

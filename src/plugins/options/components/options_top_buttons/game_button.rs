@@ -1,6 +1,7 @@
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
+use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{OptionsTopTabButton, OptionsTopTabButtonAction};
 
 pub fn game_button(
     options_top_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
@@ -13,6 +14,9 @@ pub fn game_button(
     ));
     options_top_block
         .spawn((
+            Button,
+            OptionsTopTabButton,
+            OptionsTopTabButtonAction::Game,
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,

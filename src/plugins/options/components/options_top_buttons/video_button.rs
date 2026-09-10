@@ -1,3 +1,8 @@
+use crate::{
+    plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{
+        OptionsTopTabButton, OptionsTopTabButtonAction,
+    },
+};
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
@@ -13,6 +18,9 @@ pub fn video_button(
     ));
     options_top_block
         .spawn((
+            Button,
+            OptionsTopTabButton,
+            OptionsTopTabButtonAction::Video,
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
