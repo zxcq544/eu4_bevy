@@ -1,10 +1,12 @@
 use crate::{
-    core::states::{GameState, OptionsTab},
+    core::states::{GameState, OptionsTabState},
     plugins::options::systems::{
         hide_options_ui_main_entity::hide_options_ui_main_entity,
         options_button_system::options_button_system,
         options_middle_block_systems::{
+            hide_options_audio_tab::hide_options_audio_tab,
             hide_options_video_tab::hide_options_video_tab,
+            set_display_flex_options_audio_tab::set_display_flex_options_audio_tab,
             set_display_flex_options_video_tab::set_display_flex_options_video_tab,
         },
         options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
@@ -24,9 +26,26 @@ impl Plugin for OptionsPlugin {
                 set_display_flex_options_video_tab, // move this when video tab active
             ),
         );
+        app.add_systems(
+            OnEnter(OptionsTabState::Video),
+            set_display_flex_options_video_tab,
+        );
+        app.add_systems(
+            OnEnter(OptionsTabState::Audio),
+            set_display_flex_options_audio_tab,
+        );
+        // app.add_systems(
+        //     OnEnter(OptionsTabState::Game),
+        //     set_display_flex_options_game_tab,
+        // );
+        // app.add_systems(
+        //     OnEnter(OptionsTabState::Controls),
+        //     set_display_flex_options_controls_tab,
+        // );
         // We don't despawn ingame ui elements here because we want to keep them in memory
-        app.add_systems(OnExit(GameState::Options), (hide_options_ui_main_entity,));
-        app.add_systems(OnExit(OptionsTab::Video), hide_options_video_tab);
+        app.add_systems(OnExit(GameState::Options), hide_options_ui_main_entity);
+        app.add_systems(OnExit(OptionsTabState::Video), hide_options_video_tab);
+        app.add_systems(OnExit(OptionsTabState::Audio), hide_options_audio_tab);
 
         // Options Button Checkers
         app.add_systems(

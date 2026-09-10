@@ -1,4 +1,7 @@
-use crate::plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects;
+use crate::{
+    core::states::OptionsTabState,
+    plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
+};
 use bevy::{
     audio::Volume,
     input_focus::{FocusCause, InputFocus},
@@ -25,7 +28,7 @@ pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 pub fn options_top_buttons_system_united(
     mut commands: Commands,
-    // mut next_state: ResMut<NextState<GameState>>,
+    mut next_state: ResMut<NextState<OptionsTabState>>,
     sound_effects: Res<ButtonClickSoundEffects>,
     settings: Res<Settings>,
     mut input_focus: ResMut<InputFocus>,
@@ -68,21 +71,25 @@ pub fn options_top_buttons_system_united(
                 match action {
                     OptionsTopTabButtonAction::Video => {
                         info!("Video button pressed");
+                        next_state.set(OptionsTabState::Video);
                         // settings.initial_bootscreen_show_time = 2.0;
                         // save_settings_to_json(&settings);
                     }
                     OptionsTopTabButtonAction::Audio => {
                         info!("Audio button pressed");
+                        next_state.set(OptionsTabState::Audio);
                         // settings.initial_bootscreen_show_time = 2.0;
                         // save_settings_to_json(&settings);
                     }
                     OptionsTopTabButtonAction::Game => {
                         info!("Game button pressed");
+                        next_state.set(OptionsTabState::Game);
                         // settings.initial_bootscreen_show_time = 2.0;
                         // save_settings_to_json(&settings);
                     }
                     OptionsTopTabButtonAction::Controls => {
                         info!("Controls button pressed");
+                        next_state.set(OptionsTabState::Controls);
                         // settings.initial_bootscreen_show_time = 2.0;
                         // save_settings_to_json(&settings);
                     }

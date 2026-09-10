@@ -17,7 +17,7 @@ pub enum GameState {
 
 #[derive(SubStates, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 #[source(GameState = GameState::Options)]
-pub enum OptionsTab {
+pub enum OptionsTabState {
     #[default]
     Video,
     Audio,
