@@ -1,16 +1,16 @@
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 
 #[derive(Component, Clone, Default)]
-pub struct OptionsUiVideoTab;
+pub struct OptionsUiAudioTab;
 
-pub fn video_tab(
+pub fn audio_tab(
     options_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     // localization_res: &Res<Localization>,
     // fonts: &Res<FontHandles>,
 ) {
     options_middle_block
         .spawn((
-            OptionsUiVideoTab,
+            OptionsUiAudioTab,
             Node {
                 display: Display::None,
                 flex_direction: FlexDirection::Row,
@@ -48,7 +48,7 @@ pub fn video_tab(
                 //     "missing video in localisation files {:?}",
                 //     localization_res
                 // ))),
-                Text::new("Video tab content left"),
+                Text::new("Audio tab content left"),
             ));
             parent.spawn((
                 Node {
@@ -66,7 +66,7 @@ pub fn video_tab(
                     width: Val::Px(2.0),
                     ..default()
                 },
-                Text::new("Video tab content right"),
+                Text::new("Audio tab content right"),
             ));
         });
 }

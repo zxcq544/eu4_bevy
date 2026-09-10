@@ -2,10 +2,12 @@ use crate::{
     core::states::{GameState, OptionsTab},
     plugins::options::systems::{
         hide_options_ui_main_entity::hide_options_ui_main_entity,
-        hide_options_video_tab::hide_options_video_tab,
         options_button_system::options_button_system,
+        options_middle_block_systems::{
+            hide_options_video_tab::hide_options_video_tab,
+            set_display_flex_options_video_tab::set_display_flex_options_video_tab,
+        },
         set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
-        set_visible_options_video_tab::set_visible_options_video_tab,
     },
 };
 use bevy::prelude::*;
@@ -18,7 +20,7 @@ impl Plugin for OptionsPlugin {
             OnEnter(GameState::Options),
             (
                 set_visible_options_ui_main_entity,
-                set_visible_options_video_tab, // move this when video tab active
+                set_display_flex_options_video_tab, // move this when video tab active
             ),
         );
         // We don't despawn ingame ui elements here because we want to keep them in memory
