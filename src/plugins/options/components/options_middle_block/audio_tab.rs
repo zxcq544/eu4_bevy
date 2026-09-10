@@ -10,6 +10,9 @@ use bevy::{
         observe,
     },
 };
+use bevy_fluent::Localization;
+use fluent_content::Content;
+use fonts::FontHandles;
 use settings::Settings;
 
 use crate::plugins::music_player::music_player::BackgroundMusicPlayer;
@@ -20,8 +23,8 @@ pub struct OptionsUiAudioTab;
 pub fn audio_tab(
     options_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     settings: ResMut<Settings>,
-    // localization_res: &Res<Localization>,
-    // fonts: &Res<FontHandles>,
+    localization_res: &Res<Localization>,
+    fonts: &Res<FontHandles>,
 ) {
     options_middle_block
         .spawn((
@@ -65,13 +68,7 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|left_block_top| {
-                    left_block_top.spawn((
-                        Text::new("Music volume"),
-                        TextLayout {
-                            justify: Justify::Center,
-                            ..default()
-                        },
-                    ));
+                    top_left_block(left_block_top, &localization_res, &fonts);
                 });
             grid_builder
                 .spawn((
@@ -95,12 +92,35 @@ pub fn audio_tab(
                     right_block_top.spawn((
                         slider(0.0, 1.0, settings.volume_settings.get_music_volume()),
                         observe(|value_change: On<ValueChange<f32>>,
-                     mut widget_states: ResMut<DemoWidgetStates>| {
-                        widget_states.slider_value = value_change.value;
-                    },
-                )));
+                            mut widget_states: ResMut<DemoWidgetStates>| {
+                                widget_states.slider_value = value_change.value;
+                            },)
+                        ));
                 });
         });
+}
+
+fn top_left_block(
+    left_block_top: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    localisation_res: &Res<Localization>,
+    fonts: &Res<FontHandles>,
+) {
+    let label = localisation_res.content("music_volume").expect(&format!(
+        "missing music_volume in localisation files {:?}",
+        localisation_res
+    ));
+    left_block_top.spawn((
+        Text::new(label),
+        TextFont {
+            font_size: FontSize::Px(20.0),
+            font: FontSource::Handle(fonts.button_font.clone()),
+            ..default()
+        },
+        TextLayout {
+            justify: Justify::Center,
+            ..default()
+        },
+    ));
 }
 
 // Slider logic - move somewhere else

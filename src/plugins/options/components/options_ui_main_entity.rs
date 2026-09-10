@@ -1,4 +1,14 @@
-use crate::plugins::options::{components::{options_bottom_buttons::{apply_button::apply_button, back_button::back_button}, options_middle_block::{audio_tab::audio_tab, video_tab::video_tab}, options_top_buttons::{audio_button::audio_button, controls_button::controls_button, game_button::game_button, video_button::video_button}}, resources::options_images::OptionsImages};
+use crate::plugins::options::{
+    components::{
+        options_bottom_buttons::{apply_button::apply_button, back_button::back_button},
+        options_middle_block::{audio_tab::audio_tab, video_tab::video_tab},
+        options_top_buttons::{
+            audio_button::audio_button, controls_button::controls_button, game_button::game_button,
+            video_button::video_button,
+        },
+    },
+    resources::options_images::OptionsImages,
+};
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
@@ -134,25 +144,25 @@ impl OptionsUiMainEntity {
                                                         top_block_with_video_audio_and_other_buttons,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
-                                                    );                                                   
+                                                    );
                                                     // Audio button
                                                     audio_button(
                                                         top_block_with_video_audio_and_other_buttons,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
-                                                    );                                                   
+                                                    );
                                                     // Game button
                                                     game_button(
                                                         top_block_with_video_audio_and_other_buttons,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
-                                                    );                                                    
+                                                    );
                                                     // Controls button
                                                     controls_button(
                                                         top_block_with_video_audio_and_other_buttons,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
-                                                    );                                                    
+                                                    );
                                                 },
                                             );
                                         main_settings_block_with_all_controls.spawn((
@@ -174,7 +184,7 @@ impl OptionsUiMainEntity {
                                             },
                                         )).with_children(|options_middle_block|{
                                             video_tab(options_middle_block);
-                                            audio_tab(options_middle_block, settings);
+                                            audio_tab(options_middle_block, settings, &localization_res, &fonts);
                                         });
                                         main_settings_block_with_all_controls
                                             .spawn((
@@ -215,7 +225,7 @@ impl OptionsUiMainEntity {
                                                         .apply_and_back_button_image
                                                         .clone(),
                                                     OptionsButtonAction::Back,
-                                                );                                               
+                                                );
                                             });
                                     });
                             });
