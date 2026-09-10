@@ -1,6 +1,9 @@
 use crate::{
     core::states::OptionsTabState,
-    plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
+    plugins::sound_effects::{
+        components::sound_effects_player::SoundEffectsPlayer,
+        resources::button_click_sound_effects::ButtonClickSoundEffects,
+    },
 };
 use bevy::{
     audio::Volume,
@@ -56,6 +59,7 @@ pub fn options_top_buttons_system_united(
                 // Sound effect logic
                 let required_sound = sound_effects.button_click_general.clone();
                 commands.spawn((
+                    SoundEffectsPlayer,
                     AudioPlayer::new(required_sound),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,

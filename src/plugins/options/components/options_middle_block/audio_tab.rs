@@ -1,5 +1,4 @@
 use bevy::{
-    audio::Volume,
     ecs::relationship::RelatedSpawnerCommands,
     input_focus::tab_navigation::TabIndex,
     picking::hover::Hovered,
@@ -14,8 +13,6 @@ use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
 use settings::Settings;
-
-use crate::plugins::music_player::music_player::BackgroundMusicPlayer;
 
 #[derive(Component, Clone, Default)]
 pub struct OptionsUiAudioTab;
@@ -90,7 +87,7 @@ pub fn audio_tab(
                 ))
                 .with_children(|right_block_top| {
                     right_block_top.spawn((
-                        slider(0.0, 1.0, settings.volume_settings.get_music_volume()),
+                        slider(0.0, 1.0, settings.volume_settings.get_master_volume()),
                         observe(|value_change: On<ValueChange<f32>>,
                             mut widget_states: ResMut<DemoWidgetStates>| {
                                 widget_states.slider_value = value_change.value;
@@ -105,8 +102,8 @@ fn top_left_block(
     localisation_res: &Res<Localization>,
     fonts: &Res<FontHandles>,
 ) {
-    let label = localisation_res.content("music_volume").expect(&format!(
-        "missing music_volume in localisation files {:?}",
+    let label = localisation_res.content("master_volume").expect(&format!(
+        "missing master_volume in localisation files {:?}",
         localisation_res
     ));
     left_block_top.spawn((
@@ -229,7 +226,7 @@ impl FromWorld for DemoWidgetStates {
 
         // 2. Extract the volume setting you need.
         // (Assuming volume_settings has a field or method returning a f32, like master_volume)
-        let initial_volume = settings.volume_settings.get_music_volume();
+        let initial_volume = settings.volume_settings.get_master_volume();
 
         // 3. Construct your resource with the dependency fulfilled
         DemoWidgetStates {
@@ -245,7 +242,6 @@ pub fn update_widget_values(
     res: Res<DemoWidgetStates>,
     mut sliders: Query<(Entity, &mut Slider), With<DemoSlider>>,
     mut commands: Commands,
-    mut background_music_player_query: Query<&mut AudioSink, With<BackgroundMusicPlayer>>,
 ) {
     if res.is_changed() {
         for (slider_ent, mut slider) in sliders.iter_mut() {
@@ -253,12 +249,8 @@ pub fn update_widget_values(
                 .entity(slider_ent)
                 .insert(SliderValue(res.slider_value));
             slider.track_click = res.slider_click;
-            if let Ok(mut audio_player) = background_music_player_query.single_mut() {
-                let volume = Volume::Linear(res.slider_value);
-                settings.volume_settings.set_music_volume(res.slider_value);
-                audio_player.set_volume(volume);
-                // info!("volume {:?}", volume);
-            }
+            settings.volume_settings.set_master_volume(res.slider_value);
+            // info!("volume {:?}", volume);
             // info!("slider value {:?}", res.slider_value);
         }
     }

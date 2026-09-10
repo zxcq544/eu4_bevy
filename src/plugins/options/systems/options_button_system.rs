@@ -2,7 +2,10 @@ use crate::{
     core::states::GameState,
     plugins::{
         options::components::options_ui_main_entity::{OptionsButton, OptionsButtonAction},
-        sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
+        sound_effects::{
+            components::sound_effects_player::SoundEffectsPlayer,
+            resources::button_click_sound_effects::ButtonClickSoundEffects,
+        },
     },
 };
 use bevy::{
@@ -45,6 +48,7 @@ pub fn options_button_system(
                 // Sound effect logic
                 let required_sound = sound_effects.button_click_general.clone();
                 commands.spawn((
+                    SoundEffectsPlayer,
                     AudioPlayer::new(required_sound),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,

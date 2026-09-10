@@ -8,6 +8,7 @@ use crate::{
             hide_options_ui_main_entity::hide_options_ui_main_entity,
             options_button_system::options_button_system,
             options_middle_block_systems::{
+                audio_volume_update_system::audio_volume_update_system,
                 hide_options_audio_tab::hide_options_audio_tab,
                 hide_options_video_tab::hide_options_video_tab,
                 set_display_flex_options_audio_tab::set_display_flex_options_audio_tab,
@@ -60,6 +61,7 @@ impl Plugin for OptionsPlugin {
             Update,
             (
                 update_widget_values,
+                audio_volume_update_system.after(update_widget_values),
                 update_slider_style.after(update_widget_values),
                 update_slider_style2.after(update_widget_values),
             )
