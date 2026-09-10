@@ -2,6 +2,7 @@ use crate::plugins::options::{components::{options_bottom_buttons::{apply_button
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
+use settings::Settings;
 
 #[derive(Component, Clone, Default, Reflect)]
 pub struct OptionsButton;
@@ -19,6 +20,7 @@ pub struct OptionsUiMainEntity;
 
 impl OptionsUiMainEntity {
     pub fn spawn_using_commands(
+        settings: ResMut<Settings>,
         mut commands: Commands,
         localization_res: &Res<Localization>,
         fonts: &Res<FontHandles>,
@@ -172,7 +174,7 @@ impl OptionsUiMainEntity {
                                             },
                                         )).with_children(|options_middle_block|{
                                             video_tab(options_middle_block);
-                                            audio_tab(options_middle_block);
+                                            audio_tab(options_middle_block, settings);
                                         });
                                         main_settings_block_with_all_controls
                                             .spawn((

@@ -1,16 +1,21 @@
 use crate::{
     core::states::{GameState, OptionsTabState},
-    plugins::options::systems::{
-        hide_options_ui_main_entity::hide_options_ui_main_entity,
-        options_button_system::options_button_system,
-        options_middle_block_systems::{
-            hide_options_audio_tab::hide_options_audio_tab,
-            hide_options_video_tab::hide_options_video_tab,
-            set_display_flex_options_audio_tab::set_display_flex_options_audio_tab,
-            set_display_flex_options_video_tab::set_display_flex_options_video_tab,
+    plugins::options::{
+        components::options_middle_block::audio_tab::{
+            update_slider_style, update_slider_style2, update_widget_values,
         },
-        options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
-        set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
+        systems::{
+            hide_options_ui_main_entity::hide_options_ui_main_entity,
+            options_button_system::options_button_system,
+            options_middle_block_systems::{
+                hide_options_audio_tab::hide_options_audio_tab,
+                hide_options_video_tab::hide_options_video_tab,
+                set_display_flex_options_audio_tab::set_display_flex_options_audio_tab,
+                set_display_flex_options_video_tab::set_display_flex_options_video_tab,
+            },
+            options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
+            set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
+        },
     },
 };
 use bevy::prelude::*;
@@ -49,6 +54,16 @@ impl Plugin for OptionsPlugin {
             Update,
             (options_button_system, options_top_buttons_system_united)
                 .run_if(in_state(GameState::Options)),
+        );
+        // Audio tab system
+        app.add_systems(
+            Update,
+            (
+                update_widget_values,
+                update_slider_style.after(update_widget_values),
+                update_slider_style2.after(update_widget_values),
+            )
+                .run_if(in_state(OptionsTabState::Audio)),
         );
     }
 }

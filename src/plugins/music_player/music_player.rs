@@ -19,6 +19,8 @@ impl Plugin for MusicPlayerPlugin {
         app.add_systems(Startup, setup);
     }
 }
+#[derive(Component)]
+pub struct BackgroundMusicPlayer;
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>, settings: Res<Settings>) {
     // let track_paths = vec![
@@ -43,6 +45,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>, settings: Res<S
     // });
     let track = asset_server.load::<AudioSource>("music/maintheme.ogg");
     commands.spawn((
+        BackgroundMusicPlayer,
         AudioPlayer(track),
         PlaybackSettings {
             mode: bevy::audio::PlaybackMode::Loop,
