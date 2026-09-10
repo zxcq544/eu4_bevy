@@ -82,7 +82,7 @@ pub fn audio_tab(
                 //     ..default()
                 // },
                 // Text::new("Audio tab content right"),
-                slider(0.0, 1.0, settings.volume_settings.music_volume),
+                slider(0.0, 1.0, settings.volume_settings.get_music_volume()),
                 observe(
                     |value_change: On<ValueChange<f32>>,
                      mut widget_states: ResMut<DemoWidgetStates>| {
@@ -199,7 +199,7 @@ impl FromWorld for DemoWidgetStates {
 
         // 2. Extract the volume setting you need.
         // (Assuming volume_settings has a field or method returning a f32, like master_volume)
-        let initial_volume = settings.volume_settings.music_volume;
+        let initial_volume = settings.volume_settings.get_music_volume();
 
         // 3. Construct your resource with the dependency fulfilled
         DemoWidgetStates {
@@ -225,7 +225,7 @@ pub fn update_widget_values(
             slider.track_click = res.slider_click;
             if let Ok(mut audio_player) = background_music_player_query.single_mut() {
                 let volume = Volume::Linear(res.slider_value);
-                settings.volume_settings.music_volume = res.slider_value;
+                settings.volume_settings.set_music_volume(res.slider_value);
                 audio_player.set_volume(volume);
                 info!("volume {:?}", volume);
             }

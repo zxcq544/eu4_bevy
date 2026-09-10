@@ -49,7 +49,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>, settings: Res<S
         AudioPlayer(track),
         PlaybackSettings {
             mode: bevy::audio::PlaybackMode::Loop,
-            volume: Volume::Linear(settings.volume_settings.music_volume),
+            volume: Volume::Linear(settings.volume_settings.get_music_volume()),
             speed: 1.0,
             paused: false,
             muted: false,
