@@ -28,12 +28,15 @@ pub fn audio_tab(
             OptionsUiAudioTab,
             Node {
                 display: Display::None,
-                flex_direction: FlexDirection::Row,
+                // flex_direction: FlexDirection::Row,
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
-                justify_content: JustifyContent::FlexStart,
-                align_items: AlignItems::Center,
+                // justify_content: JustifyContent::FlexStart,
+                // align_items: AlignItems::Center,
                 // bottom: Val::Px(3.0),
+                grid_template_columns: RepeatedGridTrack::flex(2, 1.0),
+                grid_template_rows: RepeatedGridTrack::flex(3, 1.0),
+                row_gap: Val::Percent(1.0),
                 ..default()
             },
             // Outline {
@@ -42,54 +45,61 @@ pub fn audio_tab(
             //     ..default()
             // },
         ))
-        .with_children(|parent| {
-            parent.spawn((
-                Node {
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Row,
-                    width: Val::Percent(50.0),
-                    height: Val::Percent(100.0),
-                    justify_content: JustifyContent::SpaceBetween,
-                    align_items: AlignItems::Center,
-                    // bottom: Val::Px(3.0),
-                    ..default()
-                },
-                Outline {
-                    color: Color::srgb_from_array([0.9, 0.9, 0.1]),
-                    width: Val::Px(2.0),
-                    ..default()
-                },
-                // Text::new(localization_res.content("video").expect(&format!(
-                //     "missing video in localisation files {:?}",
-                //     localization_res
-                // ))),
-                Text::new("Audio tab content left"),
-            ));
-            parent.spawn((
-                // Node {
-                //     display: Display::Flex,
-                //     flex_direction: FlexDirection::Column,
-                //     width: Val::Percent(50.0),
-                //     height: Val::Percent(100.0),
-                //     justify_content: JustifyContent::Center,
-                //     align_items: AlignItems::Center,
-                //     // bottom: Val::Px(3.0),
-                //     ..default()
-                // },
-                // Outline {
-                //     color: Color::srgb_from_array([0.1, 0.1, 0.9]),
-                //     width: Val::Px(2.0),
-                //     ..default()
-                // },
-                // Text::new("Audio tab content right"),
-                slider(0.0, 1.0, settings.volume_settings.get_music_volume()),
-                observe(
-                    |value_change: On<ValueChange<f32>>,
+        .with_children(|grid_builder| {
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Row,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.9, 0.9, 0.1]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|left_block_top| {
+                    left_block_top.spawn((
+                        Text::new("Music volume"),
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Column,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.1, 0.1, 0.9]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|right_block_top| {
+                    right_block_top.spawn((
+                        slider(0.0, 1.0, settings.volume_settings.get_music_volume()),
+                        observe(|value_change: On<ValueChange<f32>>,
                      mut widget_states: ResMut<DemoWidgetStates>| {
                         widget_states.slider_value = value_change.value;
                     },
-                ),
-            ));
+                )));
+                });
         });
 }
 
@@ -122,7 +132,7 @@ fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
             justify_items: JustifyItems::Center,
             column_gap: px(4),
             height: px(12),
-            width: percent(30),
+            width: percent(100),
             ..default()
         },
         Name::new("Slider"),
@@ -227,7 +237,7 @@ pub fn update_widget_values(
                 let volume = Volume::Linear(res.slider_value);
                 settings.volume_settings.set_music_volume(res.slider_value);
                 audio_player.set_volume(volume);
-                info!("volume {:?}", volume);
+                // info!("volume {:?}", volume);
             }
             // info!("slider value {:?}", res.slider_value);
         }

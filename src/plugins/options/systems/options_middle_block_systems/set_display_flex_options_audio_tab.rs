@@ -5,6 +5,6 @@ pub fn set_display_flex_options_audio_tab(
     mut visibility_of_options_audio_tab_query: Query<&mut Node, With<OptionsUiAudioTab>>,
 ) {
     for mut node in &mut visibility_of_options_audio_tab_query {
-        node.display = Display::Flex;
+        node.display = Display::Grid;
     }
 }
