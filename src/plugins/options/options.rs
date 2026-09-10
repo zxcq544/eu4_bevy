@@ -11,7 +11,7 @@ use crate::{
                 audio_volume_update_system::audio_volume_update_system,
                 hide_options_audio_tab::hide_options_audio_tab,
                 hide_options_video_tab::hide_options_video_tab,
-                set_display_flex_options_audio_tab::set_display_flex_options_audio_tab,
+                set_display_grid_options_audio_tab::set_display_grid_options_audio_tab,
                 set_display_flex_options_video_tab::set_display_flex_options_video_tab,
             },
             options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
@@ -35,7 +35,7 @@ impl Plugin for OptionsPlugin {
         );
         app.add_systems(
             OnEnter(OptionsTabState::Audio),
-            set_display_flex_options_audio_tab,
+            set_display_grid_options_audio_tab,
         );
         // app.add_systems(
         //     OnEnter(OptionsTabState::Game),
