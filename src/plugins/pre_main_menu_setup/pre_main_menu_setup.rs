@@ -5,9 +5,7 @@ use crate::{
             spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene::spawn_main_menu_scene,
         },
-        options::{
-            systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
-        },
+        options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         pre_main_menu_setup::systems::insert_cam_and_cube::insert_cam_and_cube,
     },
 };

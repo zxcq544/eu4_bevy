@@ -1,14 +1,6 @@
-use bevy::{
-    ecs::relationship::RelatedSpawnerCommands,
-    input_focus::tab_navigation::TabIndex,
-    picking::hover::Hovered,
-    prelude::*,
-    ui::InteractionDisabled,
-    ui_widgets::{
-        Slider, SliderDragState, SliderRange, SliderThumb, SliderValue, TrackClick, ValueChange,
-        observe, slider_self_update,
-    },
-};
+use crate::plugins::options::components::options_middle_block::audio_slider_widget::sound_volume_slider::sound_volume_slider;
+use audio_channel::AudioChannel;
+use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
@@ -16,30 +8,6 @@ use settings::Settings;
 
 #[derive(Component, Clone, Default)]
 pub struct OptionsUiAudioTab;
-
-#[derive(Component, Clone, Copy, Debug)]
-pub enum AudioChannel {
-    Master,
-    Music,
-    Sfx,
-}
-
-impl AudioChannel {
-    fn get(self, s: &Settings) -> f32 {
-        match self {
-            Self::Master => s.volume_settings.get_master_volume(),
-            Self::Music => s.volume_settings.get_music_volume(),
-            Self::Sfx => s.volume_settings.get_sound_effects_volume(),
-        }
-    }
-    fn set(self, s: &mut Settings, v: f32) {
-        match self {
-            Self::Master => s.volume_settings.set_master_volume(v),
-            Self::Music => s.volume_settings.set_music_volume(v),
-            Self::Sfx => s.volume_settings.set_sound_effects_volume(v),
-        }
-    }
-}
 
 pub fn audio_tab(
     options_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
@@ -110,7 +78,91 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
-                    right_block_top.spawn(sound_volume_slider(settings, AudioChannel::Master));
+                    right_block_top.spawn(sound_volume_slider(&settings, AudioChannel::Master));
+                });
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Column,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.1, 0.1, 0.9]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|middle_left| {
+                    middle_left_block(middle_left, &localization_res, &fonts);
+                });
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Column,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.1, 0.1, 0.9]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|middle_right_block| {
+                    middle_right_block.spawn(sound_volume_slider(&settings, AudioChannel::Music));
+                });
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Column,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.1, 0.1, 0.9]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|bottom_left| {
+                    bottom_left_block(bottom_left, &localization_res, &fonts);
+                });
+            grid_builder
+                .spawn((
+                    Node {
+                        display: Display::Grid,
+                        // flex_direction: FlexDirection::Column,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        // bottom: Val::Px(3.0),
+                        ..default()
+                    },
+                    Outline {
+                        color: Color::srgb_from_array([0.1, 0.1, 0.9]),
+                        width: Val::Px(2.0),
+                        ..default()
+                    },
+                ))
+                .with_children(|bottom_right_block| {
+                    bottom_right_block.spawn(sound_volume_slider(&settings, AudioChannel::Sfx));
                 });
         });
 }
@@ -138,170 +190,48 @@ fn top_left_block(
     ));
 }
 
-// Slider logic - move somewhere else
-
-/// Marker which identifies sliders with a particular style.
-#[derive(Component, Default)]
-pub struct DemoSlider;
-
-/// Marker which identifies the slider's thumb element.
-#[derive(Component, Default)]
-pub struct DemoSliderThumb;
-
-// const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
-// const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
-// const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
-const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
-const SLIDER_THUMB: Color = Color::srgb(0.35, 0.75, 0.35);
-// const ELEMENT_OUTLINE: Color = Color::srgb(0.45, 0.45, 0.45);
-// const ELEMENT_FILL: Color = Color::srgb(0.35, 0.75, 0.35);
-const ELEMENT_FILL_DISABLED: Color = Color::srgb(0.5019608, 0.5019608, 0.5019608);
-/// Create a demo slider
-fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
-    (
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Stretch,
-            justify_items: JustifyItems::Center,
-            column_gap: px(4),
-            height: px(12),
-            width: percent(100),
+fn middle_left_block(
+    middle_left_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    localisation_res: &Res<Localization>,
+    fonts: &Res<FontHandles>,
+) {
+    let label = localisation_res.content("music_volume").expect(&format!(
+        "missing music_volume in localisation files {:?}",
+        localisation_res
+    ));
+    middle_left_block.spawn((
+        Text::new(label),
+        TextFont {
+            font_size: FontSize::Px(20.0),
+            font: FontSource::Handle(fonts.button_font.clone()),
             ..default()
         },
-        Name::new("Slider"),
-        Hovered::default(),
-        DemoSlider,
-        Slider {
-            track_click: TrackClick::Snap,
-            ..Default::default()
+        TextLayout {
+            justify: Justify::Center,
+            ..default()
         },
-        SliderValue(value),
-        SliderRange::new(min, max),
-        TabIndex(0),
-        Children::spawn((
-            // Slider background rail
-            Spawn((
-                Node {
-                    height: px(6),
-                    border_radius: BorderRadius::all(px(3)),
-                    ..default()
-                },
-                BackgroundColor(SLIDER_TRACK), // Border color for the slider
-            )),
-            // Invisible track to allow absolute placement of thumb entity. This is narrower than
-            // the actual slider, which allows us to position the thumb entity using simple
-            // percentages, without having to measure the actual width of the slider thumb.
-            Spawn((
-                Node {
-                    display: Display::Flex,
-                    position_type: PositionType::Absolute,
-                    left: px(0),
-                    // Track is short by 12px to accommodate the thumb.
-                    right: px(12),
-                    top: px(0),
-                    bottom: px(0),
-                    ..default()
-                },
-                children![(
-                    // Thumb
-                    DemoSliderThumb,
-                    SliderThumb,
-                    Node {
-                        display: Display::Flex,
-                        width: px(12),
-                        height: px(12),
-                        position_type: PositionType::Absolute,
-                        left: percent(0), // This will be updated by the slider's value
-                        border_radius: BorderRadius::MAX,
-                        ..default()
-                    },
-                    BackgroundColor(SLIDER_THUMB),
-                )],
-            )),
-        )),
-    )
+    ));
 }
 
-/// Update the visuals of the slider based on the slider state.
-pub fn update_slider_style(
-    sliders: Query<
-        (
-            Entity,
-            &SliderValue,
-            &SliderRange,
-            &Hovered,
-            &SliderDragState,
-            Has<InteractionDisabled>,
-        ),
-        (
-            Or<(
-                Changed<SliderValue>,
-                Changed<SliderRange>,
-                Changed<Hovered>,
-                Changed<SliderDragState>,
-                Added<InteractionDisabled>,
-            )>,
-            With<DemoSlider>,
-        ),
-    >,
-    children: Query<&Children>,
-    mut thumbs: Query<(&mut Node, &mut BackgroundColor, Has<DemoSliderThumb>), Without<DemoSlider>>,
+fn bottom_left_block(
+    bottom_left_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    localisation_res: &Res<Localization>,
+    fonts: &Res<FontHandles>,
 ) {
-    for (slider_ent, value, range, hovered, drag_state, disabled) in sliders.iter() {
-        for child in children.iter_descendants(slider_ent) {
-            if let Ok((mut thumb_node, mut thumb_bg, is_thumb)) = thumbs.get_mut(child)
-                && is_thumb
-            {
-                thumb_node.left = percent(range.thumb_position(value.0) * 100.0);
-                thumb_bg.0 = thumb_color(disabled, hovered.0 | drag_state.dragging);
-            }
-        }
-    }
-}
-
-pub fn update_slider_style2(
-    sliders: Query<
-        (Entity, &Hovered, &SliderDragState, Has<InteractionDisabled>),
-        With<DemoSlider>,
-    >,
-    children: Query<&Children>,
-    mut thumbs: Query<(&mut BackgroundColor, Has<DemoSliderThumb>), Without<DemoSlider>>,
-    mut removed_disabled: RemovedComponents<InteractionDisabled>,
-) {
-    removed_disabled.read().for_each(|entity| {
-        if let Ok((slider_ent, hovered, drag_state, disabled)) = sliders.get(entity) {
-            for child in children.iter_descendants(slider_ent) {
-                if let Ok((mut thumb_bg, is_thumb)) = thumbs.get_mut(child)
-                    && is_thumb
-                {
-                    thumb_bg.0 = thumb_color(disabled, hovered.0 | drag_state.dragging);
-                }
-            }
-        }
-    });
-}
-
-fn thumb_color(disabled: bool, hovered: bool) -> Color {
-    match (disabled, hovered) {
-        (true, _) => ELEMENT_FILL_DISABLED,
-
-        (false, true) => SLIDER_THUMB.lighter(0.3),
-
-        _ => SLIDER_THUMB,
-    }
-}
-
-fn sound_volume_slider(settings: ResMut<Settings>, audio_channel: AudioChannel) -> impl Bundle {
-    (
-        audio_channel,
-        slider(0.0, 1.0, audio_channel.get(&settings)),
-        observe(slider_self_update),
-        observe(
-            move |change: On<ValueChange<f32>>, mut settings: ResMut<Settings>| {
-                audio_channel.set(&mut settings, change.value);
-            },
-        ),
-    )
+    let label = localisation_res.content("sfx_volume").expect(&format!(
+        "missing sfx_volume in localisation files {:?}",
+        localisation_res
+    ));
+    bottom_left_block.spawn((
+        Text::new(label),
+        TextFont {
+            font_size: FontSize::Px(20.0),
+            font: FontSource::Handle(fonts.button_font.clone()),
+            ..default()
+        },
+        TextLayout {
+            justify: Justify::Center,
+            ..default()
+        },
+    ));
 }

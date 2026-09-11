@@ -1,7 +1,7 @@
 use crate::{
     core::states::{GameState, OptionsTabState},
     plugins::options::{
-        components::options_middle_block::audio_tab::{update_slider_style, update_slider_style2},
+        components::options_middle_block::audio_slider_widget::options_slider_base::update_slider_style,
         systems::{
             hide_options_ui_main_entity::hide_options_ui_main_entity,
             options_button_system::options_button_system,
@@ -60,7 +60,7 @@ impl Plugin for OptionsPlugin {
             (
                 audio_volume_update_system,
                 update_slider_style,
-                update_slider_style2,
+                // update_slider_style2,
             )
                 .run_if(in_state(OptionsTabState::Audio)),
         );

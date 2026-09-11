@@ -63,7 +63,7 @@ pub fn options_top_buttons_system_united(
                     AudioPlayer::new(required_sound),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(settings.volume_settings.get_sound_effects_volume()),
+                        volume: Volume::Linear(settings.volume_settings.get_sfx_volume()),
                         speed: 1.0,
                         paused: false,
                         muted: false,

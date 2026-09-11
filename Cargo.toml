@@ -19,6 +19,7 @@ serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
 settings = { path = "crates/settings" }
 fonts = { path = "crates/fonts" }
+audio_channel = { path = "crates/audio_channel" }
 rand = "0.10.2"
 bevy_fluent = { version = "0.15.0" }
 unic-langid = {version = "0.9.0", features = ["macros"]}
