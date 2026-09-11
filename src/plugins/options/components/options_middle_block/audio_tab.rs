@@ -72,6 +72,7 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
@@ -118,6 +119,7 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
@@ -164,6 +166,7 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
