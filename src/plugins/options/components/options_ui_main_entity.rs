@@ -1,13 +1,16 @@
-use crate::plugins::options::{
-    components::{
-        options_bottom_buttons::{apply_button::apply_button, back_button::back_button},
-        options_middle_block::{audio_tab::audio_tab, video_tab::video_tab},
-        options_top_buttons::{
-            audio_button::audio_button, controls_button::controls_button, game_button::game_button,
-            video_button::video_button,
+use crate::plugins::{
+    game_main::resources::game_ui_resources::GameUiResources,
+    options::{
+        components::{
+            options_bottom_buttons::{apply_button::apply_button, back_button::back_button},
+            options_middle_block::{audio_tab::audio_tab, video_tab::video_tab},
+            options_top_buttons::{
+                audio_button::audio_button, controls_button::controls_button,
+                game_button::game_button, video_button::video_button,
+            },
         },
+        resources::options_images::OptionsImages,
     },
-    resources::options_images::OptionsImages,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
@@ -35,6 +38,7 @@ impl OptionsUiMainEntity {
         localization_res: &Res<Localization>,
         fonts: &Res<FontHandles>,
         options_images: &Res<OptionsImages>,
+        ui_resources: &Res<GameUiResources>,
     ) {
         commands
             .spawn((
@@ -184,7 +188,7 @@ impl OptionsUiMainEntity {
                                             },
                                         )).with_children(|options_middle_block|{
                                             video_tab(options_middle_block);
-                                            audio_tab(options_middle_block, settings, &localization_res, &fonts);
+                                            audio_tab(options_middle_block, settings, &localization_res, &fonts, &ui_resources);
                                         });
                                         main_settings_block_with_all_controls
                                             .spawn((

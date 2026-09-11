@@ -5,6 +5,8 @@ use bevy::{
     ui::InteractionDisabled,
     ui_widgets::{Slider, SliderDragState, SliderRange, SliderThumb, SliderValue, TrackClick},
 };
+
+use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
 /// Marker which identifies sliders with a particular style.
 #[derive(Component, Default)]
 pub struct OptionUiAudioSlider;
@@ -14,10 +16,10 @@ pub struct OptionUiAudioSlider;
 pub struct OptionsUiAudioSliderThumb;
 
 const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
-const SLIDER_THUMB: Color = Color::srgb(0.35, 0.75, 0.35);
+const SLIDER_THUMB: Color = Color::srgb(0.6, 0.6, 0.6);
 const ELEMENT_FILL_DISABLED: Color = Color::srgb(0.5019608, 0.5019608, 0.5019608);
 
-pub fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
+pub fn slider(min: f32, max: f32, value: f32, ui_resources: &Res<GameUiResources>) -> impl Bundle {
     (
         Node {
             display: Display::Flex,
@@ -26,7 +28,7 @@ pub fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
             align_items: AlignItems::Stretch,
             justify_items: JustifyItems::Center,
             column_gap: px(4),
-            height: px(12),
+            height: px(16),
             width: percent(100),
             ..default()
         },
@@ -58,8 +60,8 @@ pub fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
                     display: Display::Flex,
                     position_type: PositionType::Absolute,
                     left: px(0),
-                    // Track is short by 12px to accommodate the thumb.
-                    right: px(12),
+                    // Track is short by 16px to accommodate the thumb.
+                    right: px(16),
                     top: px(0),
                     bottom: px(0),
                     ..default()
@@ -70,14 +72,19 @@ pub fn slider(min: f32, max: f32, value: f32) -> impl Bundle {
                     SliderThumb,
                     Node {
                         display: Display::Flex,
-                        width: px(12),
-                        height: px(12),
+                        width: px(16),
+                        height: px(16),
                         position_type: PositionType::Absolute,
                         left: percent(0), // This will be updated by the slider's value
                         border_radius: BorderRadius::MAX,
                         ..default()
                     },
-                    BackgroundColor(SLIDER_THUMB),
+                    ImageNode {
+                        image: ui_resources.ui_slider_thumb_image_blue.clone(),
+                        image_mode: NodeImageMode::Stretch,
+                        ..default()
+                    },
+                    // BackgroundColor(SLIDER_THUMB),
                 )],
             )),
         )),
@@ -157,7 +164,7 @@ fn thumb_color(disabled: bool, hovered: bool) -> Color {
     match (disabled, hovered) {
         (true, _) => ELEMENT_FILL_DISABLED,
 
-        (false, true) => SLIDER_THUMB.lighter(0.3),
+        (false, true) => SLIDER_THUMB.lighter(0.4),
 
         _ => SLIDER_THUMB,
     }

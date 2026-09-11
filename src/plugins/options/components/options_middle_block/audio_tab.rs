@@ -1,4 +1,7 @@
-use crate::plugins::options::components::options_middle_block::audio_slider_widget::sound_volume_slider::sound_volume_slider;
+use crate::plugins::{
+    game_main::resources::game_ui_resources::GameUiResources,
+    options::components::options_middle_block::audio_slider_widget::sound_volume_slider::sound_volume_slider,
+};
 use audio_channel::AudioChannel;
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
@@ -14,6 +17,7 @@ pub fn audio_tab(
     settings: ResMut<Settings>,
     localization_res: &Res<Localization>,
     fonts: &Res<FontHandles>,
+    ui_resources: &Res<GameUiResources>,
 ) {
     options_middle_block
         .spawn((
@@ -78,7 +82,11 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
-                    right_block_top.spawn(sound_volume_slider(&settings, AudioChannel::Master));
+                    right_block_top.spawn(sound_volume_slider(
+                        &settings,
+                        AudioChannel::Master,
+                        &ui_resources,
+                    ));
                 });
             grid_builder
                 .spawn((
@@ -120,7 +128,11 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|middle_right_block| {
-                    middle_right_block.spawn(sound_volume_slider(&settings, AudioChannel::Music));
+                    middle_right_block.spawn(sound_volume_slider(
+                        &settings,
+                        AudioChannel::Music,
+                        &ui_resources,
+                    ));
                 });
             grid_builder
                 .spawn((
@@ -162,7 +174,11 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
-                    bottom_right_block.spawn(sound_volume_slider(&settings, AudioChannel::Sfx));
+                    bottom_right_block.spawn(sound_volume_slider(
+                        &settings,
+                        AudioChannel::Sfx,
+                        &ui_resources,
+                    ));
                 });
         });
 }

@@ -1,6 +1,7 @@
 use crate::{
     core::states::GameState,
     plugins::{
+        game_main::resources::game_ui_resources::GameUiResources,
         loading_assets::resources::timer_for_main_loading_step::TimerForMainLoadingStep,
         main_menu::resources::main_menu_all_images::MainMenuAllImages,
         options::resources::options_images::OptionsImages,
@@ -18,12 +19,15 @@ pub fn whole_setup_step_for_main_loading(
     main_menu_all_images: Res<MainMenuAllImages>,
     options_images: Res<OptionsImages>,
     sound_effects: Res<ButtonClickSoundEffects>,
+    game_ui_resources: Res<GameUiResources>,
 ) {
     timer.timer.tick(time.delta());
 
     if asset_server.is_loaded_with_dependencies(&main_menu_all_images.main_menu_background_image)
         && asset_server.is_loaded_with_dependencies(&sound_effects.button_click_general)
         && asset_server.is_loaded_with_dependencies(&options_images.settings_bg_image)
+        && asset_server.is_loaded_with_dependencies(&options_images.apply_and_back_button_image)
+        && asset_server.is_loaded_with_dependencies(&game_ui_resources.ui_slider_thumb_image_blue)
         && timer.timer.just_finished()
     {
         info!("current state is {:?}", current_state.get());

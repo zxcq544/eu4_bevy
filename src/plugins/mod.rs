@@ -1,3 +1,4 @@
+pub mod game_main;
 pub mod initial_boot_step;
 pub mod loading_assets;
 pub mod main_menu;

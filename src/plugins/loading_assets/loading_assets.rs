@@ -3,6 +3,7 @@ use crate::{
     plugins::loading_assets::systems::{
         free_main_loading_step_resources::free_main_loading_step_resources,
         load_all_game_sound_effects::load_all_game_sound_effects,
+        load_resources_for_game_ui::load_images_for_game_ui::load_images_for_game_ui,
         load_resources_for_main_menu::{
             load_images_for_main_menu::load_images_for_main_menu,
             load_images_for_options::load_images_for_options,
@@ -26,6 +27,7 @@ impl Plugin for LoadingAssetsPlugin {
                 load_images_for_main_menu,
                 load_all_game_sound_effects,
                 load_images_for_options,
+                load_images_for_game_ui,
             ),
         );
         app.add_systems(
