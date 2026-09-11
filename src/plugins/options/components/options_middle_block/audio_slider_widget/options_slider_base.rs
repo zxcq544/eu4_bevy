@@ -15,7 +15,7 @@ pub struct OptionUiAudioSlider;
 #[derive(Component, Default)]
 pub struct OptionsUiAudioSliderThumb;
 
-const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
+// const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
 const SLIDER_THUMB: Color = Color::srgb(1.0, 1.0, 1.0);
 const ELEMENT_FILL_DISABLED: Color = Color::srgb(0.5019608, 0.5019608, 0.5019608);
 
@@ -50,7 +50,18 @@ pub fn slider(min: f32, max: f32, value: f32, ui_resources: &Res<GameUiResources
                     border_radius: BorderRadius::all(px(3)),
                     ..default()
                 },
-                BackgroundColor(SLIDER_TRACK), // Border color for the slider
+                ImageNode {
+                    image: ui_resources.ui_slider_track_image.clone(),
+                    image_mode: NodeImageMode::Sliced(TextureSlicer {
+                        border: BorderRect::all(6.0),
+                        center_scale_mode: SliceScaleMode::Stretch,
+                        sides_scale_mode: SliceScaleMode::Stretch,
+                        max_corner_scale: 1.0,
+                        ..default()
+                    }),
+                    ..default()
+                },
+                // BackgroundColor(SLIDER_TRACK), // Border color for the slider
             )),
             // Invisible track to allow absolute placement of thumb entity. This is narrower than
             // the actual slider, which allows us to position the thumb entity using simple
