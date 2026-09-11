@@ -1,3 +1,4 @@
+use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
 use bevy::{
     input_focus::tab_navigation::TabIndex,
     picking::hover::Hovered,
@@ -6,7 +7,6 @@ use bevy::{
     ui_widgets::{Slider, SliderDragState, SliderRange, SliderThumb, SliderValue, TrackClick},
 };
 
-use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
 /// Marker which identifies sliders with a particular style.
 #[derive(Component, Default)]
 pub struct OptionUiAudioSlider;
@@ -16,7 +16,7 @@ pub struct OptionUiAudioSlider;
 pub struct OptionsUiAudioSliderThumb;
 
 const SLIDER_TRACK: Color = Color::srgb(0.05, 0.05, 0.05);
-const SLIDER_THUMB: Color = Color::srgb(0.6, 0.6, 0.6);
+const SLIDER_THUMB: Color = Color::srgb(1.0, 1.0, 1.0);
 const ELEMENT_FILL_DISABLED: Color = Color::srgb(0.5019608, 0.5019608, 0.5019608);
 
 pub fn slider(min: f32, max: f32, value: f32, ui_resources: &Res<GameUiResources>) -> impl Bundle {
@@ -82,9 +82,9 @@ pub fn slider(min: f32, max: f32, value: f32, ui_resources: &Res<GameUiResources
                     ImageNode {
                         image: ui_resources.ui_slider_thumb_image_blue.clone(),
                         image_mode: NodeImageMode::Stretch,
+                        color: SLIDER_THUMB,
                         ..default()
                     },
-                    // BackgroundColor(SLIDER_THUMB),
                 )],
             )),
         )),
@@ -115,26 +115,23 @@ pub fn update_slider_style(
     >,
     children: Query<&Children>,
     mut thumbs: Query<
-        (
-            &mut Node,
-            &mut BackgroundColor,
-            Has<OptionsUiAudioSliderThumb>,
-        ),
+        (&mut Node, &mut ImageNode, Has<OptionsUiAudioSliderThumb>),
         Without<OptionUiAudioSlider>,
     >,
 ) {
     for (slider_ent, value, range, hovered, drag_state, disabled) in sliders.iter() {
         for child in children.iter_descendants(slider_ent) {
-            if let Ok((mut thumb_node, mut thumb_bg, is_thumb)) = thumbs.get_mut(child)
+            if let Ok((mut thumb_node, mut thumb_image_node, is_thumb)) = thumbs.get_mut(child)
                 && is_thumb
             {
                 thumb_node.left = percent(range.thumb_position(value.0) * 100.0);
-                thumb_bg.0 = thumb_color(disabled, hovered.0 | drag_state.dragging);
+                thumb_image_node.color = thumb_color(disabled, hovered.0 | drag_state.dragging);
             }
         }
     }
 }
 
+// Used to set disable i think
 // pub fn update_slider_style2(
 //     sliders: Query<
 //         (Entity, &Hovered, &SliderDragState, Has<InteractionDisabled>),
@@ -164,7 +161,7 @@ fn thumb_color(disabled: bool, hovered: bool) -> Color {
     match (disabled, hovered) {
         (true, _) => ELEMENT_FILL_DISABLED,
 
-        (false, true) => SLIDER_THUMB.lighter(0.4),
+        (false, true) => Color::srgb(1.25, 1.25, 1.25),
 
         _ => SLIDER_THUMB,
     }
