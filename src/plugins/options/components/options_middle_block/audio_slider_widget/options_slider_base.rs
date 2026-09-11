@@ -46,19 +46,20 @@ pub fn slider(min: f32, max: f32, value: f32, ui_resources: &Res<GameUiResources
             // Slider background rail
             Spawn((
                 Node {
-                    height: px(6),
-                    border_radius: BorderRadius::all(px(3)),
+                    height: px(8),
+                    // border_radius: BorderRadius::all(px(3)),
                     ..default()
                 },
                 ImageNode {
-                    image: ui_resources.ui_slider_track_image.clone(),
-                    image_mode: NodeImageMode::Sliced(TextureSlicer {
-                        border: BorderRect::all(6.0),
-                        center_scale_mode: SliceScaleMode::Stretch,
-                        sides_scale_mode: SliceScaleMode::Stretch,
-                        max_corner_scale: 1.0,
-                        ..default()
-                    }),
+                    image: ui_resources.ui_options_slider_background_image.clone(),
+                    image_mode: NodeImageMode::Stretch,
+                    // image_mode: NodeImageMode::Sliced(TextureSlicer {
+                    //     border: BorderRect::all(6.0),
+                    //     center_scale_mode: SliceScaleMode::Stretch,
+                    //     sides_scale_mode: SliceScaleMode::Stretch,
+                    //     max_corner_scale: 1.0,
+                    //     ..default()
+                    // }),
                     ..default()
                 },
                 // BackgroundColor(SLIDER_TRACK), // Border color for the slider

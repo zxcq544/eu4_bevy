@@ -39,7 +39,7 @@ pub fn get_eu4_settings() -> Settings {
             eu4_folder: steam_default_eu4_folder.to_string(),
             file_name: "settings.json".to_string(),
             monitor_index: 0,
-            volume_settings: VolumeSettings::new(1.0, 1.0, 1.0),
+            volume_settings: VolumeSettings::new(0.5, 0.5, 0.5),
             resolution_width: 1920,
             resolution_height: 1080,
             window_decorations: true,
