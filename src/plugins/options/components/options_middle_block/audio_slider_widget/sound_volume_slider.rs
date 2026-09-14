@@ -4,17 +4,19 @@ use crate::plugins::{
 };
 use audio_channel::AudioChannel;
 use bevy::{
+    ecs::relationship::RelatedSpawnerCommands,
     prelude::*,
     ui_widgets::{ValueChange, observe, slider_self_update},
 };
 use settings::Settings;
 
 pub fn sound_volume_slider(
+    parent: &mut RelatedSpawnerCommands<'_, ChildOf>,
     settings: &ResMut<Settings>,
     audio_channel: AudioChannel,
     ui_resources: &Res<GameUiResources>,
-) -> impl Bundle {
-    (
+) {
+    parent.spawn((
         audio_channel,
         slider(0.0, 1.0, audio_channel.get(&settings), ui_resources),
         observe(slider_self_update),
@@ -23,5 +25,5 @@ pub fn sound_volume_slider(
                 audio_channel.set(&mut settings, change.value);
             },
         ),
-    )
+    ));
 }
