@@ -1,13 +1,14 @@
-use crate::plugins::{
-    game_main::resources::game_ui_resources::GameUiResources,
-    options::components::options_middle_block::audio_slider_widget::options_slider_base::slider,
+use crate::{
+    plugins::{
+        game_main::resources::game_ui_resources::GameUiResources,
+        options::components::options_middle_block::audio_slider_widget::options_slider_base::slider,
+    },
+    shared::{audio_channel::audio_channel::AudioChannel, settings::settings::Settings},
 };
-use audio_channel::AudioChannel;
 use bevy::{
     prelude::*,
     ui_widgets::{ValueChange, observe, slider_self_update},
 };
-use settings::Settings;
 
 pub fn sound_volume_slider(
     settings: &ResMut<Settings>,

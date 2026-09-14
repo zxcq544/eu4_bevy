@@ -11,10 +11,7 @@ use crate::{
                 hide_options_video_tab::hide_options_video_tab,
                 set_display_flex_options_video_tab::set_display_flex_options_video_tab,
                 set_display_grid_options_audio_tab::set_display_grid_options_audio_tab,
-                volume_decrease_button_system::{
-                    VolumeDecreasedMessage, volume_decrease_button_system,
-                },
-                volume_decreased_message_reader::volume_decreased_message_reader,
+                volume_decrease_button_system::volume_decrease_button_system,
             },
             options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
             set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
@@ -27,7 +24,7 @@ pub struct OptionsPlugin;
 
 impl Plugin for OptionsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_message::<VolumeDecreasedMessage>();
+        // app.add_message::<VolumeDecreasedMessage>();
         app.add_systems(
             OnEnter(GameState::Options),
             (set_visible_options_ui_main_entity,),
@@ -66,7 +63,6 @@ impl Plugin for OptionsPlugin {
                 audio_volume_update_system,
                 update_slider_style,
                 volume_decrease_button_system,
-                volume_decreased_message_reader,
                 // update_slider_style2,
             )
                 .run_if(in_state(OptionsTabState::Audio)),

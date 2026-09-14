@@ -4,13 +4,13 @@ use crate::{
         components::sound_effects_player::SoundEffectsPlayer,
         resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
+    shared::settings::settings::Settings,
 };
 use bevy::{
     audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
-use settings::Settings;
 
 #[derive(Component, Clone, Default, Reflect)]
 pub struct OptionsTopTabButton;

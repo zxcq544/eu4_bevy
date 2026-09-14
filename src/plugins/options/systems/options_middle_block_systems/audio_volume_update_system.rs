@@ -1,9 +1,11 @@
-use crate::plugins::{
-    music_player::music_player::BackgroundMusicPlayer,
-    sound_effects::components::sound_effects_player::SoundEffectsPlayer,
+use crate::{
+    plugins::{
+        music_player::music_player::BackgroundMusicPlayer,
+        sound_effects::components::sound_effects_player::SoundEffectsPlayer,
+    },
+    shared::settings::settings::Settings,
 };
 use bevy::{audio::Volume, prelude::*};
-use settings::Settings;
 
 pub fn audio_volume_update_system(
     settings: Res<Settings>,

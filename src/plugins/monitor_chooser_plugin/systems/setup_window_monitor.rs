@@ -1,7 +1,7 @@
 use crate::core::states::GameState;
+use crate::shared::settings::settings::Settings;
 use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, Window, WindowPosition, WindowResolution};
-use settings::Settings;
 
 pub fn setup_window_monitor(
     settings: Res<Settings>,

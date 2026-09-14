@@ -1,21 +1,23 @@
-use crate::plugins::{
-    game_main::resources::game_ui_resources::GameUiResources,
-    options::{
-        components::{
-            options_bottom_buttons::{apply_button::apply_button, back_button::back_button},
-            options_middle_block::{audio_tab::audio_tab, video_tab::video_tab},
-            options_top_buttons::{
-                audio_button::audio_button, controls_button::controls_button,
-                game_button::game_button, video_button::video_button,
+use crate::{
+    plugins::{
+        game_main::resources::game_ui_resources::GameUiResources,
+        options::{
+            components::{
+                options_bottom_buttons::{apply_button::apply_button, back_button::back_button},
+                options_middle_block::{audio_tab::audio_tab, video_tab::video_tab},
+                options_top_buttons::{
+                    audio_button::audio_button, controls_button::controls_button,
+                    game_button::game_button, video_button::video_button,
+                },
             },
+            resources::options_images::OptionsImages,
         },
-        resources::options_images::OptionsImages,
     },
+    shared::settings::settings::Settings,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
-use settings::Settings;
 
 #[derive(Component, Clone, Default, Reflect)]
 pub struct OptionsButton;

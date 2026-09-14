@@ -1,5 +1,6 @@
 use bevy::{audio::Volume, prelude::*};
-use settings::Settings;
+
+use crate::shared::settings::settings::Settings;
 
 // #[derive(Resource)]
 // pub struct MusicPlayer {

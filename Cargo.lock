@@ -356,14 +356,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "audio_channel"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "settings",
-]
-
-[[package]]
 name = "autocfg"
 version = "1.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2512,7 +2504,6 @@ checksum = "0b5343afd4a8365a643ac588dab4cf234a190c7f6c88c9f6dd6ffe00837661b7"
 name = "eu4_bevy"
 version = "0.1.0"
 dependencies = [
- "audio_channel",
  "bevy",
  "bevy_fluent",
  "fluent_content",
@@ -2522,7 +2513,6 @@ dependencies = [
  "rand",
  "serde",
  "serde_json",
- "settings",
  "unic-langid",
 ]
 
@@ -4742,14 +4732,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "save_game_info"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "scoped-tls"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4855,18 +4837,6 @@ dependencies = [
  "ryu",
  "serde",
  "unsafe-libyaml",
-]
-
-[[package]]
-name = "settings"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "fonts",
- "save_game_info",
- "serde",
- "serde_json",
- "volume_settings",
 ]
 
 [[package]]
@@ -5516,14 +5486,6 @@ name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
-
-[[package]]
-name = "volume_settings"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
-]
 
 [[package]]
 name = "walkdir"

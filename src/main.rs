@@ -3,6 +3,7 @@ use bevy::window::WindowPlugin;
 use bevy::{dev_tools::fps_overlay::FrameTimeGraphConfig, prelude::*};
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
+use eu4_bevy::shared::settings::settings;
 use unic_langid::langid;
 
 // TODO: take localisation from settings

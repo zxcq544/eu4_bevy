@@ -1,6 +1,8 @@
-use crate::plugins::main_menu::components::continue_game_entity::ContinueGameEntity;
+use crate::{
+    plugins::main_menu::components::continue_game_entity::ContinueGameEntity,
+    shared::settings::settings::Settings,
+};
 use bevy::prelude::*;
-use settings::Settings;
 
 pub fn set_visible_continue_block(
     settings: Res<Settings>,

@@ -1,5 +1,6 @@
 use bevy::prelude::*;
-use settings::Settings;
+
+use crate::shared::settings::settings::Settings;
 
 #[derive(Component, Clone, Copy, Debug, PartialEq)]
 pub enum AudioChannel {

@@ -1,17 +1,18 @@
-use crate::plugins::{
-    game_main::resources::game_ui_resources::GameUiResources,
-    options::components::options_middle_block::audio_slider_widget::{
-        slider_left_arrow_button::slider_left_arrow_button,
-        slider_right_arrow_button::slider_right_arrow_button,
-        sound_volume_slider::sound_volume_slider,
+use crate::{
+    plugins::{
+        game_main::resources::game_ui_resources::GameUiResources,
+        options::components::options_middle_block::audio_slider_widget::{
+            slider_left_arrow_button::slider_left_arrow_button,
+            slider_right_arrow_button::slider_right_arrow_button,
+            sound_volume_slider::sound_volume_slider,
+        },
     },
+    shared::{audio_channel::audio_channel::AudioChannel, settings::settings::Settings},
 };
-use audio_channel::AudioChannel;
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 use fonts::FontHandles;
-use settings::Settings;
 
 #[derive(Component, Clone, Default)]
 pub struct OptionsUiAudioTab;

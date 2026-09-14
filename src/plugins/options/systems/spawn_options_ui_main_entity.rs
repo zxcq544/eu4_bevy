@@ -1,14 +1,16 @@
-use crate::plugins::{
-    game_main::resources::game_ui_resources::GameUiResources,
-    options::{
-        components::options_ui_main_entity::OptionsUiMainEntity,
-        resources::options_images::OptionsImages,
+use crate::{
+    plugins::{
+        game_main::resources::game_ui_resources::GameUiResources,
+        options::{
+            components::options_ui_main_entity::OptionsUiMainEntity,
+            resources::options_images::OptionsImages,
+        },
     },
+    shared::settings::settings::Settings,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
-use settings::Settings;
 
 pub fn spawn_options_ui_main_entity(
     settings: ResMut<Settings>,

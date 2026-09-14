@@ -1,11 +1,13 @@
-use crate::plugins::main_menu::{
-    components::continue_game_entity::ContinueGameEntity,
-    resources::main_menu_all_images::MainMenuAllImages,
+use crate::{
+    plugins::main_menu::{
+        components::continue_game_entity::ContinueGameEntity,
+        resources::main_menu_all_images::MainMenuAllImages,
+    },
+    shared::settings::settings::Settings,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 use fonts::FontHandles;
-use settings::Settings;
 
 pub fn spawn_continue_block(
     mut commands: Commands,

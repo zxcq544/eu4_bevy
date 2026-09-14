@@ -1,5 +1,7 @@
-use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
-use audio_channel::AudioChannel;
+use crate::{
+    plugins::game_main::resources::game_ui_resources::GameUiResources,
+    shared::audio_channel::audio_channel::AudioChannel,
+};
 use bevy::prelude::*;
 #[derive(Component, Default)]
 pub struct OptionsUIAudioSliderButtonLeft;

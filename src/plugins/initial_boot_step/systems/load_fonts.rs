@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use fonts::FontHandles;
-use settings::Settings;
+
+use crate::shared::settings::settings::Settings;
 
 pub fn load_fonts(mut commands: Commands, asset_server: Res<AssetServer>, settings: Res<Settings>) {
     info!("Loading fonts");

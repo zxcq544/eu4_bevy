@@ -1,8 +1,11 @@
 use bevy::ecs::resource::Resource;
 use fonts::Fonts;
-use save_game_info::{LastSaveGameInfo, SaveGameInfo};
 use serde::{Deserialize, Serialize};
-use volume_settings::VolumeSettings;
+
+use crate::shared::{
+    save_game_info::save_game_info::{LastSaveGameInfo, SaveGameInfo},
+    settings::volume_settings::VolumeSettings,
+};
 
 #[derive(Deserialize, Serialize, Debug, Clone, Resource)]
 pub struct Settings {

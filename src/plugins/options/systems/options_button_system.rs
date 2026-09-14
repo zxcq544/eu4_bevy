@@ -7,13 +7,13 @@ use crate::{
             resources::button_click_sound_effects::ButtonClickSoundEffects,
         },
     },
+    shared::settings::settings::Settings,
 };
 use bevy::{
     audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
-use settings::Settings;
 use std::{fs::File, path::Path};
 
 pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
