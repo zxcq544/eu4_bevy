@@ -1,11 +1,15 @@
 use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
-use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
+use audio_channel::AudioChannel;
+use bevy::{prelude::*, ui_widgets::observe};
+use settings::Settings;
 
 pub fn slider_left_arrow_button(
-    parent: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    settings: &ResMut<Settings>,
+    audio_channel: AudioChannel,
     ui_resources: &Res<GameUiResources>,
-) {
-    parent.spawn((
+) -> impl Bundle {
+    (
+        audio_channel,
         Button,
         Node {
             display: Display::Grid,
@@ -14,6 +18,16 @@ pub fn slider_left_arrow_button(
             height: Val::Percent(100.0),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
+            // left: Val::Percent(50.0),
+            // padding: UiRect::left(Val::Percent(12.5))
+            //     .with_right(Val::Percent(12.5)),
+            // grid_template_columns: vec![
+            //     GridTrack::percent(12.5),
+            //     GridTrack::percent(75.0),
+            //     GridTrack::percent(12.5),
+            // ],
+            // grid_template_rows: vec![GridTrack::percent(12.5), GridTrack::percent(75.0)],
+            // bottom: Val::Px(3.0),
             ..default()
         },
         ZIndex(6),
@@ -38,5 +52,5 @@ pub fn slider_left_arrow_button(
         //         }
         //     },
         // ),
-    ));
+    )
 }

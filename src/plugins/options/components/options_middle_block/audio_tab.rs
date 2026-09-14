@@ -87,12 +87,11 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
-                    sound_volume_slider(
-                        right_block_top,
+                    right_block_top.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Master,
                         &ui_resources,
-                    );
+                    ));
                 });
             grid_builder
                 .spawn((
@@ -135,12 +134,11 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|middle_right_block| {
-                    sound_volume_slider(
-                        middle_right_block,
+                    middle_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Music,
                         &ui_resources,
-                    );
+                    ));
                 });
             grid_builder
                 .spawn((
@@ -192,14 +190,17 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
-                    slider_left_arrow_button(bottom_right_block, &ui_resources);
-                    sound_volume_slider(
-                        bottom_right_block,
+                    bottom_right_block.spawn(slider_left_arrow_button(
                         &settings,
                         AudioChannel::Sfx,
                         &ui_resources,
-                    );
-                    slider_right_arrow_button(bottom_right_block, &ui_resources);
+                    ));
+                    bottom_right_block.spawn(sound_volume_slider(
+                        &settings,
+                        AudioChannel::Sfx,
+                        &ui_resources,
+                    ));
+                    bottom_right_block.spawn(slider_right_arrow_button(&ui_resources));
                 });
         });
 }
