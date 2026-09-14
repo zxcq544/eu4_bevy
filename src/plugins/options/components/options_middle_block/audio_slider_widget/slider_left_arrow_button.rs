@@ -1,15 +1,8 @@
 use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
-use audio_channel::AudioChannel;
-use bevy::{prelude::*, ui_widgets::observe};
-use settings::Settings;
+use bevy::prelude::*;
 
-pub fn slider_left_arrow_button(
-    settings: &ResMut<Settings>,
-    audio_channel: AudioChannel,
-    ui_resources: &Res<GameUiResources>,
-) -> impl Bundle {
+pub fn slider_left_arrow_button(ui_resources: &Res<GameUiResources>) -> impl Bundle {
     (
-        audio_channel,
         Button,
         Node {
             display: Display::Grid,

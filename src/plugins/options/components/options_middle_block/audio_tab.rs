@@ -190,11 +190,7 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
-                    bottom_right_block.spawn(slider_left_arrow_button(
-                        &settings,
-                        AudioChannel::Sfx,
-                        &ui_resources,
-                    ));
+                    bottom_right_block.spawn(slider_left_arrow_button(&ui_resources));
                     bottom_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Sfx,
