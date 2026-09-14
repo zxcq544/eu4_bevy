@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use settings::Settings;
 
-#[derive(Component, Clone, Copy, Debug)]
+#[derive(Component, Clone, Copy, Debug, PartialEq)]
 pub enum AudioChannel {
     Master,
     Music,

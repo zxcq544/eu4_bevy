@@ -1,7 +1,6 @@
 use audio_channel::AudioChannel;
 use bevy::audio::Volume;
 use bevy::prelude::*;
-use bevy::ui_widgets::{SetSliderValue, SliderValueChange};
 use bevy::{
     ecs::{
         entity::Entity,
@@ -20,11 +19,16 @@ pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
 pub const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
 pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
-pub fn volume_decrease_system(
+#[derive(Message)]
+pub struct VolumeDecreasedMessage {
+    pub audio_channel: AudioChannel,
+}
+
+pub fn volume_decrease_button_system(
+    mut message_writer: MessageWriter<VolumeDecreasedMessage>,
     mut commands: Commands,
     settings: Res<Settings>,
     sound_effects: Res<ButtonClickSoundEffects>,
-    slider_query: Query<(Entity, &AudioChannel)>,
     mut input_focus: ResMut<InputFocus>,
     mut interaction_query: Query<
         (
@@ -32,11 +36,12 @@ pub fn volume_decrease_system(
             &mut OptionsUIAudioSliderButtonLeft,
             &Interaction,
             &mut ImageNode,
+            &AudioChannel,
         ),
         Changed<Interaction>,
     >,
 ) {
-    for (entity, mut button, interaction, mut image_node) in &mut interaction_query {
+    for (entity, mut button, interaction, mut image_node, audio_channel) in &mut interaction_query {
         match *interaction {
             Interaction::Pressed => {
                 input_focus.set(entity, FocusCause::Pressed);
@@ -59,25 +64,10 @@ pub fn volume_decrease_system(
                         ..default()
                     },
                 ));
-                for (slider, audio_channel) in &slider_query {
-                    match audio_channel {
-                        AudioChannel::Master => {
-                            info!("Volume decreased");
-                        }
-                        AudioChannel::Music => {
-                            info!("Volume decreased");
-                        }
-                        AudioChannel::Sfx => {
-                            commands.trigger(SetSliderValue {
-                                change: SliderValueChange::Absolute(
-                                    settings.volume_settings.get_sfx_volume() - 0.1,
-                                ),
-                                entity: slider,
-                            });
-                        }
-                    }
-                }
-                info!("Volume decreased");
+                message_writer.write(VolumeDecreasedMessage {
+                    audio_channel: audio_channel.clone(),
+                });
+                info!("Volume decreased click {:?}", audio_channel);
             }
             Interaction::Hovered => {
                 input_focus.set(entity, FocusCause::Pressed);

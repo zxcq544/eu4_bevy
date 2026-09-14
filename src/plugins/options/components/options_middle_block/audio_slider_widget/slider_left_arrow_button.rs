@@ -1,18 +1,23 @@
 use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
+use audio_channel::AudioChannel;
 use bevy::prelude::*;
 #[derive(Component, Default)]
 pub struct OptionsUIAudioSliderButtonLeft;
 
-pub fn slider_left_arrow_button(ui_resources: &Res<GameUiResources>) -> impl Bundle {
+pub fn slider_left_arrow_button(
+    ui_resources: &Res<GameUiResources>,
+    audio_channel: AudioChannel,
+) -> impl Bundle {
     (
         Button,
         OptionsUIAudioSliderButtonLeft,
+        audio_channel,
         Node {
             display: Display::Grid,
             width: Val::Percent(100.0),
             height: Val::Percent(100.0),
             justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,           
+            align_items: AlignItems::Center,
             ..default()
         },
         ZIndex(6),
