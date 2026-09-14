@@ -1,3 +1,4 @@
+use audio_channel::AudioChannel;
 use bevy::audio::Volume;
 use bevy::prelude::*;
 use bevy::ui_widgets::{SetSliderValue, SliderValueChange};
@@ -23,6 +24,7 @@ pub fn volume_decrease_system(
     mut commands: Commands,
     settings: Res<Settings>,
     sound_effects: Res<ButtonClickSoundEffects>,
+    slider_query: Query<(Entity, &AudioChannel)>,
     mut input_focus: ResMut<InputFocus>,
     mut interaction_query: Query<
         (
@@ -57,12 +59,24 @@ pub fn volume_decrease_system(
                         ..default()
                     },
                 ));
-                commands.trigger(SetSliderValue {
-                    change: SliderValueChange::Absolute(
-                        settings.volume_settings.get_sfx_volume() - 0.1,
-                    ),
-                    entity: entity,
-                });
+                for (slider, audio_channel) in &slider_query {
+                    match audio_channel {
+                        AudioChannel::Master => {
+                            info!("Volume decreased");
+                        }
+                        AudioChannel::Music => {
+                            info!("Volume decreased");
+                        }
+                        AudioChannel::Sfx => {
+                            commands.trigger(SetSliderValue {
+                                change: SliderValueChange::Absolute(
+                                    settings.volume_settings.get_sfx_volume() - 0.1,
+                                ),
+                                entity: slider,
+                            });
+                        }
+                    }
+                }
                 info!("Volume decreased");
             }
             Interaction::Hovered => {
