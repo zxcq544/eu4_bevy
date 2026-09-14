@@ -1,6 +1,10 @@
 use crate::plugins::{
     game_main::resources::game_ui_resources::GameUiResources,
-    options::components::options_middle_block::audio_slider_widget::sound_volume_slider::sound_volume_slider,
+    options::components::options_middle_block::audio_slider_widget::{
+        slider_left_arrow_button::slider_left_arrow_button,
+        slider_right_arrow_button::slider_right_arrow_button,
+        sound_volume_slider::sound_volume_slider,
+    },
 };
 use audio_channel::AudioChannel;
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
@@ -166,7 +170,16 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
+                        padding: UiRect::left(Val::Percent(12.5))
+                            .with_right(Val::Percent(12.5))
+                            .with_top(Val::Percent(11.0))
+                            .with_bottom(Val::Percent(11.0)),
+                        grid_template_columns: vec![
+                            GridTrack::percent(10.0),
+                            GridTrack::percent(80.0),
+                            GridTrack::percent(10.0),
+                        ],
+                        // grid_template_rows: vec![GridTrack::percent(12.5), GridTrack::percent(75.0)],
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
@@ -177,11 +190,17 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
+                    bottom_right_block.spawn(slider_left_arrow_button(
+                        &settings,
+                        AudioChannel::Sfx,
+                        &ui_resources,
+                    ));
                     bottom_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Sfx,
                         &ui_resources,
                     ));
+                    bottom_right_block.spawn(slider_right_arrow_button(&ui_resources));
                 });
         });
 }

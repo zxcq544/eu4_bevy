@@ -8,11 +8,17 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
     let ui_slider_thumb_image_red = asset_server.load("gfx/interface/scroll_drager.dds");
     let ui_options_slider_background_image =
         asset_server.load("gfx/interface/settings_slider_bg.dds");
+    let ui_options_slider_left_arrow_image =
+        asset_server.load("gfx/interface/scrollbar_leftbutton.dds");
+    let ui_options_slider_right_arrow_image =
+        asset_server.load("gfx/interface/scrollbar_rightbutton.dds");
     // let ui_slider_track_image = asset_server.load("gfx/interface/scroll_track.dds");
     commands.insert_resource(GameUiResources {
         ui_slider_thumb_image_blue,
         ui_slider_thumb_image_red,
         ui_options_slider_background_image,
+        ui_options_slider_left_arrow_image,
+        ui_options_slider_right_arrow_image,
         // ui_slider_track_image,
     });
 }

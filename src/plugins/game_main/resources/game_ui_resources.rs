@@ -5,5 +5,7 @@ pub struct GameUiResources {
     pub ui_slider_thumb_image_blue: Handle<Image>,
     pub ui_slider_thumb_image_red: Handle<Image>,
     pub ui_options_slider_background_image: Handle<Image>,
+    pub ui_options_slider_left_arrow_image: Handle<Image>,
+    pub ui_options_slider_right_arrow_image: Handle<Image>,
     // pub ui_slider_track_image: Handle<Image>,
 }
