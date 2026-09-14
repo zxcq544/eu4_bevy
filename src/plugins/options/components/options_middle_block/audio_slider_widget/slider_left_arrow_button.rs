@@ -34,16 +34,5 @@ pub fn slider_left_arrow_button(ui_resources: &Res<GameUiResources>) -> impl Bun
             image_mode: NodeImageMode::Stretch,
             ..default()
         },
-        // observe(
-        //     move |change: On<Pointer<Click>>, mut settings: ResMut<Settings>| {
-        //         let volume = audio_channel.get(&settings);
-        //         if volume > 0.0 {
-        //             audio_channel.set(&mut settings, volume - 0.1);
-        //         } else {
-        //             // volume = 0;
-        //             audio_channel.set(&mut settings, 0.0);
-        //         }
-        //     },
-        // ),
     )
 }
