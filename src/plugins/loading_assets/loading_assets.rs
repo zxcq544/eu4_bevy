@@ -8,7 +8,7 @@ use crate::{
             load_images_for_main_menu::load_images_for_main_menu,
             load_images_for_options::load_images_for_options,
         },
-        set_main_loading_step_scene::set_main_loading_step_scene,
+        spawn_main_loading_step_scene::spawn_main_loading_step_scene,
         start_timer_for_main_loading_step::start_timer_for_main_loading_step,
         whole_setup_step_for_main_loading::whole_setup_step_for_main_loading,
     },
@@ -23,7 +23,7 @@ impl Plugin for LoadingAssetsPlugin {
             OnEnter(GameState::LoadingAssets),
             (
                 start_timer_for_main_loading_step,
-                set_main_loading_step_scene,
+                spawn_main_loading_step_scene,
                 load_images_for_main_menu,
                 load_all_game_sound_effects,
                 load_images_for_options,

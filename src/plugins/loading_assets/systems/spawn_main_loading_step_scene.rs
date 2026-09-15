@@ -1,16 +1,18 @@
 use crate::{
-    core::states::GameState, plugins::loading_assets::{
+    core::states::GameState,
+    plugins::loading_assets::{
         components::main_loading_step_main_entity::MainLoadingStepMainEntity,
         resources::{
             loading_screen_tooltip_image::LoadingScreenTooltipImage,
             main_loading_step_background_image::MainLoadingStepBackgroundImage,
         },
-    }, shared::fonts::fonts::FontHandles,
+    },
+    shared::fonts::fonts::FontHandles,
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 
-pub fn set_main_loading_step_scene(
+pub fn spawn_main_loading_step_scene(
     mut commands: Commands,
     main_image_res: Res<MainLoadingStepBackgroundImage>,
     loading_screen_tooltip_image_res: Res<LoadingScreenTooltipImage>,
