@@ -60,7 +60,7 @@ pub fn volume_increase_button_system(
                 // find slider with same audio channel as button's audio channel
                 for (slider_entity, audio_channel_of_slider) in &sliders_query {
                     if *audio_channel_of_slider == *audio_channel_of_button {
-                        let current_value = audio_channel_of_button.get(&settings);
+                        let current_value = audio_channel_of_slider.get(&settings);
                         let new_value = (current_value + 0.1).clamp(0.0, 1.0);
                         commands.trigger(SetSliderValue {
                             entity: slider_entity,
