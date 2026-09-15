@@ -43,49 +43,45 @@ pub fn volume_increase_button_system(
         match *interaction {
             Interaction::Pressed => {
                 input_focus.set(entity, FocusCause::Pressed);
-                // node.border = UiRect::all(Val::Px(20.0));
                 image_node.color = PRESSED_BUTTON;
                 // The accessibility system's only update the button's state when the `Button` component is marked as changed.
                 button.set_changed();
 
                 // Sound effect logic
-                let required_sound = sound_effects.button_click_general.clone();
                 commands.spawn((
                     SoundEffectsPlayer,
-                    AudioPlayer::new(required_sound),
+                    AudioPlayer::new(sound_effects.button_click_general.clone()),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,
                         volume: Volume::Linear(settings.volume_settings.get_sfx_volume()),
-                        speed: 1.0,
-                        paused: false,
-                        muted: false,
                         ..default()
                     },
                 ));
                 // find slider with same audio channel as button's audio channel
-                for (slider, audio_channel_of_slider) in &sliders_query {
-                    if *audio_channel_of_slider == *audio_channel_of_button {
-                        let current_value = audio_channel_of_slider.get(&settings);
-                        let new_value = (current_value + 0.1).clamp(0.0, 1.0);
-                        info!("Volume is now {}", new_value);
-                        commands.trigger(SetSliderValue {
-                            entity: slider,
-                            change: SliderValueChange::Absolute(new_value),
-                        });
-                    }
+                if let Some((slider_entity, _)) =
+                    sliders_query.iter().find(|(_, audio_channel_of_slider)| {
+                        *audio_channel_of_slider == audio_channel_of_button
+                    })
+                {
+                    let current_value = audio_channel_of_button.get(&settings);
+                    let new_value = (current_value + 0.1).clamp(0.0, 1.0);
+                    commands.trigger(SetSliderValue {
+                        entity: slider_entity,
+                        change: SliderValueChange::Absolute(new_value),
+                    });
+                    info!(
+                        "Volume increased click {:?}. New value: {}",
+                        audio_channel_of_button, new_value
+                    );
                 }
-
-                info!("Volume increased click {:?}", audio_channel_of_button);
             }
             Interaction::Hovered => {
                 input_focus.set(entity, FocusCause::Pressed);
-                // node.border = UiRect::all(Val::Px(10.0));
                 image_node.color = HOVERED_BUTTON;
                 button.set_changed();
             }
             Interaction::None => {
                 input_focus.clear();
-                // node.border = UiRect::all(Val::Px(0.0));
                 image_node.color = NORMAL_BUTTON;
                 button.set_changed();
             }
