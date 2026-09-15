@@ -1,6 +1,7 @@
 use crate::{
     core::states::GameState,
     plugins::{
+        choose_country::systems::spawn_choose_country_ui_main_entity::spawn_choose_country_ui_main_entity,
         main_menu::systems::{
             spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene::spawn_main_menu_scene,
@@ -22,6 +23,7 @@ impl Plugin for PreMainMenuSetupPlugin {
                 spawn_main_menu_scene,
                 spawn_continue_block,
                 spawn_options_ui_main_entity,
+                spawn_choose_country_ui_main_entity,
             ),
         );
         app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cam_and_cube);

@@ -9,6 +9,7 @@ pub enum GameState {
     PreMainMenuSetup,
     MainMenu,
     Options,
+    ChooseCountry,
     LoadingMap,
     Playing,
     Paused,

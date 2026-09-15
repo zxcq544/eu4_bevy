@@ -81,6 +81,10 @@ pub fn main_menu_button_system_united(
 
                 // 3. Action logic
                 match action {
+                    MainMenuButtonAction::SinglePlayer => {
+                        info!("Single player button pressed");
+                        next_state.set(GameState::ChooseCountry);
+                    }
                     MainMenuButtonAction::Options => {
                         info!("Options button pressed");
                         next_state.set(GameState::Options);

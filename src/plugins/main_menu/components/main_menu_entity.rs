@@ -1,4 +1,7 @@
-use crate::{plugins::main_menu::resources::main_menu_all_images::MainMenuAllImages, shared::fonts::fonts::FontHandles};
+use crate::{
+    plugins::main_menu::resources::main_menu_all_images::MainMenuAllImages,
+    shared::fonts::fonts::FontHandles,
+};
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
