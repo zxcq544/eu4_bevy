@@ -1,6 +1,7 @@
 use crate::{
     core::states::{GameState, OptionsTabState},
     plugins::{
+        choose_country::choose_country::ChooseCountryPlugin,
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
         loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
         map::map_plugin::MapPlugin,
@@ -37,6 +38,7 @@ impl Plugin for GamePlugin {
             PreMainMenuSetupPlugin,
             MainMenuPlugin,
             OptionsPlugin,
+            ChooseCountryPlugin,
             // SoundEffectsPlugin,
             //     CameraPlugin,
             //     InputPlugin,
