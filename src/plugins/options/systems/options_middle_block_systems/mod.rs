@@ -4,3 +4,4 @@ pub mod hide_options_video_tab;
 pub mod set_display_flex_options_video_tab;
 pub mod set_display_grid_options_audio_tab;
 pub mod volume_decrease_button_system;
+pub mod volume_increase_button_system;

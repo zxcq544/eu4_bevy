@@ -1,24 +1,25 @@
-use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
+use crate::{
+    plugins::game_main::resources::game_ui_resources::GameUiResources,
+    shared::audio_channel::audio_channel::AudioChannel,
+};
 use bevy::prelude::*;
+#[derive(Component, Default)]
+pub struct OptionsUIAudioSliderButtonRight;
 
-pub fn slider_right_arrow_button(ui_resources: &Res<GameUiResources>) -> impl Bundle {
+pub fn slider_right_arrow_button(
+    ui_resources: &Res<GameUiResources>,
+    audio_channel: AudioChannel,
+) -> impl Bundle {
     (
+        Button,
+        OptionsUIAudioSliderButtonRight,
+        audio_channel,
         Node {
             display: Display::Grid,
-            // flex_direction: FlexDirection::Column,
             width: Val::Percent(100.0),
             height: Val::Percent(100.0),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
-            // padding: UiRect::left(Val::Percent(12.5))
-            //     .with_right(Val::Percent(12.5)),
-            // grid_template_columns: vec![
-            //     GridTrack::percent(12.5),
-            //     GridTrack::percent(75.0),
-            //     GridTrack::percent(12.5),
-            // ],
-            // grid_template_rows: vec![GridTrack::percent(12.5), GridTrack::percent(75.0)],
-            // bottom: Val::Px(3.0),
             ..default()
         },
         ZIndex(6),

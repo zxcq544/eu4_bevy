@@ -32,8 +32,8 @@ pub fn audio_tab(
                 // flex_direction: FlexDirection::Row,
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
-                // justify_content: JustifyContent::FlexStart,
-                // align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
                 // bottom: Val::Px(3.0),
                 grid_template_columns: RepeatedGridTrack::flex(2, 1.0),
                 grid_template_rows: RepeatedGridTrack::flex(3, 1.0),
@@ -77,7 +77,15 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
+                        padding: UiRect::left(Val::Percent(12.5))
+                            .with_right(Val::Percent(12.5))
+                            .with_top(Val::Percent(11.0))
+                            .with_bottom(Val::Percent(11.0)),
+                        grid_template_columns: vec![
+                            GridTrack::percent(10.0),
+                            GridTrack::percent(80.0),
+                            GridTrack::percent(10.0),
+                        ],
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
@@ -88,10 +96,18 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
+                    right_block_top.spawn(slider_left_arrow_button(
+                        &ui_resources,
+                        AudioChannel::Master,
+                    ));
                     right_block_top.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Master,
                         &ui_resources,
+                    ));
+                    right_block_top.spawn(slider_right_arrow_button(
+                        &ui_resources,
+                        AudioChannel::Master,
                     ));
                 });
             grid_builder
@@ -124,7 +140,15 @@ pub fn audio_tab(
                         height: Val::Percent(100.0),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        padding: UiRect::left(Val::Percent(12.5)).with_right(Val::Percent(12.5)),
+                        padding: UiRect::left(Val::Percent(12.5))
+                            .with_right(Val::Percent(12.5))
+                            .with_top(Val::Percent(11.0))
+                            .with_bottom(Val::Percent(11.0)),
+                        grid_template_columns: vec![
+                            GridTrack::percent(10.0),
+                            GridTrack::percent(80.0),
+                            GridTrack::percent(10.0),
+                        ],
                         // bottom: Val::Px(3.0),
                         ..default()
                     },
@@ -135,10 +159,16 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|middle_right_block| {
+                    middle_right_block
+                        .spawn(slider_left_arrow_button(&ui_resources, AudioChannel::Music));
                     middle_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannel::Music,
                         &ui_resources,
+                    ));
+                    middle_right_block.spawn(slider_right_arrow_button(
+                        &ui_resources,
+                        AudioChannel::Music,
                     ));
                 });
             grid_builder
@@ -198,7 +228,8 @@ pub fn audio_tab(
                         AudioChannel::Sfx,
                         &ui_resources,
                     ));
-                    bottom_right_block.spawn(slider_right_arrow_button(&ui_resources));
+                    bottom_right_block
+                        .spawn(slider_right_arrow_button(&ui_resources, AudioChannel::Sfx));
                 });
         });
 }
