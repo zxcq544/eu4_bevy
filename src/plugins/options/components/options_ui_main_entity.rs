@@ -13,11 +13,10 @@ use crate::{
             resources::options_images::OptionsImages,
         },
     },
-    shared::settings::settings::Settings,
+    shared::{fonts::fonts::FontHandles, settings::settings::Settings},
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
-use fonts::FontHandles;
 
 #[derive(Component, Clone, Default, Reflect)]
 pub struct OptionsButton;
@@ -46,6 +45,7 @@ impl OptionsUiMainEntity {
             .spawn((
                 OptionsUiMainEntity,
                 Node {
+                    display: Display::None, // Spawn as display none to not despawn ingame ui elementsonly change display
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
                     position_type: PositionType::Absolute,
@@ -53,7 +53,6 @@ impl OptionsUiMainEntity {
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                Visibility::Hidden, // Spawn as hidden because we don't despawn ingame ui elements
                 ZIndex(2),
                 BackgroundColor(Color::NONE),
             ))

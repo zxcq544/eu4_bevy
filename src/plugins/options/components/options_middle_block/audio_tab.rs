@@ -7,12 +7,14 @@ use crate::{
             sound_volume_slider::sound_volume_slider,
         },
     },
-    shared::{audio_channel::audio_channel::AudioChannel, settings::settings::Settings},
+    shared::{
+        audio_channel::audio_channel::AudioChannel, fonts::fonts::FontHandles,
+        settings::settings::Settings,
+    },
 };
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
-use fonts::FontHandles;
 
 #[derive(Component, Clone, Default)]
 pub struct OptionsUiAudioTab;

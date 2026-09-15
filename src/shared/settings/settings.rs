@@ -1,8 +1,8 @@
 use bevy::ecs::resource::Resource;
-use fonts::Fonts;
 use serde::{Deserialize, Serialize};
 
 use crate::shared::{
+    fonts::fonts::Fonts,
     save_game_info::save_game_info::{LastSaveGameInfo, SaveGameInfo},
     settings::volume_settings::VolumeSettings,
 };

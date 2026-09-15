@@ -1,10 +1,9 @@
-use crate::plugins::main_menu::{
+use crate::{plugins::main_menu::{
     components::main_menu_entity::MainMenuEntity,
     resources::main_menu_all_images::MainMenuAllImages,
-};
+}, shared::fonts::fonts::FontHandles};
 use bevy::prelude::*;
 use bevy_fluent::Localization;
-use fonts::FontHandles;
 
 pub fn spawn_main_menu_scene(
     main_menu_all_images_res: Res<MainMenuAllImages>,

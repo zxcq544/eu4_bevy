@@ -2,12 +2,10 @@ use crate::{
     plugins::main_menu::{
         components::continue_game_entity::ContinueGameEntity,
         resources::main_menu_all_images::MainMenuAllImages,
-    },
-    shared::settings::settings::Settings,
+    }, shared::{fonts::fonts::FontHandles, settings::settings::Settings},
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
-use fonts::FontHandles;
 
 pub fn spawn_continue_block(
     mut commands: Commands,

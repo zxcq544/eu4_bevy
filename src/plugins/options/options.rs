@@ -15,7 +15,7 @@ use crate::{
                 volume_increase_button_system::volume_increase_button_system,
             },
             options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
-            set_visible_options_ui_main_entity::set_visible_options_ui_main_entity,
+            set_display_flex_of_options_ui_main_entity::set_display_flex_of_options_ui_main_entity,
         },
     },
 };
@@ -28,7 +28,7 @@ impl Plugin for OptionsPlugin {
         // app.add_message::<VolumeDecreasedMessage>();
         app.add_systems(
             OnEnter(GameState::Options),
-            (set_visible_options_ui_main_entity,),
+            (set_display_flex_of_options_ui_main_entity,),
         );
         app.add_systems(
             OnEnter(OptionsTabState::Video),

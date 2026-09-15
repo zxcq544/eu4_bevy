@@ -1,11 +1,10 @@
-use crate::plugins::main_menu::{
+use crate::{plugins::main_menu::{
     components::main_menu_entity::{MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType},
     resources::main_menu_all_images::MainMenuAllImages,
-};
+}, shared::fonts::fonts::FontHandles};
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::Localization;
 use fluent_content::Content;
-use fonts::FontHandles;
 
 #[derive(Component, Clone, Default)]
 pub struct ContinueGameEntity;
