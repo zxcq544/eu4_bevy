@@ -62,7 +62,7 @@ pub fn bottom_left_block_button_system_for_choose_country(
                 match action {
                     BottomLeftBlockButtonActionsForChooseCountry::Options => {
                         info!("Options button pressed");
-                        // save_settings_to_json(&settings);
+                        next_state.set(GameState::Options);
                     }
                     BottomLeftBlockButtonActionsForChooseCountry::Back => {
                         info!("Back button pressed");

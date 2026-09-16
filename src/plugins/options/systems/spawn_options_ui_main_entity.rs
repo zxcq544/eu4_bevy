@@ -5,7 +5,8 @@ use crate::{
             components::options_ui_main_entity::OptionsUiMainEntity,
             resources::options_images::OptionsImages,
         },
-    }, shared::{fonts::fonts::FontHandles, settings::settings::Settings},
+    },
+    shared::{fonts::fonts::FontHandles, settings::settings::Settings},
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;

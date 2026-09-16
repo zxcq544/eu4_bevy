@@ -1,5 +1,6 @@
 use crate::{
-    core::states::GameState, plugins::{
+    core::states::GameState,
+    plugins::{
         initial_boot_step::{
             resources::{
                 cursor_handles::CursorHandles, initial_boot_step_timer::InitialBootStepTimer,
@@ -12,7 +13,8 @@ use crate::{
             loading_screen_tooltip_image::LoadingScreenTooltipImage,
             main_loading_step_background_image::MainLoadingStepBackgroundImage,
         },
-    }, shared::fonts::fonts::FontHandles,
+    },
+    shared::fonts::fonts::FontHandles,
 };
 use bevy::prelude::*;
 use bevy_fluent::LocalizationBuilder;

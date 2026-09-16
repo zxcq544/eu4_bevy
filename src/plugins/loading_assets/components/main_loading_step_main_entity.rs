@@ -1,7 +1,10 @@
-use crate::{plugins::loading_assets::resources::{
-    loading_screen_tooltip_image::LoadingScreenTooltipImage,
-    main_loading_step_background_image::MainLoadingStepBackgroundImage,
-}, shared::fonts::fonts::FontHandles};
+use crate::{
+    plugins::loading_assets::resources::{
+        loading_screen_tooltip_image::LoadingScreenTooltipImage,
+        main_loading_step_background_image::MainLoadingStepBackgroundImage,
+    },
+    shared::fonts::fonts::FontHandles,
+};
 use bevy::{prelude::*, text::FontSourceTemplate};
 use bevy_fluent::prelude::*;
 use fluent_content::Content;

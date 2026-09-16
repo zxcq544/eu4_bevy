@@ -1,7 +1,10 @@
-use crate::{plugins::main_menu::{
-    components::main_menu_entity::MainMenuEntity,
-    resources::main_menu_all_images::MainMenuAllImages,
-}, shared::fonts::fonts::FontHandles};
+use crate::{
+    plugins::main_menu::{
+        components::main_menu_entity::MainMenuEntity,
+        resources::main_menu_all_images::MainMenuAllImages,
+    },
+    shared::fonts::fonts::FontHandles,
+};
 use bevy::prelude::*;
 use bevy_fluent::Localization;
 
