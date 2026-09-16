@@ -13,6 +13,10 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
     let ui_options_slider_right_arrow_image =
         asset_server.load("gfx/interface/scrollbar_rightbutton.dds");
     // let ui_slider_track_image = asset_server.load("gfx/interface/scroll_track.dds");
+
+    let button_normal_image = asset_server.load("gfx/interface/button_type_1.dds");
+    let button_wide_image = asset_server.load("gfx/interface/button_type_4.dds");
+    let button_small_image = asset_server.load("gfx/interface/button_type_6.dds");
     commands.insert_resource(GameUiResources {
         ui_slider_thumb_image_blue,
         ui_slider_thumb_image_red,
@@ -20,5 +24,8 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
         ui_options_slider_left_arrow_image,
         ui_options_slider_right_arrow_image,
         // ui_slider_track_image,
+        button_normal_image,
+        button_wide_image,
+        button_small_image,
     });
 }

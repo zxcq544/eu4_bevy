@@ -1,5 +1,8 @@
 use crate::{
-    plugins::choose_country::components::choose_country_ui_main_entity::ChooseCountryUiMainEntity,
+    plugins::{
+        choose_country::components::choose_country_ui_main_entity::ChooseCountryUiMainEntity,
+        game_main::resources::game_ui_resources::GameUiResources,
+    },
     shared::fonts::fonts::FontHandles,
 };
 use bevy::prelude::*;
@@ -9,7 +12,13 @@ pub fn spawn_choose_country_ui_main_entity(
     commands: Commands,
     localization_res: Res<Localization>,
     fonts: Res<FontHandles>,
+    game_ui_resources: Res<GameUiResources>,
 ) {
     info!("Spawning choose country ui main entity");
-    ChooseCountryUiMainEntity::spawn_using_commands(commands, &localization_res, &fonts);
+    ChooseCountryUiMainEntity::spawn_using_commands(
+        commands,
+        &localization_res,
+        &fonts,
+        &game_ui_resources,
+    );
 }

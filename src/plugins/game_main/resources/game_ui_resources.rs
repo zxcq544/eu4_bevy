@@ -8,4 +8,7 @@ pub struct GameUiResources {
     pub ui_options_slider_left_arrow_image: Handle<Image>,
     pub ui_options_slider_right_arrow_image: Handle<Image>,
     // pub ui_slider_track_image: Handle<Image>,
+    pub button_normal_image: Handle<Image>,
+    pub button_wide_image: Handle<Image>,
+    pub button_small_image: Handle<Image>,
 }
