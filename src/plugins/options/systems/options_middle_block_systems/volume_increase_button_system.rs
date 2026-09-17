@@ -13,7 +13,7 @@ use crate::plugins::options::components::options_middle_block::audio_slider_widg
 use crate::plugins::options::components::options_middle_block::audio_slider_widget::slider_right_arrow_button::OptionsUIAudioSliderButtonRight;
 use crate::plugins::sound_effects::components::sound_effects_player::SoundEffectsPlayer;
 use crate::plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects;
-use crate::shared::audio_channel::audio_channel::AudioChannel;
+use crate::shared::audio_channel::audio_channel::AudioChannelUIMarker;
 use crate::shared::settings::settings::Settings;
 
 pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
@@ -31,11 +31,11 @@ pub fn volume_increase_button_system(
             &mut OptionsUIAudioSliderButtonRight,
             &Interaction,
             &mut ImageNode,
-            &AudioChannel,
+            &AudioChannelUIMarker,
         ),
         Changed<Interaction>,
     >,
-    sliders_query: Query<(Entity, &AudioChannel), With<OptionUiAudioSlider>>,
+    sliders_query: Query<(Entity, &AudioChannelUIMarker), With<OptionUiAudioSlider>>,
 ) {
     for (entity, mut button, interaction, mut image_node, audio_channel_of_button) in
         &mut interaction_query

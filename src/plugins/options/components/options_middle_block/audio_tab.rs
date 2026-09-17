@@ -8,7 +8,7 @@ use crate::{
         },
     },
     shared::{
-        audio_channel::audio_channel::AudioChannel, fonts::fonts::FontHandles,
+        audio_channel::audio_channel::AudioChannelUIMarker, fonts::fonts::FontHandles,
         settings::settings::Settings,
     },
 };
@@ -100,16 +100,16 @@ pub fn audio_tab(
                 .with_children(|right_block_top| {
                     right_block_top.spawn(slider_left_arrow_button(
                         &ui_resources,
-                        AudioChannel::Master,
+                        AudioChannelUIMarker::Master,
                     ));
                     right_block_top.spawn(sound_volume_slider(
                         &settings,
-                        AudioChannel::Master,
+                        AudioChannelUIMarker::Master,
                         &ui_resources,
                     ));
                     right_block_top.spawn(slider_right_arrow_button(
                         &ui_resources,
-                        AudioChannel::Master,
+                        AudioChannelUIMarker::Master,
                     ));
                 });
             grid_builder
@@ -161,16 +161,18 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|middle_right_block| {
-                    middle_right_block
-                        .spawn(slider_left_arrow_button(&ui_resources, AudioChannel::Music));
+                    middle_right_block.spawn(slider_left_arrow_button(
+                        &ui_resources,
+                        AudioChannelUIMarker::Music,
+                    ));
                     middle_right_block.spawn(sound_volume_slider(
                         &settings,
-                        AudioChannel::Music,
+                        AudioChannelUIMarker::Music,
                         &ui_resources,
                     ));
                     middle_right_block.spawn(slider_right_arrow_button(
                         &ui_resources,
-                        AudioChannel::Music,
+                        AudioChannelUIMarker::Music,
                     ));
                 });
             grid_builder
@@ -223,15 +225,19 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
-                    bottom_right_block
-                        .spawn(slider_left_arrow_button(&ui_resources, AudioChannel::Sfx));
+                    bottom_right_block.spawn(slider_left_arrow_button(
+                        &ui_resources,
+                        AudioChannelUIMarker::Sfx,
+                    ));
                     bottom_right_block.spawn(sound_volume_slider(
                         &settings,
-                        AudioChannel::Sfx,
+                        AudioChannelUIMarker::Sfx,
                         &ui_resources,
                     ));
-                    bottom_right_block
-                        .spawn(slider_right_arrow_button(&ui_resources, AudioChannel::Sfx));
+                    bottom_right_block.spawn(slider_right_arrow_button(
+                        &ui_resources,
+                        AudioChannelUIMarker::Sfx,
+                    ));
                 });
         });
 }

@@ -3,18 +3,18 @@ use bevy::prelude::*;
 use crate::shared::settings::settings::Settings;
 
 #[derive(Component, Clone, Copy, Debug, PartialEq)]
-pub enum AudioChannel {
+pub enum AudioChannelUIMarker {
     Master,
     Music,
     Sfx,
 }
 
-impl AudioChannel {
+impl AudioChannelUIMarker {
     pub fn get(self, s: &Settings) -> f32 {
         match self {
             Self::Master => s.volume_settings.get_master_volume(),
-            Self::Music => s.volume_settings.get_music_volume_multiplied_by_master(),
-            Self::Sfx => s.volume_settings.get_sfx_volume_multiplied_by_master(),
+            Self::Music => s.volume_settings.get_music_volume(),
+            Self::Sfx => s.volume_settings.get_sfx_volume(),
         }
     }
     pub fn set(self, s: &mut Settings, v: f32) {

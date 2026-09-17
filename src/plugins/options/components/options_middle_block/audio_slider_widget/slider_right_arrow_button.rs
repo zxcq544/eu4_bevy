@@ -1,6 +1,6 @@
 use crate::{
     plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::audio_channel::audio_channel::AudioChannel,
+    shared::audio_channel::audio_channel::AudioChannelUIMarker,
 };
 use bevy::prelude::*;
 #[derive(Component, Default)]
@@ -8,7 +8,7 @@ pub struct OptionsUIAudioSliderButtonRight;
 
 pub fn slider_right_arrow_button(
     ui_resources: &Res<GameUiResources>,
-    audio_channel: AudioChannel,
+    audio_channel: AudioChannelUIMarker,
 ) -> impl Bundle {
     (
         Button,
