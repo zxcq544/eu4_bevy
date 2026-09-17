@@ -172,7 +172,7 @@ impl ChooseCountryUiMainEntity {
                                         Node {
                                             display: Display::Flex,
                                             flex_direction: FlexDirection::Column,
-                                            width: Val::Percent(30.0),
+                                            width: Val::Percent(40.0),
                                             height: Val::Percent(100.0),
                                             justify_content: JustifyContent::Center,
                                             align_items: AlignItems::Center,
