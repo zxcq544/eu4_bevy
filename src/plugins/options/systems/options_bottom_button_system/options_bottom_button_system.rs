@@ -73,7 +73,6 @@ pub fn options_bottom_button_system(
                         if let Some(previous_game_state) = &previous_state {
                             next_state.set(previous_game_state.get().clone());
                         }
-                        // next_state.set(GameState::MainMenu);
                     }
                     OptionsButtonAction::NoAction => {
                         // info!("No action button pressed");
