@@ -3,7 +3,10 @@ use bevy_fluent::Localization;
 
 use crate::{
     plugins::{
-        choose_country::components::bottom_left_block_entity_for_choose_country::bottom_left_block_entity_for_choose_country,
+        choose_country::components::{
+            bottom_left_block_entity_for_choose_country::bottom_left_block_entity_for_choose_country,
+            bottom_middle_block_entity_for_choose_country::bottom_middle_block_entity_for_choose_country,
+        },
         game_main::resources::game_ui_resources::GameUiResources,
     },
     shared::fonts::fonts::FontHandles,
@@ -164,21 +167,31 @@ impl ChooseCountryUiMainEntity {
                                         );
                                     });
                                 // bottom middle block
-                                bottom_block.spawn((
-                                    Node {
-                                        display: Display::Flex,
-                                        width: Val::Percent(30.0),
-                                        height: Val::Percent(100.0),
-                                        justify_content: JustifyContent::Center,
-                                        align_items: AlignItems::Center,
-                                        ..default()
-                                    },
-                                    Outline {
-                                        color: Color::srgb(0.1, 0.9, 0.1),
-                                        width: Val::Px(2.0),
-                                        ..default()
-                                    },
-                                ));
+                                bottom_block
+                                    .spawn((
+                                        Node {
+                                            display: Display::Flex,
+                                            flex_direction: FlexDirection::Column,
+                                            width: Val::Percent(30.0),
+                                            height: Val::Percent(100.0),
+                                            justify_content: JustifyContent::Center,
+                                            align_items: AlignItems::Center,
+                                            ..default()
+                                        },
+                                        Outline {
+                                            color: Color::srgb(0.1, 0.9, 0.1),
+                                            width: Val::Px(2.0),
+                                            ..default()
+                                        },
+                                    ))
+                                    .with_children(|bottom_middle_block| {
+                                        bottom_middle_block_entity_for_choose_country(
+                                            bottom_middle_block,
+                                            &localization_res,
+                                            &fonts,
+                                            &game_ui_resources,
+                                        );
+                                    });
                                 // bottom right block
                                 bottom_block.spawn((
                                     Node {

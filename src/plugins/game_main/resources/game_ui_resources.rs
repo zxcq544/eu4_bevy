@@ -11,4 +11,8 @@ pub struct GameUiResources {
     pub button_normal_image: Handle<Image>,
     pub button_wide_image: Handle<Image>,
     pub button_small_image: Handle<Image>,
+
+    pub country_shield_frame: Handle<Image>,
+    pub country_shield_frame_green_glow: Handle<Image>,
+    pub country_choice_bottom_middle_block_background_image: Handle<Image>,
 }
