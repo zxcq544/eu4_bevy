@@ -12,18 +12,18 @@ pub fn bottom_middle_block_entity_for_choose_country(
     _fonts: &Res<FontHandles>,
     game_ui_resources: &Res<GameUiResources>,
 ) {
-    bottom_middle_block.spawn(country_flags_block(game_ui_resources));
-    bottom_middle_block.spawn(country_shield_glow(game_ui_resources));
-    bottom_middle_block.spawn(country_text_block(game_ui_resources));
+    country_flags_block(bottom_middle_block, game_ui_resources);
+    country_shield_glow(bottom_middle_block, game_ui_resources);
+    country_text_block(bottom_middle_block, game_ui_resources);
 }
 
 fn country_flags_block(
-    // country_flags_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    bottom_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     // localization_res: &Res<Localization>,
     // fonts: &Res<FontHandles>,
     game_ui_resources: &Res<GameUiResources>,
-) -> impl Bundle {
-    (
+) {
+    bottom_middle_block.spawn((
         Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Row,
@@ -45,11 +45,14 @@ fn country_flags_block(
             ..default()
         },
         Text::new("flags block"),
-    )
+    ));
 }
 
-fn country_shield_glow(game_ui_resources: &Res<GameUiResources>) -> impl Bundle {
-    (
+fn country_shield_glow(
+    bottom_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    game_ui_resources: &Res<GameUiResources>,
+) {
+    bottom_middle_block.spawn((
         Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Row,
@@ -71,11 +74,14 @@ fn country_shield_glow(game_ui_resources: &Res<GameUiResources>) -> impl Bundle 
             ..default()
         },
         Text::new("flags shield block"),
-    )
+    ));
 }
 
-fn country_text_block(game_ui_resources: &Res<GameUiResources>) -> impl Bundle {
-    (
+fn country_text_block(
+    bottom_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    game_ui_resources: &Res<GameUiResources>,
+) {
+    bottom_middle_block.spawn((
         Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Column,
@@ -99,5 +105,5 @@ fn country_text_block(game_ui_resources: &Res<GameUiResources>) -> impl Bundle {
             ..default()
         },
         Text::new("text block"),
-    )
+    ));
 }
