@@ -20,9 +20,10 @@ pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
 pub const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
 pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
-pub fn options_button_system(
+pub fn options_bottom_button_system(
     mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
+    previous_state: Option<Res<PreviousState<GameState>>>,
     sound_effects: Res<ButtonClickSoundEffects>,
     mut settings: ResMut<Settings>,
     mut input_focus: ResMut<InputFocus>,
@@ -69,7 +70,10 @@ pub fn options_button_system(
                     }
                     OptionsButtonAction::Back => {
                         info!("Back button pressed");
-                        next_state.set(GameState::MainMenu);
+                        if let Some(previous_game_state) = &previous_state {
+                            next_state.set(previous_game_state.get().clone());
+                        }
+                        // next_state.set(GameState::MainMenu);
                     }
                     OptionsButtonAction::NoAction => {
                         // info!("No action button pressed");
