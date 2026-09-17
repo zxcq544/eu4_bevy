@@ -22,11 +22,17 @@ pub fn audio_volume_update_system(
         return;
     }
     for mut sound_effects_audio_sink in &mut sound_effects_player_query {
-        sound_effects_audio_sink
-            .set_volume(Volume::Linear(settings.volume_settings.get_sfx_volume()));
+        sound_effects_audio_sink.set_volume(Volume::Linear(
+            settings
+                .volume_settings
+                .get_sfx_volume_multiplied_by_master(),
+        ));
     }
     for mut background_music_audio_sink in &mut background_music_player_query {
-        background_music_audio_sink
-            .set_volume(Volume::Linear(settings.volume_settings.get_music_volume()));
+        background_music_audio_sink.set_volume(Volume::Linear(
+            settings
+                .volume_settings
+                .get_music_volume_multiplied_by_master(),
+        ));
     }
 }

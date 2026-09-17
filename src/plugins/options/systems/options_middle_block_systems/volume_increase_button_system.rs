@@ -53,7 +53,11 @@ pub fn volume_increase_button_system(
                     AudioPlayer::new(sound_effects.button_click_general.clone()),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(settings.volume_settings.get_sfx_volume()),
+                        volume: Volume::Linear(
+                            settings
+                                .volume_settings
+                                .get_sfx_volume_multiplied_by_master(),
+                        ),
                         ..default()
                     },
                 ));

@@ -53,7 +53,11 @@ pub fn bottom_left_block_button_system_for_choose_country(
                     AudioPlayer::new(required_sound),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(settings.volume_settings.get_sfx_volume()),
+                        volume: Volume::Linear(
+                            settings
+                                .volume_settings
+                                .get_sfx_volume_multiplied_by_master(),
+                        ),
                         ..default()
                     },
                 ));

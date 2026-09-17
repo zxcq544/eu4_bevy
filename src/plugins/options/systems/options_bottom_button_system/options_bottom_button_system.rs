@@ -53,10 +53,11 @@ pub fn options_bottom_button_system(
                     AudioPlayer::new(required_sound),
                     PlaybackSettings {
                         mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(settings.volume_settings.get_sfx_volume()),
-                        speed: 1.0,
-                        paused: false,
-                        muted: false,
+                        volume: Volume::Linear(
+                            settings
+                                .volume_settings
+                                .get_sfx_volume_multiplied_by_master(),
+                        ),
                         ..default()
                     },
                 ));
