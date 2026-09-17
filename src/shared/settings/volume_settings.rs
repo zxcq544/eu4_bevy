@@ -15,17 +15,29 @@ impl VolumeSettings {
             sfx_volume,
         }
     }
+    pub fn get_music_volume(&self) -> f32 {
+        self.music_volume
+    }
+    pub fn get_sfx_volume(&self) -> f32 {
+        self.sfx_volume
+    }
+    pub fn get_master_volume(&self) -> f32 {
+        self.master_volume
+    }
     pub fn get_music_volume_multiplied_by_master(&self) -> f32 {
         self.master_volume * self.music_volume
     }
     pub fn get_sfx_volume_multiplied_by_master(&self) -> f32 {
         self.master_volume * self.sfx_volume
     }
-    pub fn get_master_volume(&self) -> f32 {
-        self.master_volume
-    }
     pub fn get_master_volume_percentage(&self) -> f32 {
         (self.master_volume * 100.0).round()
+    }
+    pub fn get_music_volume_percentage(&self) -> f32 {
+        (self.music_volume * 100.0).round()
+    }
+    pub fn get_sfx_volume_percentage(&self) -> f32 {
+        (self.sfx_volume * 100.0).round()
     }
     pub fn get_music_volume_percentage_multiplied_by_master(&self) -> f32 {
         (self.master_volume * self.music_volume * 100.0).round()
