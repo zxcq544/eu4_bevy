@@ -44,30 +44,30 @@ fn country_flags_block(
             // },
         ))
         .with_children(|flags_block| {
-            for _ in 0..num_flags {
-                flags_block.spawn((
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Percent(100.0 / num_flags as f32),
-                        height: Val::Percent(100.0),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        // padding: UiRect::all(Val::Px(10.0)),
-                        ..default()
-                    },
-                    Outline {
-                        color: Color::srgb_from_array([0.9, 0.5, 0.1]),
-                        width: Val::Px(1.0),
-                        ..default()
-                    },
-                    ImageNode {
-                        image: game_ui_resources.country_shield_frame.clone(),
-                        image_mode: NodeImageMode::Stretch,
-                        ..default()
-                    },
-                ));
-            }
+            // for _ in 0..num_flags {
+            flags_block.spawn((
+                Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    width: Val::Percent(100.0 / num_flags as f32),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    // padding: UiRect::all(Val::Px(10.0)),
+                    ..default()
+                },
+                Outline {
+                    color: Color::srgb_from_array([0.9, 0.5, 0.1]),
+                    width: Val::Px(1.0),
+                    ..default()
+                },
+                ImageNode {
+                    image: game_ui_resources.country_shield_frame.clone(),
+                    image_mode: NodeImageMode::Stretch,
+                    ..default()
+                },
+            ));
+            // }
         });
 }
 
