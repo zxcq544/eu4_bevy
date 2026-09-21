@@ -36,8 +36,8 @@ pub fn load_images_for_game_ui(
     // For test only:
     let test_country_flag = asset_server.load("gfx/flags/AAC.tga");
     let layered_material = ui_materials.add(CustomUiMaterial {
-        base_texture: asset_server.load("gfx/flags/AAC.tga"),
-        overlay_texture: asset_server.load("gfx/interface/shield_frame.dds"),
+        flag_texture: asset_server.load("gfx/flags/AAC.tga"),
+        shield_texture: asset_server.load("gfx/interface/shield_frame.dds"),
         mask_texture: asset_server.load("gfx/interface/shield_mask.tga"),
     });
     commands.insert_resource(SharedUiMaterials {

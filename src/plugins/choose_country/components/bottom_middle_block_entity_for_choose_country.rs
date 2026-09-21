@@ -228,11 +228,11 @@ pub struct SharedUiMaterials {
 pub struct CustomUiMaterial {
     #[texture(0)]
     #[sampler(1)]
-    pub base_texture: Handle<Image>,
+    pub flag_texture: Handle<Image>,
 
     #[texture(2)]
     #[sampler(3)]
-    pub overlay_texture: Handle<Image>,
+    pub shield_texture: Handle<Image>,
 
     #[texture(4)]
     #[sampler(5)]
