@@ -19,9 +19,13 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
     let button_small_image = asset_server.load("gfx/interface/button_type_6.dds");
 
     let country_shield_frame = asset_server.load("gfx/interface/shield_frame.dds");
+    let country_shield_frame_mask = asset_server.load("gfx/interface/shield_mask.tga");
     let country_shield_frame_green_glow = asset_server.load("gfx/interface/shield_thin_glow.dds");
     let country_choice_bottom_middle_block_background_image =
         asset_server.load("gfx/interface/lobby_chat_bg.dds");
+
+    // For test only:
+    let test_country_flag = asset_server.load("gfx/flags/AAC.tga");
     commands.insert_resource(GameUiResources {
         ui_slider_thumb_image_blue,
         ui_slider_thumb_image_red,
@@ -33,7 +37,10 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
         button_wide_image,
         button_small_image,
         country_shield_frame,
+        country_shield_frame_mask,
         country_shield_frame_green_glow,
         country_choice_bottom_middle_block_background_image,
+        // For test only:
+        test_country_flag,
     });
 }
