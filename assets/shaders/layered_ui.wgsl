@@ -14,27 +14,37 @@ struct UiVertexOutput {
 };
 
 @fragment
-fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
-    //let scale = 2.0;
-    //let centered_uv = (in.uv - vec2<f32>(0.5)) * scale + vec2<f32>(0.5);
-    //if (centered_uv.x < 0.0 || centered_uv.x > 1.0 || centered_uv.y < 0.0 || centered_uv.y > 1.0) {
-    //    return vec4<f32>(0.0, 0.0, 0.0, 0.0);
-    //}
-    let scale = 1.5;
-     let flag_uv = (in.uv - vec2<f32>(1/scale)) * scale + vec2<f32>(1/scale);     
-     let mask_uv = flag_uv;
+fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {        
 
     // Sample our textures using the provided UV coordinates
-    let flag_color = textureSample(flag_texture, flag_sampler, flag_uv);
+    let flag_color = centered_smaller_texture(flag_texture, flag_sampler, in.uv, 1.53);
     let shield_color = textureSample(shield_texture, shield_sampler, in.uv);
-    let mask_color = textureSample(mask_texture, mask_sampler, mask_uv);
-    let brighter_shield_color = shield_color * 1.2;
+    let mask_color = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.53);
 
-    let flag_masked_color = flag_color * mask_color.a;
-    let result_color = flag_masked_color + brighter_shield_color;
-    return result_color;
-    
-    //return mix(flag_masked_color, shield_color, shield_color.a);
-    // Multiply by the UI node's underlying tint color if necessary
-    //return final_color* in.color;    
+    //Porter-Duff alpha compositing formula from LLM
+    // 1. Prepare background and foreground textures
+    let bg = flag_color * mask_color.a;
+    let fg = shield_color;
+    // 2. Calculate the final output alpha channel
+    // Formula: out_a = fg_a + bg_a * (1.0 - fg_a)
+    let final_alpha: f32 = fg.a + bg.a * (1.0 - fg.a);
+    // 3. Prevent division by zero if both pixels are completely transparent
+    if (final_alpha == 0.0) {
+        return vec4<f32>(0.0, 0.0, 0.0, 0.0);
+    }
+    // 4. Combine the RGB colors using the Porter-Duff "Over" equation
+    // Formula: out_rgb = (fg_rgb * fg_a + bg_rgb * bg_a * (1.0 - fg_a)) / out_a
+    let final_rgb: vec3<f32> = (fg.rgb * fg.a + bg.rgb * bg.a * (1.0 - fg.a)) / final_alpha;
+
+    return vec4<f32>(final_rgb, final_alpha);
+}
+
+fn centered_smaller_texture(texture: texture_2d<f32>, sampler: sampler, uv: vec2<f32>, scale: f32) -> vec4<f32> {    
+    var centered_uv = (uv - vec2<f32>(1/scale)) * scale + vec2<f32>(1/scale);
+    centered_uv.x = centered_uv.x + 0.06;
+    centered_uv.y = centered_uv.y + 0.05;
+    if (centered_uv.x < 0.0 || centered_uv.x > 1.0 || centered_uv.y < 0.0 || centered_uv.y > 1.0) {
+        return vec4<f32>(0.0, 0.0, 0.0, 0.0);
+    }
+    return textureSample(texture, sampler, centered_uv);
 }
