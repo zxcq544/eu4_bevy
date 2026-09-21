@@ -41,7 +41,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 fn centered_smaller_texture(texture: texture_2d<f32>, sampler: sampler, uv: vec2<f32>, scale: f32) -> vec4<f32> {    
     var centered_uv = (uv - vec2<f32>(1/scale)) * scale + vec2<f32>(1/scale);
-    centered_uv.x = centered_uv.x + 0.06;
+    centered_uv.x = centered_uv.x + 0.05;
     centered_uv.y = centered_uv.y + 0.05;
     if (centered_uv.x < 0.0 || centered_uv.x > 1.0 || centered_uv.y < 0.0 || centered_uv.y > 1.0) {
         return vec4<f32>(0.0, 0.0, 0.0, 0.0);
