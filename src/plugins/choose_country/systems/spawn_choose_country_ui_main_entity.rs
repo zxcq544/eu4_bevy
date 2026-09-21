@@ -1,6 +1,9 @@
 use crate::{
     plugins::{
-        choose_country::components::choose_country_ui_main_entity::ChooseCountryUiMainEntity,
+        choose_country::components::{
+            bottom_middle_block_entity_for_choose_country::SharedUiMaterials,
+            choose_country_ui_main_entity::ChooseCountryUiMainEntity,
+        },
         game_main::resources::game_ui_resources::GameUiResources,
     },
     shared::fonts::fonts::FontHandles,
@@ -13,6 +16,7 @@ pub fn spawn_choose_country_ui_main_entity(
     localization_res: Res<Localization>,
     fonts: Res<FontHandles>,
     game_ui_resources: Res<GameUiResources>,
+    ui_materials_res: Res<SharedUiMaterials>,
 ) {
     info!("Spawning choose country ui main entity");
     ChooseCountryUiMainEntity::spawn_using_commands(
@@ -20,5 +24,6 @@ pub fn spawn_choose_country_ui_main_entity(
         &localization_res,
         &fonts,
         &game_ui_resources,
+        ui_materials_res,
     );
 }

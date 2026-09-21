@@ -1,12 +1,17 @@
 use crate::{
     core::states::{GameState, OptionsTabState},
     plugins::{
-        choose_country::choose_country::ChooseCountryPlugin,
+        choose_country::{
+            choose_country::ChooseCountryPlugin,
+            components::bottom_middle_block_entity_for_choose_country::CustomUiMaterial,
+        },
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
-        loading_assets::loading_assets::LoadingAssetsPlugin, main_menu::main_menu::MainMenuPlugin,
+        loading_assets::loading_assets::LoadingAssetsPlugin,
+        main_menu::main_menu::MainMenuPlugin,
         map::map_plugin::MapPlugin,
         monitor_chooser_plugin::monitor_chooser_plugin::MonitorChooserPlugin,
-        music_player::music_player::MusicPlayerPlugin, options::options::OptionsPlugin,
+        music_player::music_player::MusicPlayerPlugin,
+        options::options::OptionsPlugin,
         pre_main_menu_setup::pre_main_menu_setup::PreMainMenuSetupPlugin,
     },
 };
@@ -31,6 +36,8 @@ impl Plugin for GamePlugin {
         // 2. Add subsystem plugins. Each plugin is responsible
         //    for registering its own components/resources/events
         //    and gating systems on GameState::Playing.
+        // Material for country shields
+        app.add_plugins(UiMaterialPlugin::<CustomUiMaterial>::default());
         app.add_plugins((
             MonitorChooserPlugin,
             InitialBootStepPlugin,

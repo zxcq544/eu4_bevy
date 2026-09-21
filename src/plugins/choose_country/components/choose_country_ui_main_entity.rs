@@ -5,7 +5,9 @@ use crate::{
     plugins::{
         choose_country::components::{
             bottom_left_block_entity_for_choose_country::bottom_left_block_entity_for_choose_country,
-            bottom_middle_block_entity_for_choose_country::bottom_middle_block_entity_for_choose_country,
+            bottom_middle_block_entity_for_choose_country::{
+                SharedUiMaterials, bottom_middle_block_entity_for_choose_country,
+            },
         },
         game_main::resources::game_ui_resources::GameUiResources,
     },
@@ -21,6 +23,7 @@ impl ChooseCountryUiMainEntity {
         localization_res: &Res<Localization>,
         fonts: &Res<FontHandles>,
         game_ui_resources: &Res<GameUiResources>,
+        ui_materials_res: Res<SharedUiMaterials>,
     ) {
         commands
             .spawn((
@@ -190,6 +193,7 @@ impl ChooseCountryUiMainEntity {
                                             &localization_res,
                                             &fonts,
                                             &game_ui_resources,
+                                            ui_materials_res,
                                         );
                                     });
                                 // bottom right block

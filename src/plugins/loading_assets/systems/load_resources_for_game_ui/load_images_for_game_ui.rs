@@ -1,7 +1,16 @@
-use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
+use crate::plugins::{
+    choose_country::components::bottom_middle_block_entity_for_choose_country::{
+        CustomUiMaterial, SharedUiMaterials,
+    },
+    game_main::resources::game_ui_resources::GameUiResources,
+};
 use bevy::prelude::*;
 
-pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn load_images_for_game_ui(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
+) {
     info!("Loading game ui images");
     // There are two images for thumb - red and blue scroll_drager_blue.dds and scroll_drager.dds
     let ui_slider_thumb_image_blue = asset_server.load("gfx/interface/scroll_drager_blue.dds");
@@ -26,6 +35,15 @@ pub fn load_images_for_game_ui(asset_server: Res<AssetServer>, mut commands: Com
 
     // For test only:
     let test_country_flag = asset_server.load("gfx/flags/AAC.tga");
+    let layered_material = ui_materials.add(CustomUiMaterial {
+        base_texture: asset_server.load("gfx/flags/AAC.tga"),
+        overlay_texture: asset_server.load("gfx/interface/shield_frame.dds"),
+        mask_texture: asset_server.load("gfx/interface/shield_mask.tga"),
+    });
+    commands.insert_resource(SharedUiMaterials {
+        layered_ui: layered_material.clone(),
+    });
+    // End test only
     commands.insert_resource(GameUiResources {
         ui_slider_thumb_image_blue,
         ui_slider_thumb_image_red,
