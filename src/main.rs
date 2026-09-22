@@ -1,4 +1,5 @@
 use bevy::dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
+use bevy::image::{ImageFilterMode, ImageSamplerDescriptor};
 use bevy::window::WindowPlugin;
 use bevy::{dev_tools::fps_overlay::FrameTimeGraphConfig, prelude::*};
 use bevy_fluent::{FluentPlugin, Locale};
@@ -14,23 +15,33 @@ fn main() {
         .insert_resource(eu4_settings)
         .insert_resource(Locale::new(langid!("ru-RU")))
         .add_plugins(
-            DefaultPlugins.set(WindowPlugin {
-                primary_window: Some(Window {
-                    title: "Europa Universalis 4".into(),
-                    visible: false,
+            DefaultPlugins
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Europa Universalis 4".into(),
+                        visible: false,
+                        ..default()
+                    }),
                     ..default()
-                }),
-                ..default()
-            }), // .set(ImagePlugin::default_nearest()), // Very nice looking nearest neighbor for UI
-                // .set(RenderPlugin {
-                //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
-                //         backends: Some(Backends::VULKAN),
-                //         ..default()
-                //     })),
-                //     ..default()
-                // })
-                // .disable::<bevy::log::LogPlugin>()
-                // .disable::<DiagnosticsPlugin>(),
+                })
+                .set(ImagePlugin {
+                    default_sampler: ImageSamplerDescriptor {
+                        mag_filter: ImageFilterMode::Nearest,
+                        min_filter: ImageFilterMode::Linear,
+                        mipmap_filter: ImageFilterMode::Linear,
+                        ..default()
+                    },
+                    ..default()
+                }), // Very nice looking nearest neighbor for UI
+                    // .set(RenderPlugin {
+                    //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
+                    //         backends: Some(Backends::VULKAN),
+                    //         ..default()
+                    //     })),
+                    //     ..default()
+                    // })
+                    // .disable::<bevy::log::LogPlugin>()
+                    // .disable::<DiagnosticsPlugin>(),
         )
         .add_plugins(FpsOverlayPlugin {
             config: FpsOverlayConfig {

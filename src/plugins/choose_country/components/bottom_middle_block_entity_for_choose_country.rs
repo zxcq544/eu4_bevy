@@ -265,6 +265,6 @@ pub struct CustomUiMaterial {
 
 impl UiMaterial for CustomUiMaterial {
     fn fragment_shader() -> ShaderRef {
-        "shaders/layered_ui.wgsl".into()
+        "shaders/shield_with_flag_linear_srgb_converted.wgsl".into()
     }
 }
