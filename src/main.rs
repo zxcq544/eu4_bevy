@@ -21,7 +21,8 @@ fn main() {
                     ..default()
                 }),
                 ..default()
-            }), // .set(RenderPlugin {
+            }), // .set(ImagePlugin::default_nearest()), // Very nice looking nearest neighbor for UI
+                // .set(RenderPlugin {
                 //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
                 //         backends: Some(Backends::VULKAN),
                 //         ..default()
