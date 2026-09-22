@@ -1,5 +1,8 @@
 use bevy::{
-    ecs::relationship::RelatedSpawnerCommands, prelude::*, render::render_resource::AsBindGroup,
+    ecs::relationship::RelatedSpawnerCommands,
+    material::descriptor::RenderPipelineDescriptor,
+    prelude::*,
+    render::render_resource::{AsBindGroup, BlendState},
     shader::ShaderRef,
 };
 use bevy_fluent::Localization;
@@ -265,18 +268,15 @@ pub struct CustomUiMaterial {
 
 impl UiMaterial for CustomUiMaterial {
     fn fragment_shader() -> ShaderRef {
-        "shaders/shield_with_flag_linear_srgb_converted.wgsl".into()
+        "shaders/shield_flag_premul_alpha.wgsl".into()
     }
-    // fn specialize(
-    //     descriptor: &mut RenderPipelineDescriptor,
-    //     _key: UiMaterialKey<Self>,
-    // ) {
-    //     if let Some(fragment) = descriptor.fragment.as_mut() {
-    //         for target in fragment.targets.iter_mut() {
-    //             if let Some(target) = target {
-    //                 target.blend = Some(BlendState::PREMULTIPLIED_ALPHA_BLENDING);
-    //             }
-    //         }
-    //     }
-    // }
+    fn specialize(descriptor: &mut RenderPipelineDescriptor, _key: UiMaterialKey<Self>) {
+        if let Some(fragment) = descriptor.fragment.as_mut() {
+            for target in fragment.targets.iter_mut() {
+                if let Some(target) = target {
+                    target.blend = Some(BlendState::PREMULTIPLIED_ALPHA_BLENDING);
+                }
+            }
+        }
+    }
 }
