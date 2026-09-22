@@ -37,40 +37,26 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     let flag_raw = centered_smaller_texture(flag_texture, flag_sampler, in.uv, 1.53);
     let shield_raw = textureSample(shield_texture, shield_sampler, in.uv);
     let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.53);
-
     // 2. THE FIX: Force sRGB Math
     // We convert the sampled colors back to sRGB so the math matches your GLSL code exactly.
     // NOTE: If your colors STILL look blown out/white after this, it means Bevy loaded 
     // your textures as Linear. In that case, REMOVE the linear_to_srgb calls and just use flag_raw.rgb.
     let flag_srgb = linear_to_srgb(flag_raw.rgb);
     let shield_srgb = linear_to_srgb(shield_raw.rgb);
-
-    // 3. Fix: Use .r for grayscale masks! (Alpha is usually 1.0 in standard images)
     let mask_value = mask_raw.a; 
-
     // 4. Set up foreground and background using sRGB values
     let fg = vec4<f32>(shield_srgb, shield_raw.a);
     var bg = vec4<f32>(flag_srgb, flag_raw.a);
     bg.a = bg.a * mask_value; // Apply mask to alpha only
-    //let fg_rbg = fg.rgb * fg.a;
-    let bg_rgba_premul = bg.rgb * bg.a;
-    let fg_rgba_premul = fg.rgb * fg.a;
-
+    let bg_rgb_premul = vec3<f32>(bg.rgb * bg.a);
+    let fg_rgb_premul = vec3<f32>(fg.rgb * fg.a);
     // 5. Standard Porter-Duff "Over" Math (Done in sRGB space now)
-    let final_alpha: f32 = fg.a + bg.a * (1.0 - fg.a);
-    
+    let final_alpha: f32 = fg.a + bg.a * (1.0 - fg.a);    
     if (final_alpha == 0.0) {
         return vec4<f32>(0.0, 0.0, 0.0, 0.0);
-    }
-    
-    let final_rgb_srgb: vec3<f32> = fg_rgba_premul + bg_rgba_premul * (1.0 - fg.a);
-
-    // 6. Convert back to Linear for Bevy's output
-    // This prevents the "Double Gamma" blowout by giving the GPU the correct Linear values 
-    // so that when the GPU applies its final sRGB conversion, it looks exactly like your GLSL.
+    }    
+    let final_rgb_srgb: vec3<f32> = fg_rgb_premul + bg_rgb_premul * (1.0 - fg.a);
     let final_linear = srgb_to_linear(final_rgb_srgb);
-
-    // Return Straight Alpha (Keep specialize removed so Bevy uses its default ALPHA_BLENDING)
     return vec4<f32>(final_linear, final_alpha);
 }
 
