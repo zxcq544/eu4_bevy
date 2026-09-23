@@ -5,15 +5,17 @@ use bevy::{dev_tools::fps_overlay::FrameTimeGraphConfig, prelude::*};
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
 use eu4_bevy::shared::settings::settings;
-use unic_langid::langid;
+use std::str::FromStr;
+use unic_langid::LanguageIdentifier;
 
-// TODO: take localisation from settings
 fn main() {
     // Check for Europa Unversalis 4 folder location being present in settings and on disk
     let eu4_settings = settings::get_eu4_settings();
     App::new()
+        .insert_resource(Locale::new(
+            LanguageIdentifier::from_str(eu4_settings.language.as_str()).unwrap(),
+        ))
         .insert_resource(eu4_settings)
-        .insert_resource(Locale::new(langid!("ru-RU")))
         .add_plugins(
             DefaultPlugins
                 .set(WindowPlugin {

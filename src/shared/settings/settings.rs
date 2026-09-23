@@ -21,6 +21,7 @@ pub struct Settings {
     pub exit_delay_time: f32,
     pub fonts: Fonts,
     pub last_saved_game: LastSaveGameInfo,
+    pub language: String,
 }
 
 pub fn get_eu4_settings() -> Settings {
@@ -59,6 +60,7 @@ pub fn get_eu4_settings() -> Settings {
                 last_save_game_exists: false,
                 save_game_info: SaveGameInfo {},
             },
+            language: "english".to_string(),
         };
         serde_json::to_writer_pretty(settings_file, &default_settings).unwrap();
         return default_settings;
