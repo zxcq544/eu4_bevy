@@ -12,6 +12,7 @@ fn main() {
     // Check for Europa Unversalis 4 folder location being present in settings and on disk
     let eu4_settings = settings::get_eu4_settings();
     App::new()
+        // .insert_resource(ClearColor(Color::srgb(0.5, 0.5, 0.5)))
         .insert_resource(Locale::new(
             LanguageIdentifier::from_str(eu4_settings.language.as_str()).unwrap(),
         ))
