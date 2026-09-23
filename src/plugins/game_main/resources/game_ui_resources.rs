@@ -19,4 +19,5 @@ pub struct GameUiResources {
 
     // For test only:
     pub test_country_flag: Handle<Image>,
+    pub test_country_flag_second: Handle<Image>,
 }

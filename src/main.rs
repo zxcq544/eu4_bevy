@@ -34,16 +34,16 @@ fn main() {
                         ..default()
                     },
                     ..default()
-                }), // Very nice looking nearest neighbor for UI
-                    // .set(RenderPlugin {
-                    //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
-                    //         backends: Some(Backends::VULKAN),
-                    //         ..default()
-                    //     })),
-                    //     ..default()
-                    // })
-                    // .disable::<bevy::log::LogPlugin>()
-                    // .disable::<DiagnosticsPlugin>(),
+                }),
+            // .set(RenderPlugin {
+            //     render_creation: RenderCreation::Automatic(Box::new(WgpuSettings {
+            //         backends: Some(Backends::VULKAN),
+            //         ..default()
+            //     })),
+            //     ..default()
+            // })
+            // .disable::<bevy::log::LogPlugin>()
+            // .disable::<DiagnosticsPlugin>(),
         )
         .add_plugins(FpsOverlayPlugin {
             config: FpsOverlayConfig {

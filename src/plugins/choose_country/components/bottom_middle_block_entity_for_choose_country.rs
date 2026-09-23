@@ -17,7 +17,7 @@ pub fn bottom_middle_block_entity_for_choose_country(
     _localization_res: &Res<Localization>,
     _fonts: &Res<FontHandles>,
     game_ui_resources: &Res<GameUiResources>,
-    ui_materials_res: Res<SharedUiMaterials>,
+    ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
 ) {
     country_flags_block(bottom_middle_block, game_ui_resources, ui_materials_res);
     // country_shield_glow(bottom_middle_block, game_ui_resources);
@@ -29,7 +29,7 @@ fn country_flags_block(
     // localization_res: &Res<Localization>,
     // fonts: &Res<FontHandles>,
     game_ui_resources: &Res<GameUiResources>,
-    ui_materials_res: Res<SharedUiMaterials>,
+    mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
 ) {
     let num_flags = 11;
     // main block for flags
@@ -176,7 +176,34 @@ fn country_flags_block(
                     // padding: UiRect::all(Val::Px(10.0)),
                     ..default()
                 },
-                MaterialNode(ui_materials_res.layered_ui.clone()),
+                MaterialNode(ui_materials.add(CustomUiMaterial {
+                    flag_texture: game_ui_resources.test_country_flag.clone(),
+                    shield_texture: game_ui_resources.country_shield_frame.clone(),
+                    mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                })),
+                Outline {
+                    color: Color::srgb_from_array([0.9, 0.9, 0.9]),
+                    width: Val::Px(1.0),
+                    ..default()
+                },
+            ));
+            // Second flag with material
+            flags_block.spawn((
+                Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    width: Val::Percent(100.0 / num_flags as f32),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    // padding: UiRect::all(Val::Px(10.0)),
+                    ..default()
+                },
+                MaterialNode(ui_materials.add(CustomUiMaterial {
+                    flag_texture: game_ui_resources.test_country_flag_second.clone(),
+                    shield_texture: game_ui_resources.country_shield_frame.clone(),
+                    mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                })),
                 Outline {
                     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
                     width: Val::Px(1.0),
@@ -246,10 +273,10 @@ fn country_text_block(
     ));
 }
 
-#[derive(Resource)]
-pub struct SharedUiMaterials {
-    pub layered_ui: Handle<CustomUiMaterial>,
-}
+// #[derive(Resource)]
+// pub struct SharedUiMaterials {
+//     pub layered_ui: Handle<CustomUiMaterial>,
+// }
 
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
 pub struct CustomUiMaterial {
