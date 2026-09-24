@@ -199,7 +199,7 @@ fn country_flags_block(
                     align_items: AlignItems::Center,
                     // padding: UiRect::all(Val::Px(10.0)),
                     ..default()
-                },                
+                },
                 MaterialNode(ui_materials.add(CustomUiMaterial {
                     flag_texture: game_ui_resources.test_country_flag_second.clone(),
                     shield_texture: game_ui_resources.country_shield_frame.clone(),
