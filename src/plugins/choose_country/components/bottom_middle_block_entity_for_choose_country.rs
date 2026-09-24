@@ -180,6 +180,7 @@ fn country_flags_block(
                     flag_texture: game_ui_resources.test_country_flag.clone(),
                     shield_texture: game_ui_resources.country_shield_frame.clone(),
                     mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                    hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
                 })),
                 Outline {
                     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
@@ -198,11 +199,12 @@ fn country_flags_block(
                     align_items: AlignItems::Center,
                     // padding: UiRect::all(Val::Px(10.0)),
                     ..default()
-                },
+                },                
                 MaterialNode(ui_materials.add(CustomUiMaterial {
                     flag_texture: game_ui_resources.test_country_flag_second.clone(),
                     shield_texture: game_ui_resources.country_shield_frame.clone(),
                     mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                    hover_color: LinearRgba::new(2.0, 2.0, 2.0, 1.0),
                 })),
                 Outline {
                     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
@@ -291,6 +293,9 @@ pub struct CustomUiMaterial {
     #[texture(4)]
     #[sampler(5)]
     pub mask_texture: Handle<Image>,
+
+    #[uniform(6)]
+    pub hover_color: LinearRgba,
 }
 
 impl UiMaterial for CustomUiMaterial {

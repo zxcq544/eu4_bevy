@@ -5,6 +5,8 @@
 @group(1) @binding(4) var mask_texture: texture_2d<f32>;
 @group(1) @binding(5) var mask_sampler: sampler;
 
+@group(1) @binding(6) var<uniform> hover_color: vec4<f32>;
+
 struct UiVertexOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) uv: vec2<f32>,
@@ -57,7 +59,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     }    
     let final_rgb_srgb: vec3<f32> = fg_rgb_premul + bg_rgb_premul * (1.0 - fg.a);
     let final_linear = srgb_to_linear(final_rgb_srgb);
-    return vec4<f32>(final_linear, final_alpha);
+    return vec4<f32>(final_linear, final_alpha)* hover_color;
 }
 
 fn centered_smaller_texture(texture: texture_2d<f32>, sampler: sampler, uv: vec2<f32>, scale: f32) -> vec4<f32> {    
