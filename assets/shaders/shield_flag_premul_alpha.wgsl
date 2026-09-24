@@ -43,7 +43,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // We convert the sampled colors back to sRGB so the math matches your GLSL code exactly.
     // NOTE: If your colors STILL look blown out/white after this, it means Bevy loaded 
     // your textures as Linear. In that case, REMOVE the linear_to_srgb calls and just use flag_raw.rgb.
-    let flag_srgb = linear_to_srgb(flag_raw.rgb);
+    let flag_srgb = linear_to_srgb(flag_raw.rgb * hover_color.rgb);
     let shield_srgb = linear_to_srgb(shield_raw.rgb);
     let mask_value = mask_raw.a; 
     // 4. Set up foreground and background using sRGB values
@@ -59,7 +59,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     }    
     let final_rgb_srgb: vec3<f32> = fg_rgb_premul + bg_rgb_premul * (1.0 - fg.a);
     let final_linear = srgb_to_linear(final_rgb_srgb);
-    return vec4<f32>(final_linear, final_alpha)* hover_color;
+    return vec4<f32>(final_linear, final_alpha);
 }
 
 fn centered_smaller_texture(texture: texture_2d<f32>, sampler: sampler, uv: vec2<f32>, scale: f32) -> vec4<f32> {    
