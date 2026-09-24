@@ -1,11 +1,11 @@
-@group(1) @binding(0) var flag_texture: texture_2d<f32>;
+@group(1) @binding(0) var flag_texture: texture_2d_array<f32>;
 @group(1) @binding(1) var flag_sampler: sampler;
 @group(1) @binding(2) var shield_texture: texture_2d<f32>;
 @group(1) @binding(3) var shield_sampler: sampler;
 @group(1) @binding(4) var mask_texture: texture_2d<f32>;
 @group(1) @binding(5) var mask_sampler: sampler;
-
 @group(1) @binding(6) var<uniform> hover_color: vec4<f32>;
+@group(1) @binding(7) var<uniform> flag_index: u32;
 
 struct UiVertexOutput {
     @builtin(position) position: vec4<f32>,
@@ -34,9 +34,9 @@ fn srgb_to_linear(c: vec3<f32>) -> vec3<f32> {
 }
 
 @fragment
-fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {        
-    // 1. Sample textures
-    let flag_raw = centered_smaller_texture(flag_texture, flag_sampler, in.uv, 1.53);
+fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {  
+    // 1. Sample textures    
+    let flag_raw = centered_smaller_array_texture(flag_texture, flag_sampler, in.uv, 1.53, flag_index);
     let shield_raw = textureSample(shield_texture, shield_sampler, in.uv);
     let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.53);
     // 2. THE FIX: Force sRGB Math
@@ -61,7 +61,16 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     let final_linear = srgb_to_linear(final_rgb_srgb);
     return vec4<f32>(final_linear, final_alpha);
 }
-
+fn centered_smaller_array_texture(tex: texture_2d_array<f32>, smp: sampler, uv: vec2<f32>, scale: f32, layer: u32) -> vec4<f32> {    
+    var centered_uv = (uv - vec2<f32>(1.0 / scale)) * scale + vec2<f32>(1.0 / scale);
+    centered_uv.x += 0.05;
+    centered_uv.y += 0.05;
+    
+    if (centered_uv.x < 0.0 || centered_uv.x > 1.0 || centered_uv.y < 0.0 || centered_uv.y > 1.0) {
+        return vec4<f32>(0.0, 0.0, 0.0, 0.0);
+    } 
+    return textureSample(tex, smp, centered_uv, layer); 
+}
 fn centered_smaller_texture(texture: texture_2d<f32>, sampler: sampler, uv: vec2<f32>, scale: f32) -> vec4<f32> {    
     var centered_uv = (uv - vec2<f32>(1.0 / scale)) * scale + vec2<f32>(1.0 / scale);
     centered_uv.x = centered_uv.x + 0.05;

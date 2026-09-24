@@ -32,6 +32,8 @@ fn country_flags_block(
     mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
 ) {
     let num_flags = 11;
+    let flag_index_1 = row_and_column_to_flag_index(0, 0);
+    let flag_index_2 = row_and_column_to_flag_index(0, 0);
     // main block for flags
     bottom_middle_block
         .spawn((
@@ -177,10 +179,11 @@ fn country_flags_block(
                     ..default()
                 },
                 MaterialNode(ui_materials.add(CustomUiMaterial {
-                    flag_texture: game_ui_resources.test_country_flag.clone(),
+                    flag_texture: game_ui_resources.country_flags_atlas.clone(),
                     shield_texture: game_ui_resources.country_shield_frame.clone(),
                     mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
                     hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
+                    flag_index: flag_index_1,
                 })),
                 Outline {
                     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
@@ -201,10 +204,11 @@ fn country_flags_block(
                     ..default()
                 },
                 MaterialNode(ui_materials.add(CustomUiMaterial {
-                    flag_texture: game_ui_resources.test_country_flag_second.clone(),
+                    flag_texture: game_ui_resources.country_flags_atlas.clone(),
                     shield_texture: game_ui_resources.country_shield_frame.clone(),
                     mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
                     hover_color: LinearRgba::new(2.0, 2.0, 2.0, 1.0),
+                    flag_index: flag_index_2,
                 })),
                 Outline {
                     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
@@ -282,7 +286,7 @@ fn country_text_block(
 
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
 pub struct CustomUiMaterial {
-    #[texture(0)]
+    #[texture(0, dimension = "2d_array")]
     #[sampler(1)]
     pub flag_texture: Handle<Image>,
 
@@ -296,6 +300,9 @@ pub struct CustomUiMaterial {
 
     #[uniform(6)]
     pub hover_color: LinearRgba,
+
+    #[uniform(7)]
+    pub flag_index: u32,
 }
 
 impl UiMaterial for CustomUiMaterial {
@@ -311,4 +318,8 @@ impl UiMaterial for CustomUiMaterial {
             }
         }
     }
+}
+
+fn row_and_column_to_flag_index(row: u32, column: u32) -> u32 {
+    row * 32 + column
 }

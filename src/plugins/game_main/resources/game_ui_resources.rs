@@ -16,8 +16,9 @@ pub struct GameUiResources {
     pub country_shield_frame_mask: Handle<Image>,
     pub country_shield_frame_green_glow: Handle<Image>,
     pub country_choice_bottom_middle_block_background_image: Handle<Image>,
+    pub country_flags_atlas: Handle<Image>,
 
     // For test only:
     pub test_country_flag: Handle<Image>,
-    pub test_country_flag_second: Handle<Image>,
+    // pub test_country_flag_second: Handle<Image>,
 }

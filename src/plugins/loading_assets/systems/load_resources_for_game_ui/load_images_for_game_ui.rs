@@ -1,5 +1,8 @@
 use crate::plugins::game_main::resources::game_ui_resources::GameUiResources;
-use bevy::prelude::*;
+use bevy::{
+    image::{ImageArrayLayout, ImageLoaderSettings},
+    prelude::*,
+};
 
 pub fn load_images_for_game_ui(
     asset_server: Res<AssetServer>,
@@ -27,10 +30,19 @@ pub fn load_images_for_game_ui(
     let country_shield_frame_green_glow = asset_server.load("gfx/interface/shield_thin_glow.dds");
     let country_choice_bottom_middle_block_background_image =
         asset_server.load("gfx/interface/lobby_chat_bg.dds");
+    let country_flags_atlas = asset_server
+        .load_builder()
+        .with_settings(|settings: &mut ImageLoaderSettings| {
+            settings.array_layout = Some(ImageArrayLayout::GridCount {
+                columns: 32,
+                rows: 33,
+            })
+        })
+        .load("gfx/flags/atlas/flags.tga");
 
     // For test only:
     let test_country_flag = asset_server.load("gfx/flags/AAC.tga");
-    let test_country_flag_second = asset_server.load("gfx/flags/ABB.tga");
+    // let test_country_flag_second = asset_server.load("gfx/flags/ABB.tga");
     // let layered_material = ui_materials.add(CustomUiMaterial {
     //     flag_texture: asset_server.load("gfx/flags/AAC.tga"),
     //     shield_texture: asset_server.load("gfx/interface/shield_frame.dds"),
@@ -54,8 +66,9 @@ pub fn load_images_for_game_ui(
         country_shield_frame_mask,
         country_shield_frame_green_glow,
         country_choice_bottom_middle_block_background_image,
+        country_flags_atlas,
         // For test only:
         test_country_flag,
-        test_country_flag_second,
+        // test_country_flag_second,
     });
 }
