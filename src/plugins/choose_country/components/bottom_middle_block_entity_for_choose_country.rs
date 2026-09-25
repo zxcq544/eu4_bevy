@@ -32,8 +32,8 @@ fn country_flags_block(
     mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
 ) {
     let num_flags = 11;
-    let flag_index_1 = row_and_column_to_flag_index(0, 0);
-    let flag_index_2 = row_and_column_to_flag_index(0, 0);
+    let flag_index_1 = 0;
+    let flag_index_2 = 1026;
     // main block for flags
     bottom_middle_block
         .spawn((
@@ -320,6 +320,6 @@ impl UiMaterial for CustomUiMaterial {
     }
 }
 
-fn row_and_column_to_flag_index(row: u32, column: u32) -> u32 {
-    row * 32 + column
-}
+// fn row_and_column_to_flag_index(row: u32, column: u32) -> u32 {
+//     row * 32 + column
+// }
