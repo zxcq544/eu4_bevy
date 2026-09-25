@@ -2,3 +2,4 @@
 /assets/*
 !assets/shaders/
 settings.json
+python_utility_scripts/result_shield_small_flag.png
