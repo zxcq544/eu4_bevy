@@ -20,6 +20,7 @@ def build_flags_texture_atlas(flags_dir, output_dir):
         flag = flags[i]
         flag_name = flag.split(".")[0]
         flag_posiiton_row_column[flag_name] = {
+            "index": i,
             "row": i // num_columns,
             "column": i % num_columns,
         }
