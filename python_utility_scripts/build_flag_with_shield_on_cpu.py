@@ -8,7 +8,7 @@ def get_center_pos(bigger_size, smaller_size):
 def build_flag_with_shield_on_cpu():
     # 1. Загрузка всех изображений (замените пути на свои)
     # Убеждаемся, что изображения с прозрачностью загружены в режиме RGBA
-    flag = Image.open("../assets/gfx/flags/ZNI.tga")  # 128x128
+    flag = Image.open("../assets/gfx/flags/RUS.tga")  # 128x128
     shield = Image.open("../assets/gfx/interface/shield_frame.dds")  # 92x92
     mask = Image.open("../assets/gfx/interface/shield_mask.tga")  # 62x62
     glow = Image.open("../assets/gfx/interface/shield_thin_glow.dds")  # 79x96
