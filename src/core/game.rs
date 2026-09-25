@@ -3,7 +3,9 @@ use crate::{
     plugins::{
         choose_country::{
             choose_country::ChooseCountryPlugin,
-            components::bottom_middle_block_entity_for_choose_country::CustomUiMaterial,
+            components::bottom_middle_block_entity_for_choose_country::{
+                CustomUiMaterial, CustomUiMaterialWithGlow,
+            },
         },
         initial_boot_step::initial_boot_step_plugin::InitialBootStepPlugin,
         loading_assets::loading_assets::LoadingAssetsPlugin,
@@ -38,6 +40,7 @@ impl Plugin for GamePlugin {
         //    and gating systems on GameState::Playing.
         // Material for country shields
         app.add_plugins(UiMaterialPlugin::<CustomUiMaterial>::default());
+        app.add_plugins(UiMaterialPlugin::<CustomUiMaterialWithGlow>::default());
         app.add_plugins((
             MonitorChooserPlugin,
             InitialBootStepPlugin,

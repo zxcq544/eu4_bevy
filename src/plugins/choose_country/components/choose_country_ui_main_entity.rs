@@ -6,7 +6,8 @@ use crate::{
         choose_country::components::{
             bottom_left_block_entity_for_choose_country::bottom_left_block_entity_for_choose_country,
             bottom_middle_block_entity_for_choose_country::{
-                CustomUiMaterial, bottom_middle_block_entity_for_choose_country,
+                CustomUiMaterial, CustomUiMaterialWithGlow,
+                bottom_middle_block_entity_for_choose_country,
             },
         },
         game_main::resources::game_ui_resources::GameUiResources,
@@ -24,6 +25,7 @@ impl ChooseCountryUiMainEntity {
         fonts: &Res<FontHandles>,
         game_ui_resources: &Res<GameUiResources>,
         ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
+        ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
     ) {
         commands
             .spawn((
@@ -149,7 +151,7 @@ impl ChooseCountryUiMainEntity {
                                         Node {
                                             display: Display::Flex,
                                             flex_direction: FlexDirection::Column,
-                                            width: Val::Percent(30.0),
+                                            width: Val::Percent(25.0),
                                             height: Val::Percent(100.0),
                                             justify_content: JustifyContent::Center,
                                             align_items: AlignItems::Center,
@@ -175,7 +177,7 @@ impl ChooseCountryUiMainEntity {
                                         Node {
                                             display: Display::Flex,
                                             flex_direction: FlexDirection::Column,
-                                            width: Val::Percent(40.0),
+                                            width: Val::Percent(45.0),
                                             height: Val::Percent(100.0),
                                             justify_content: JustifyContent::Center,
                                             align_items: AlignItems::Center,
@@ -194,13 +196,14 @@ impl ChooseCountryUiMainEntity {
                                             &fonts,
                                             &game_ui_resources,
                                             ui_materials_res,
+                                            ui_materials_with_glow_res,
                                         );
                                     });
                                 // bottom right block
                                 bottom_block.spawn((
                                     Node {
                                         display: Display::Flex,
-                                        width: Val::Percent(30.0),
+                                        width: Val::Percent(25.0),
                                         height: Val::Percent(100.0),
                                         justify_content: JustifyContent::Center,
                                         align_items: AlignItems::Center,
