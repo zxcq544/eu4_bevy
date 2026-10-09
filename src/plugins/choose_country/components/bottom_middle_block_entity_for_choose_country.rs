@@ -20,7 +20,12 @@ pub fn bottom_middle_block_entity_for_choose_country(
     ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
     ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
 ) {
-    country_flags_block(bottom_middle_block, game_ui_resources, ui_materials_res, ui_materials_with_glow_res);
+    country_flags_block(
+        bottom_middle_block,
+        game_ui_resources,
+        ui_materials_res,
+        ui_materials_with_glow_res,
+    );
     // country_shield_glow(bottom_middle_block, game_ui_resources);
     country_text_block(bottom_middle_block, game_ui_resources);
 }
@@ -38,14 +43,17 @@ fn country_flags_block(
             Country {
                 name: "Austria".to_string(),
                 flag_index: 0,
+                short_name_tag_3_letters: "AUT".to_string(),
             },
             Country {
-                name: "Belgium".to_string(),
+                name: "Sweden".to_string(),
                 flag_index: 1,
+                short_name_tag_3_letters: "SWE".to_string(),
             },
             Country {
                 name: "Bulgaria".to_string(),
                 flag_index: 2,
+                short_name_tag_3_letters: "BUL".to_string(),
             },
         ],
     };
@@ -54,34 +62,42 @@ fn country_flags_block(
             Country {
                 name: "Croatia".to_string(),
                 flag_index: 3,
+                short_name_tag_3_letters: "CRO".to_string(),
             },
             Country {
-                name: "Czech Republic".to_string(),
+                name: "Finland".to_string(),
                 flag_index: 4,
+                short_name_tag_3_letters: "FIN".to_string(),
             },
             Country {
                 name: "Denmark".to_string(),
                 flag_index: 5,
+                short_name_tag_3_letters: "DAN".to_string(),
             },
             Country {
-                name: "Finland".to_string(),
+                name: "Serbia".to_string(),
                 flag_index: 6,
+                short_name_tag_3_letters: "SER".to_string(),
             },
             Country {
                 name: "France".to_string(),
                 flag_index: 7,
+                short_name_tag_3_letters: "FRA".to_string(),
             },
             Country {
-                name: "Germany".to_string(),
+                name: "Poland".to_string(),
                 flag_index: 8,
+                short_name_tag_3_letters: "POL".to_string(),
             },
             Country {
-                name: "Greece".to_string(),
+                name: "Aragon".to_string(),
                 flag_index: 9,
+                short_name_tag_3_letters: "ARA".to_string(),
             },
             Country {
-                name: "Hungary".to_string(),
+                name: "Genoa".to_string(),
                 flag_index: 10,
+                short_name_tag_3_letters: "GEN".to_string(),
             },
         ],
     };
@@ -481,5 +497,6 @@ struct CountriesForMainMenu {
 
 struct Country {
     pub name: String,
+    pub short_name_tag_3_letters: String,
     flag_index: u32,
 }
