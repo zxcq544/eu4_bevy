@@ -21,14 +21,23 @@ def build_countries_from_json_files(flags_json_file, countries_json_file):
     with open(countries_json_file, "r", encoding="utf-8") as f:
         countries_json = json.load(f)
 
+    country_tags = flags_json["flags"]
+
     countries_json = {k: v for k, v in sorted(countries_json.items())}
 
     countries = []
 
-    for country_tag, country_name in countries_json.items():
-        country = Country(
-            country_name, country_tag, flags_json["flags"][country_tag]["index"]
-        )
+    for country_tag, _ in country_tags.items():
+        if country_tag in countries_json:
+            country = Country(
+                countries_json[country_tag],
+                country_tag,
+                flags_json["flags"][country_tag]["index"],
+            )
+        else:
+            country = Country(
+                country_tag, country_tag, flags_json["flags"][country_tag]["index"]
+            )
         countries.append(country)
 
     return countries
