@@ -8,8 +8,7 @@ use bevy::{
 use bevy_fluent::Localization;
 
 use crate::{
-    plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::fonts::fonts::FontHandles,
+    plugins::game_main::resources::game_ui_resources::GameUiResources, shared::{country::country::Country, fonts::fonts::FontHandles},
 };
 
 pub fn bottom_middle_block_entity_for_choose_country(
@@ -495,8 +494,8 @@ struct CountriesForMainMenu {
     pub countries: Vec<Country>,
 }
 
-struct Country {
-    pub name: String,
-    pub short_name_tag_3_letters: String,
-    flag_index: u32,
-}
+// struct Country {
+//     pub name: String,
+//     pub short_name_tag_3_letters: String,
+//     flag_index: u32,
+// }
