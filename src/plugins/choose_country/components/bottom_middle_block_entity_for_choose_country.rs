@@ -1,3 +1,13 @@
+use crate::{
+    plugins::game_main::resources::game_ui_resources::GameUiResources,
+    shared::{
+        country::{
+            countries_resource::CountriesResource, country::Country,
+            country_data_from_json::CountriesDataFromJson,
+        },
+        fonts::fonts::FontHandles,
+    },
+};
 use bevy::{
     ecs::relationship::RelatedSpawnerCommands,
     material::descriptor::RenderPipelineDescriptor,
@@ -7,11 +17,6 @@ use bevy::{
 };
 use bevy_fluent::Localization;
 
-use crate::{
-    plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::{country::country::Country, fonts::fonts::FontHandles},
-};
-
 pub fn bottom_middle_block_entity_for_choose_country(
     bottom_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     _localization_res: &Res<Localization>,
@@ -19,12 +24,16 @@ pub fn bottom_middle_block_entity_for_choose_country(
     game_ui_resources: &Res<GameUiResources>,
     ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
     ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+    countries_res: Res<CountriesResource>,
+    countries_assets: Res<Assets<CountriesDataFromJson>>,
 ) {
     country_flags_block(
         bottom_middle_block,
         game_ui_resources,
         ui_materials_res,
         ui_materials_with_glow_res,
+        countries_res,
+        countries_assets,
     );
     // country_shield_glow(bottom_middle_block, game_ui_resources);
     country_text_block(bottom_middle_block, game_ui_resources);
@@ -37,95 +46,34 @@ fn country_flags_block(
     game_ui_resources: &Res<GameUiResources>,
     mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
     mut ui_materials_with_glow: ResMut<Assets<CustomUiMaterialWithGlow>>,
+    countries_res: Res<CountriesResource>,
+    countries_assets: Res<Assets<CountriesDataFromJson>>,
 ) {
-    let countries_recommended_for_main_menu = CountriesRecommendedForMainMenu {
-        countries: vec![
-            Country {
-                name: "Austria".to_string(),
-                flag_index: 0,
-                short_name_tag_3_letters: "AUT".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(0),
-            },
-            Country {
-                name: "Sweden".to_string(),
-                flag_index: 1,
-                short_name_tag_3_letters: "SWE".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(1),
-            },
-            Country {
-                name: "Bulgaria".to_string(),
-                flag_index: 2,
-                short_name_tag_3_letters: "BUL".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(2),
-            },
-        ],
+    // TODO: move this code to component spawn place
+    // and move recommended for menu and other fields to components of entity 'country'
+    // so query could choose exactly what we need without filter by hand
+    // like Query<Country, With<RecommendedCountryInMainMenu>> or so
+    let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
+        panic!("Countries data asset not found");
     };
-    let countries_for_main_menu = CountriesForMainMenu {
-        countries: vec![
-            Country {
-                name: "Croatia".to_string(),
-                flag_index: 3,
-                short_name_tag_3_letters: "CRO".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(3),
-            },
-            Country {
-                name: "Finland".to_string(),
-                flag_index: 4,
-                short_name_tag_3_letters: "FIN".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(4),
-            },
-            Country {
-                name: "Denmark".to_string(),
-                flag_index: 5,
-                short_name_tag_3_letters: "DAN".to_string(),
-                recommended_in_menu: Some(true),
-                index_in_menu: Some(5),
-            },
-            Country {
-                name: "Serbia".to_string(),
-                flag_index: 6,
-                short_name_tag_3_letters: "SER".to_string(),
-                recommended_in_menu: Some(false),
-                index_in_menu: Some(6),
-            },
-            Country {
-                name: "France".to_string(),
-                flag_index: 7,
-                short_name_tag_3_letters: "FRA".to_string(),
-                recommended_in_menu: Some(false),
-                index_in_menu: Some(7),
-            },
-            Country {
-                name: "Poland".to_string(),
-                flag_index: 8,
-                short_name_tag_3_letters: "POL".to_string(),
-                recommended_in_menu: Some(false),
-                index_in_menu: Some(8),
-            },
-            Country {
-                name: "Aragon".to_string(),
-                flag_index: 9,
-                short_name_tag_3_letters: "ARA".to_string(),
-                recommended_in_menu: Some(false),
-                index_in_menu: Some(9),
-            },
-            Country {
-                name: "Genoa".to_string(),
-                flag_index: 10,
-                short_name_tag_3_letters: "GEN".to_string(),
-                recommended_in_menu: Some(false),
-                index_in_menu: Some(10),
-            },
-        ],
-    };
+
+    let mut countries_for_main_menu_from_data = Vec::new();
+    let mut recommended_countries = Vec::new();
+    for data in &countries_data.countries {
+        if data.index_in_menu.is_some() && data.recommended_in_menu.is_none() {
+            countries_for_main_menu_from_data.push(Country::from(data));
+        } else if data.recommended_in_menu == Some(true) {
+            recommended_countries.push(Country::from(data));
+        }
+    }
+    countries_for_main_menu_from_data.sort_by_key(|country| country.index_in_menu);
+    recommended_countries.sort_by_key(|country| country.index_in_menu);
+
+    let countries_recommended_for_main_menu = recommended_countries;
+    let countries_for_main_menu = countries_for_main_menu_from_data;
     let num_flags = 11;
-    let flag_index_1 = 0;
-    let flag_index_2 = 1026;
+    // let flag_index_1 = 0;
+    // let flag_index_2 = 1026;
     // main block for flags
     bottom_middle_block
         .spawn((
@@ -146,7 +94,7 @@ fn country_flags_block(
             // },
         ))
         .with_children(|flags_block| {
-            for country in &countries_recommended_for_main_menu.countries {
+            for country in &countries_recommended_for_main_menu {
                 flags_block.spawn((
                     Node {
                         display: Display::Flex,
@@ -173,7 +121,7 @@ fn country_flags_block(
                     // },
                 ));
             }
-            for country in &countries_for_main_menu.countries {
+            for country in &countries_for_main_menu {
                 flags_block.spawn((
                     Node {
                         display: Display::Flex,
@@ -318,13 +266,13 @@ impl UiMaterial for CustomUiMaterialWithGlow {
 //     row * 32 + column
 // }
 
-struct CountriesRecommendedForMainMenu {
-    pub countries: Vec<Country>,
-}
+// struct CountriesRecommendedForMainMenu {
+//     pub countries: Vec<Country>,
+// }
 
-struct CountriesForMainMenu {
-    pub countries: Vec<Country>,
-}
+// struct CountriesForMainMenu {
+//     pub countries: Vec<Country>,
+// }
 
 // struct Country {
 //     pub name: String,

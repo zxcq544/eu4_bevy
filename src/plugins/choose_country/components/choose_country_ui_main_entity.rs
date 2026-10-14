@@ -11,8 +11,7 @@ use crate::{
             },
         },
         game_main::resources::game_ui_resources::GameUiResources,
-    },
-    shared::fonts::fonts::FontHandles,
+    }, shared::{country::{countries_resource::CountriesResource, country_data_from_json::CountriesDataFromJson}, fonts::fonts::FontHandles},
 };
 
 #[derive(Component, Clone, Default)]
@@ -26,6 +25,8 @@ impl ChooseCountryUiMainEntity {
         game_ui_resources: &Res<GameUiResources>,
         ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
         ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+        countries_res: Res<CountriesResource>,
+        countries_assets: Res<Assets<CountriesDataFromJson>>,
     ) {
         commands
             .spawn((
@@ -197,6 +198,8 @@ impl ChooseCountryUiMainEntity {
                                             &game_ui_resources,
                                             ui_materials_res,
                                             ui_materials_with_glow_res,
+                                            countries_res,
+                                            countries_assets,
                                         );
                                     });
                                 // bottom right block
