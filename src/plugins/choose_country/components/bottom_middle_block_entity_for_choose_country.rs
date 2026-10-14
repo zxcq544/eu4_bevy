@@ -71,6 +71,7 @@ fn country_flags_block(
 
     let countries_recommended_for_main_menu = recommended_countries;
     let countries_for_main_menu = countries_for_main_menu_from_data;
+    // Should be 11 flags
     let num_flags = countries_for_main_menu.len() + countries_recommended_for_main_menu.len();
     // let flag_index_1 = 0;
     // let flag_index_2 = 1026;
