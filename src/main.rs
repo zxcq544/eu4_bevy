@@ -2,8 +2,10 @@ use bevy::dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
 use bevy::image::{ImageFilterMode, ImageSamplerDescriptor};
 use bevy::window::WindowPlugin;
 use bevy::{dev_tools::fps_overlay::FrameTimeGraphConfig, prelude::*};
+use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_fluent::{FluentPlugin, Locale};
 use eu4_bevy::core::game::GamePlugin;
+use eu4_bevy::shared::country::country_data_from_json::CountriesDataFromJson;
 use eu4_bevy::shared::settings::settings;
 use std::str::FromStr;
 use unic_langid::LanguageIdentifier;
@@ -72,6 +74,10 @@ fn main() {
             },
         })
         .add_plugins(FluentPlugin)
+        // Add json asset plugins
+        .add_plugins(JsonAssetPlugin::<CountriesDataFromJson>::new(&[
+            "data/result_countries.json",
+        ]))
         // Pull in all game systems via one root plugin
         .add_plugins(GamePlugin)
         // .insert_resource(WinitSettings::desktop_app()) // MacOS only I guess. Slows down everything on Windows

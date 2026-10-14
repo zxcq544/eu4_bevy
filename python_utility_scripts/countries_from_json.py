@@ -69,7 +69,11 @@ def build_countries_from_json_files(flags_json_file, countries_json_file):
                     country.recommended_in_menu = True
         countries.append(country)
 
-    return countries
+    result = {
+        "countries": countries,
+    }
+
+    return result
 
 
 if __name__ == "__main__":
@@ -87,4 +91,4 @@ if __name__ == "__main__":
             ensure_ascii=False,
         )
 
-    print(countries[0:5])
+    print(countries["countries"][0:5])

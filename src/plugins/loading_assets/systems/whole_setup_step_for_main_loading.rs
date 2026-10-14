@@ -7,6 +7,7 @@ use crate::{
         options::resources::options_images::OptionsImages,
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
+    shared::country::countries_resource::CountriesResource,
 };
 use bevy::prelude::*;
 
@@ -20,6 +21,7 @@ pub fn whole_setup_step_for_main_loading(
     options_images: Res<OptionsImages>,
     sound_effects: Res<ButtonClickSoundEffects>,
     game_ui_resources: Res<GameUiResources>,
+    countries_resource: Res<CountriesResource>,
 ) {
     timer.timer.tick(time.delta());
 
@@ -28,6 +30,7 @@ pub fn whole_setup_step_for_main_loading(
         && asset_server.is_loaded_with_dependencies(&options_images.settings_bg_image)
         && asset_server.is_loaded_with_dependencies(&options_images.apply_and_back_button_image)
         && asset_server.is_loaded_with_dependencies(&game_ui_resources.ui_slider_thumb_image_blue)
+        && asset_server.is_loaded_with_dependencies(&countries_resource.countries)
         && timer.timer.just_finished()
     {
         info!("current state is {:?}", current_state.get());
