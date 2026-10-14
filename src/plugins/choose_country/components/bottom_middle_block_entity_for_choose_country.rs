@@ -8,7 +8,8 @@ use bevy::{
 use bevy_fluent::Localization;
 
 use crate::{
-    plugins::game_main::resources::game_ui_resources::GameUiResources, shared::{country::country::Country, fonts::fonts::FontHandles},
+    plugins::game_main::resources::game_ui_resources::GameUiResources,
+    shared::{country::country::Country, fonts::fonts::FontHandles},
 };
 
 pub fn bottom_middle_block_entity_for_choose_country(
@@ -43,16 +44,22 @@ fn country_flags_block(
                 name: "Austria".to_string(),
                 flag_index: 0,
                 short_name_tag_3_letters: "AUT".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(0),
             },
             Country {
                 name: "Sweden".to_string(),
                 flag_index: 1,
                 short_name_tag_3_letters: "SWE".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(1),
             },
             Country {
                 name: "Bulgaria".to_string(),
                 flag_index: 2,
                 short_name_tag_3_letters: "BUL".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(2),
             },
         ],
     };
@@ -62,41 +69,57 @@ fn country_flags_block(
                 name: "Croatia".to_string(),
                 flag_index: 3,
                 short_name_tag_3_letters: "CRO".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(3),
             },
             Country {
                 name: "Finland".to_string(),
                 flag_index: 4,
                 short_name_tag_3_letters: "FIN".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(4),
             },
             Country {
                 name: "Denmark".to_string(),
                 flag_index: 5,
                 short_name_tag_3_letters: "DAN".to_string(),
+                recommended_in_menu: Some(true),
+                index_in_menu: Some(5),
             },
             Country {
                 name: "Serbia".to_string(),
                 flag_index: 6,
                 short_name_tag_3_letters: "SER".to_string(),
+                recommended_in_menu: Some(false),
+                index_in_menu: Some(6),
             },
             Country {
                 name: "France".to_string(),
                 flag_index: 7,
                 short_name_tag_3_letters: "FRA".to_string(),
+                recommended_in_menu: Some(false),
+                index_in_menu: Some(7),
             },
             Country {
                 name: "Poland".to_string(),
                 flag_index: 8,
                 short_name_tag_3_letters: "POL".to_string(),
+                recommended_in_menu: Some(false),
+                index_in_menu: Some(8),
             },
             Country {
                 name: "Aragon".to_string(),
                 flag_index: 9,
                 short_name_tag_3_letters: "ARA".to_string(),
+                recommended_in_menu: Some(false),
+                index_in_menu: Some(9),
             },
             Country {
                 name: "Genoa".to_string(),
                 flag_index: 10,
                 short_name_tag_3_letters: "GEN".to_string(),
+                recommended_in_menu: Some(false),
+                index_in_menu: Some(10),
             },
         ],
     };

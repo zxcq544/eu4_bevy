@@ -1,11 +1,35 @@
 import json
 
+recommended_coutries = ["Ottomans", "Castille", "Portugal"]
+menu_countries = [
+    "Ottomans",
+    "Castille",
+    "Portugal",
+    "France",
+    "England",
+    "Austria",
+    "Poland",
+    "Sweden",
+    "Muscowy",
+    "MongPai",
+    "Morocco",
+]
+
 
 class Country:
-    def __init__(self, name, short_name_tag_3_letters, flag_index):
+    def __init__(
+        self,
+        name,
+        short_name_tag_3_letters,
+        flag_index,
+        recommended_in_menu=None,
+        index_in_menu=None,
+    ):
         self.name = name
         self.short_name_tag_3_letters = short_name_tag_3_letters
         self.flag_index = flag_index
+        self.recommended_in_menu = recommended_in_menu
+        self.index_in_menu = index_in_menu
 
     def __repr__(self):
         return f"{self.name} ({self.short_name_tag_3_letters}) {self.flag_index}"
@@ -38,6 +62,11 @@ def build_countries_from_json_files(flags_json_file, countries_json_file):
             country = Country(
                 country_tag, country_tag, flags_json["flags"][country_tag]["index"]
             )
+        for i, country_in_menu in enumerate(menu_countries):
+            if country_in_menu == country.name:
+                country.index_in_menu = i
+                if country.name in recommended_coutries:
+                    country.recommended_in_menu = True
         countries.append(country)
 
     return countries
@@ -51,7 +80,11 @@ if __name__ == "__main__":
 
     with open("../assets/data/result_countries.json", "w", encoding="utf-8") as f:
         json.dump(
-            countries, f, default=lambda o: o.__dict__, indent=4, ensure_ascii=False
+            countries,
+            f,
+            default=lambda o: {k: v for k, v in o.__dict__.items() if v is not None},
+            indent=4,
+            ensure_ascii=False,
         )
 
     print(countries[0:5])
