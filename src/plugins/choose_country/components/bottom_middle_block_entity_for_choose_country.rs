@@ -64,36 +64,8 @@ fn country_flags_block(
         ),
     >,
 ) {
-    // TODO: move this code to component spawn place
-    // and move recommended for menu and other fields to components of entity 'country'
-    // so query could choose exactly what we need without filter by hand
-    // like Query<Country, With<RecommendedCountryInMainMenu>> or so
-    let mut countries_for_main_menu_from_data: Vec<CountryInfo> = Vec::new();
-    let mut recommended_countries: Vec<CountryInfo> = Vec::new();
-    for country_info in &countries_recommended_for_main_menu_query {
-        recommended_countries.push(country_info.clone());
-    }
-    for country_info in &countries_for_main_menu_query {
-        countries_for_main_menu_from_data.push(country_info.clone());
-    }
-    // let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
-    //     panic!("Countries data asset not found");
-    // };
-
-    // for data in &countries_data.countries {
-    //     if data.index_in_menu.is_some() && data.recommended_in_menu.is_none() {
-    //         countries_for_main_menu_from_data.push(Country::from(data));
-    //     } else if data.recommended_in_menu == Some(true) {
-    //         recommended_countries.push(Country::from(data));
-    //     }
-    // }
-    // countries_for_main_menu_from_data.sort_by_key(|country| country.index_in_menu);
-    // recommended_countries.sort_by_key(|country| country.index_in_menu);
-
-    let countries_recommended_for_main_menu = recommended_countries;
-    let countries_for_main_menu = countries_for_main_menu_from_data;
     // Should be 11 flags
-    let num_flags = countries_for_main_menu.len() + countries_recommended_for_main_menu.len();
+    let num_flags = 11;
     // let flag_index_1 = 0;
     // let flag_index_2 = 1026;
     // main block for flags
@@ -116,7 +88,7 @@ fn country_flags_block(
             // },
         ))
         .with_children(|flags_block| {
-            for country in &countries_recommended_for_main_menu {
+            for country in &countries_recommended_for_main_menu_query {
                 flags_block.spawn((
                     Node {
                         display: Display::Flex,
@@ -143,7 +115,7 @@ fn country_flags_block(
                     // },
                 ));
             }
-            for country in &countries_for_main_menu {
+            for country in &countries_for_main_menu_query {
                 flags_block.spawn((
                     Node {
                         display: Display::Flex,
@@ -283,21 +255,3 @@ impl UiMaterial for CustomUiMaterialWithGlow {
         }
     }
 }
-
-// fn row_and_column_to_flag_index(row: u32, column: u32) -> u32 {
-//     row * 32 + column
-// }
-
-// struct CountriesRecommendedForMainMenu {
-//     pub countries: Vec<Country>,
-// }
-
-// struct CountriesForMainMenu {
-//     pub countries: Vec<Country>,
-// }
-
-// struct Country {
-//     pub name: String,
-//     pub short_name_tag_3_letters: String,
-//     flag_index: u32,
-// }
