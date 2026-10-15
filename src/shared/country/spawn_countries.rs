@@ -1,13 +1,15 @@
 use crate::shared::country::{
     countries_resource::CountriesResource,
     country::{
-        Country, CountryBundle, CountryIndexInMenu, CountryInfo, CountryIsRecommendedInMenu,
+        Country, CountryBundle, CountryInMainMenuButNotRecommendedBundle, CountryIndexInMenu,
+        CountryInfo, CountryIsRecommendedInMenu, CountryRecommendedForMainMenuBundle,
     },
     country_data_from_json::CountriesDataFromJson,
 };
 use bevy::{
     asset::Assets,
     ecs::system::{Commands, Res},
+    log::warn,
 };
 
 pub fn spawn_countries(
@@ -16,48 +18,50 @@ pub fn spawn_countries(
     countries_assets: Res<Assets<CountriesDataFromJson>>,
 ) {
     let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
-        panic!("Countries data asset not found");
+        warn!("Countries data asset not found yet.");
+        return;
     };
     let mut countries_not_in_main_menu: Vec<CountryBundle> = Vec::new();
-    let mut not_recommended_countries_in_main_menu: Vec<(CountryBundle, u32)> = Vec::new();
-    let mut recommended_countries_in_main_menu: Vec<(CountryBundle, u32)> = Vec::new();
+    let mut not_recommended_countries_in_main_menu: Vec<CountryInMainMenuButNotRecommendedBundle> =
+        Vec::new();
+    let mut recommended_countries_in_main_menu: Vec<CountryRecommendedForMainMenuBundle> =
+        Vec::new();
     for country_data in &countries_data.countries {
-        let country_bundle = CountryBundle {
-            marker: Country,
-            country_info: CountryInfo {
-                name: country_data.name.clone(),
-                short_name_tag_3_letters: country_data.short_name_tag_3_letters.clone(),
-                flag_index: country_data.flag_index,
-            },
+        let country_info = CountryInfo {
+            name: country_data.name.clone(),
+            short_name_tag_3_letters: country_data.short_name_tag_3_letters.clone(),
+            flag_index: country_data.flag_index,
         };
-        if country_data.index_in_menu.is_some() && country_data.recommended_in_menu.is_none() {
-            not_recommended_countries_in_main_menu
-                .push((country_bundle, country_data.index_in_menu.unwrap()));
-        } else if country_data.recommended_in_menu == Some(true)
-            && country_data.index_in_menu.is_some()
-        {
-            recommended_countries_in_main_menu
-                .push((country_bundle, country_data.index_in_menu.unwrap()));
-        } else {
-            countries_not_in_main_menu.push(country_bundle);
+        match (country_data.index_in_menu, country_data.recommended_in_menu) {
+            (Some(index), Some(true)) => {
+                recommended_countries_in_main_menu.push(CountryRecommendedForMainMenuBundle {
+                    marker: Country,
+                    country_info,
+                    country_is_recommended_in_menu: CountryIsRecommendedInMenu,
+                    country_index_in_menu: CountryIndexInMenu(index),
+                });
+            }
+            (Some(index), _) => {
+                not_recommended_countries_in_main_menu.push(
+                    CountryInMainMenuButNotRecommendedBundle {
+                        marker: Country,
+                        country_info,
+                        country_index_in_menu: CountryIndexInMenu(index),
+                    },
+                );
+            }
+            _ => {
+                countries_not_in_main_menu.push(CountryBundle {
+                    marker: Country,
+                    country_info,
+                });
+            }
         }
     }
+    not_recommended_countries_in_main_menu.sort_unstable_by_key(|c| c.country_index_in_menu.0);
+    recommended_countries_in_main_menu.sort_unstable_by_key(|c| c.country_index_in_menu.0);
+
     commands.spawn_batch(countries_not_in_main_menu);
-    not_recommended_countries_in_main_menu.sort_by_key(|(_, index_in_menu)| *index_in_menu);
-    for (not_recommended_country_in_main_menu, index_in_menu) in
-        not_recommended_countries_in_main_menu
-    {
-        commands.spawn((
-            not_recommended_country_in_main_menu,
-            CountryIndexInMenu(index_in_menu),
-        ));
-    }
-    recommended_countries_in_main_menu.sort_by_key(|(_, index_in_menu)| *index_in_menu);
-    for (recommended_country_in_main_menu, index_in_menu) in recommended_countries_in_main_menu {
-        commands.spawn((
-            recommended_country_in_main_menu,
-            CountryIndexInMenu(index_in_menu),
-            CountryIsRecommendedInMenu,
-        ));
-    }
+    commands.spawn_batch(not_recommended_countries_in_main_menu);
+    commands.spawn_batch(recommended_countries_in_main_menu);
 }
