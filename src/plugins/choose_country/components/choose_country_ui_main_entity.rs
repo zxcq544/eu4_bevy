@@ -12,7 +12,10 @@ use crate::{
         },
         game_main::resources::game_ui_resources::GameUiResources,
     },
-    shared::{country::country::Country, fonts::fonts::FontHandles},
+    shared::{
+        country::country::{CountryIndexInMenu, CountryInfo, CountryIsRecommendedInMenu},
+        fonts::fonts::FontHandles,
+    },
 };
 
 #[derive(Component, Clone, Default)]
@@ -26,7 +29,17 @@ impl ChooseCountryUiMainEntity {
         game_ui_resources: &Res<GameUiResources>,
         ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
         ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
-        countries_query: Query<&Country>,
+        countries_recommended_for_main_menu_query: Query<
+            &CountryInfo,
+            With<CountryIsRecommendedInMenu>,
+        >,
+        countries_for_main_menu_query: Query<
+            &CountryInfo,
+            (
+                With<CountryIndexInMenu>,
+                Without<CountryIsRecommendedInMenu>,
+            ),
+        >,
     ) {
         commands
             .spawn((
@@ -198,7 +211,8 @@ impl ChooseCountryUiMainEntity {
                                             &game_ui_resources,
                                             ui_materials_res,
                                             ui_materials_with_glow_res,
-                                            countries_query,
+                                            countries_recommended_for_main_menu_query,
+                                            countries_for_main_menu_query,
                                         );
                                     });
                                 // bottom right block

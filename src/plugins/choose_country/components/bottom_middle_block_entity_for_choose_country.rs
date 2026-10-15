@@ -1,6 +1,9 @@
 use crate::{
     plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::{country::country::Country, fonts::fonts::FontHandles},
+    shared::{
+        country::country::{CountryIndexInMenu, CountryInfo, CountryIsRecommendedInMenu},
+        fonts::fonts::FontHandles,
+    },
 };
 use bevy::{
     ecs::relationship::RelatedSpawnerCommands,
@@ -18,14 +21,25 @@ pub fn bottom_middle_block_entity_for_choose_country(
     game_ui_resources: &Res<GameUiResources>,
     ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
     ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
-    countries_query: Query<&Country>,
+    countries_recommended_for_main_menu_query: Query<
+        &CountryInfo,
+        With<CountryIsRecommendedInMenu>,
+    >,
+    countries_for_main_menu_query: Query<
+        &CountryInfo,
+        (
+            With<CountryIndexInMenu>,
+            Without<CountryIsRecommendedInMenu>,
+        ),
+    >,
 ) {
     country_flags_block(
         bottom_middle_block,
         game_ui_resources,
         ui_materials_res,
         ui_materials_with_glow_res,
-        countries_query,
+        countries_recommended_for_main_menu_query,
+        countries_for_main_menu_query,
     );
     // country_shield_glow(bottom_middle_block, game_ui_resources);
     country_text_block(bottom_middle_block, game_ui_resources);
@@ -38,20 +52,29 @@ fn country_flags_block(
     game_ui_resources: &Res<GameUiResources>,
     mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
     mut ui_materials_with_glow: ResMut<Assets<CustomUiMaterialWithGlow>>,
-    countries_query: Query<&Country>,
+    countries_recommended_for_main_menu_query: Query<
+        &CountryInfo,
+        With<CountryIsRecommendedInMenu>,
+    >,
+    countries_for_main_menu_query: Query<
+        &CountryInfo,
+        (
+            With<CountryIndexInMenu>,
+            Without<CountryIsRecommendedInMenu>,
+        ),
+    >,
 ) {
     // TODO: move this code to component spawn place
     // and move recommended for menu and other fields to components of entity 'country'
     // so query could choose exactly what we need without filter by hand
     // like Query<Country, With<RecommendedCountryInMainMenu>> or so
-    let mut countries_for_main_menu_from_data: Vec<Country> = Vec::new();
-    let mut recommended_countries: Vec<Country> = Vec::new();
-    for country in &countries_query {
-        if country.index_in_menu.is_some() && country.recommended_in_menu.is_none() {
-            countries_for_main_menu_from_data.push(country.clone());
-        } else if country.recommended_in_menu == Some(true) {
-            recommended_countries.push(country.clone());
-        }
+    let mut countries_for_main_menu_from_data: Vec<CountryInfo> = Vec::new();
+    let mut recommended_countries: Vec<CountryInfo> = Vec::new();
+    for country_info in &countries_recommended_for_main_menu_query {
+        recommended_countries.push(country_info.clone());
+    }
+    for country_info in &countries_for_main_menu_query {
+        countries_for_main_menu_from_data.push(country_info.clone());
     }
     // let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
     //     panic!("Countries data asset not found");
@@ -64,8 +87,8 @@ fn country_flags_block(
     //         recommended_countries.push(Country::from(data));
     //     }
     // }
-    countries_for_main_menu_from_data.sort_by_key(|country| country.index_in_menu);
-    recommended_countries.sort_by_key(|country| country.index_in_menu);
+    // countries_for_main_menu_from_data.sort_by_key(|country| country.index_in_menu);
+    // recommended_countries.sort_by_key(|country| country.index_in_menu);
 
     let countries_recommended_for_main_menu = recommended_countries;
     let countries_for_main_menu = countries_for_main_menu_from_data;

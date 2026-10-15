@@ -1,16 +1,9 @@
-use crate::shared::country::country_data_from_json::CountryDataFromJson;
 use bevy::ecs::{bundle::Bundle, component::Component};
-// TODO: make this a marker with no fields
-#[derive(Component, Debug, Clone)]
-pub struct Country {
-    pub name: String,
-    pub short_name_tag_3_letters: String,
-    pub flag_index: u32,
-    pub recommended_in_menu: Option<bool>,
-    pub index_in_menu: Option<u32>,
-}
 
-#[derive(Component, Debug)]
+#[derive(Component, Debug, Clone)]
+pub struct Country;
+
+#[derive(Component, Debug, Clone)]
 pub struct CountryInfo {
     pub name: String,
     pub short_name_tag_3_letters: String,
@@ -18,10 +11,10 @@ pub struct CountryInfo {
 }
 
 #[derive(Component, Debug)]
-pub struct RecommendedInMenu(pub bool);
+pub struct CountryIsRecommendedInMenu;
 
 #[derive(Component, Debug)]
-pub struct IndexInMenu(pub u32);
+pub struct CountryIndexInMenu(pub u32);
 
 #[derive(Bundle, Debug)]
 pub struct CountryBundle {
@@ -29,14 +22,29 @@ pub struct CountryBundle {
     pub country_info: CountryInfo,
 }
 
-impl From<&CountryDataFromJson> for Country {
-    fn from(data: &CountryDataFromJson) -> Self {
-        Self {
-            name: data.name.clone(),
-            flag_index: data.flag_index,
-            short_name_tag_3_letters: data.short_name_tag_3_letters.clone(),
-            recommended_in_menu: data.recommended_in_menu,
-            index_in_menu: data.index_in_menu,
-        }
-    }
+#[derive(Bundle, Debug)]
+pub struct CountryRecommendedForMainMenuBundle {
+    pub marker: Country,
+    pub country_info: CountryInfo,
+    pub country_is_recommended_in_menu: CountryIsRecommendedInMenu,
+    pub country_index_in_menu: CountryIndexInMenu,
 }
+
+#[derive(Bundle, Debug)]
+pub struct CountryInMainMenuButNotRecommendedBundle {
+    pub marker: Country,
+    pub country_info: CountryInfo,
+    pub country_index_in_menu: CountryIndexInMenu,
+}
+
+// impl From<&CountryDataFromJson> for Country {
+//     fn from(data: &CountryDataFromJson) -> Self {
+//         Self {
+//             name: data.name.clone(),
+//             flag_index: data.flag_index,
+//             short_name_tag_3_letters: data.short_name_tag_3_letters.clone(),
+//             recommended_in_menu: data.recommended_in_menu,
+//             index_in_menu: data.index_in_menu,
+//         }
+//     }
+// }
