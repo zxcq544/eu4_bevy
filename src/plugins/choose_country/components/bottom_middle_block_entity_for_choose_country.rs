@@ -1,12 +1,6 @@
 use crate::{
     plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::{
-        country::{
-            countries_resource::CountriesResource, country::Country,
-            country_data_from_json::CountriesDataFromJson,
-        },
-        fonts::fonts::FontHandles,
-    },
+    shared::{country::country::Country, fonts::fonts::FontHandles},
 };
 use bevy::{
     ecs::relationship::RelatedSpawnerCommands,
@@ -24,16 +18,14 @@ pub fn bottom_middle_block_entity_for_choose_country(
     game_ui_resources: &Res<GameUiResources>,
     ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
     ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
-    countries_res: Res<CountriesResource>,
-    countries_assets: Res<Assets<CountriesDataFromJson>>,
+    countries_query: Query<&Country>,
 ) {
     country_flags_block(
         bottom_middle_block,
         game_ui_resources,
         ui_materials_res,
         ui_materials_with_glow_res,
-        countries_res,
-        countries_assets,
+        countries_query,
     );
     // country_shield_glow(bottom_middle_block, game_ui_resources);
     country_text_block(bottom_middle_block, game_ui_resources);
@@ -46,26 +38,32 @@ fn country_flags_block(
     game_ui_resources: &Res<GameUiResources>,
     mut ui_materials: ResMut<Assets<CustomUiMaterial>>,
     mut ui_materials_with_glow: ResMut<Assets<CustomUiMaterialWithGlow>>,
-    countries_res: Res<CountriesResource>,
-    countries_assets: Res<Assets<CountriesDataFromJson>>,
+    countries_query: Query<&Country>,
 ) {
     // TODO: move this code to component spawn place
     // and move recommended for menu and other fields to components of entity 'country'
     // so query could choose exactly what we need without filter by hand
     // like Query<Country, With<RecommendedCountryInMainMenu>> or so
-    let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
-        panic!("Countries data asset not found");
-    };
-
-    let mut countries_for_main_menu_from_data = Vec::new();
-    let mut recommended_countries = Vec::new();
-    for data in &countries_data.countries {
-        if data.index_in_menu.is_some() && data.recommended_in_menu.is_none() {
-            countries_for_main_menu_from_data.push(Country::from(data));
-        } else if data.recommended_in_menu == Some(true) {
-            recommended_countries.push(Country::from(data));
+    let mut countries_for_main_menu_from_data: Vec<Country> = Vec::new();
+    let mut recommended_countries: Vec<Country> = Vec::new();
+    for country in &countries_query {
+        if country.index_in_menu.is_some() && country.recommended_in_menu.is_none() {
+            countries_for_main_menu_from_data.push(country.clone());
+        } else if country.recommended_in_menu == Some(true) {
+            recommended_countries.push(country.clone());
         }
     }
+    // let Some(countries_data) = countries_assets.get(&countries_res.countries) else {
+    //     panic!("Countries data asset not found");
+    // };
+
+    // for data in &countries_data.countries {
+    //     if data.index_in_menu.is_some() && data.recommended_in_menu.is_none() {
+    //         countries_for_main_menu_from_data.push(Country::from(data));
+    //     } else if data.recommended_in_menu == Some(true) {
+    //         recommended_countries.push(Country::from(data));
+    //     }
+    // }
     countries_for_main_menu_from_data.sort_by_key(|country| country.index_in_menu);
     recommended_countries.sort_by_key(|country| country.index_in_menu);
 

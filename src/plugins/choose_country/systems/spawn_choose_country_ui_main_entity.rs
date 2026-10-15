@@ -8,12 +8,7 @@ use crate::{
         },
         game_main::resources::game_ui_resources::GameUiResources,
     },
-    shared::{
-        country::{
-            countries_resource::CountriesResource, country_data_from_json::CountriesDataFromJson,
-        },
-        fonts::fonts::FontHandles,
-    },
+    shared::{country::country::Country, fonts::fonts::FontHandles},
 };
 use bevy::prelude::*;
 use bevy_fluent::Localization;
@@ -25,8 +20,7 @@ pub fn spawn_choose_country_ui_main_entity(
     game_ui_resources: Res<GameUiResources>,
     ui_materials_res: ResMut<Assets<CustomUiMaterial>>,
     ui_materials_with_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
-    countries_res: Res<CountriesResource>,
-    countries_assets: Res<Assets<CountriesDataFromJson>>,
+    countries_query: Query<&Country>,
 ) {
     info!("Spawning choose country ui main entity");
     ChooseCountryUiMainEntity::spawn_using_commands(
@@ -36,7 +30,6 @@ pub fn spawn_choose_country_ui_main_entity(
         &game_ui_resources,
         ui_materials_res,
         ui_materials_with_glow_res,
-        countries_res,
-        countries_assets,
+        countries_query,
     );
 }

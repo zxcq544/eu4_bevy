@@ -1,11 +1,32 @@
 use crate::shared::country::country_data_from_json::CountryDataFromJson;
-
+use bevy::ecs::{bundle::Bundle, component::Component};
+// TODO: make this a marker with no fields
+#[derive(Component, Debug, Clone)]
 pub struct Country {
     pub name: String,
     pub short_name_tag_3_letters: String,
     pub flag_index: u32,
     pub recommended_in_menu: Option<bool>,
     pub index_in_menu: Option<u32>,
+}
+
+#[derive(Component, Debug)]
+pub struct CountryInfo {
+    pub name: String,
+    pub short_name_tag_3_letters: String,
+    pub flag_index: u32,
+}
+
+#[derive(Component, Debug)]
+pub struct RecommendedInMenu(pub bool);
+
+#[derive(Component, Debug)]
+pub struct IndexInMenu(pub u32);
+
+#[derive(Bundle, Debug)]
+pub struct CountryBundle {
+    pub marker: Country,
+    pub country_info: CountryInfo,
 }
 
 impl From<&CountryDataFromJson> for Country {
