@@ -25,7 +25,7 @@ pub fn bottom_middle_block_entity_for_choose_country(
         &CountryInfo,
         With<CountryIsRecommendedInMenu>,
     >,
-    countries_for_main_menu_query: Query<
+    countries_for_main_menu_but_not_recommended_query: Query<
         &CountryInfo,
         (
             With<CountryIndexInMenu>,
@@ -39,7 +39,7 @@ pub fn bottom_middle_block_entity_for_choose_country(
         ui_materials_res,
         ui_materials_with_glow_res,
         countries_recommended_for_main_menu_query,
-        countries_for_main_menu_query,
+        countries_for_main_menu_but_not_recommended_query,
     );
     // country_shield_glow(bottom_middle_block, game_ui_resources);
     country_text_block(bottom_middle_block, game_ui_resources);
@@ -56,7 +56,7 @@ fn country_flags_block(
         &CountryInfo,
         With<CountryIsRecommendedInMenu>,
     >,
-    countries_for_main_menu_query: Query<
+    countries_for_main_menu_but_not_recommended_query: Query<
         &CountryInfo,
         (
             With<CountryIndexInMenu>,
@@ -115,7 +115,7 @@ fn country_flags_block(
                     // },
                 ));
             }
-            for country in &countries_for_main_menu_query {
+            for country in &countries_for_main_menu_but_not_recommended_query {
                 flags_block.spawn((
                     Node {
                         display: Display::Flex,

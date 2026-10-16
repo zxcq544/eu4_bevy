@@ -33,7 +33,7 @@ impl ChooseCountryUiMainEntity {
             &CountryInfo,
             With<CountryIsRecommendedInMenu>,
         >,
-        countries_for_main_menu_query: Query<
+        countries_for_main_menu_but_not_recommended_query: Query<
             &CountryInfo,
             (
                 With<CountryIndexInMenu>,
@@ -212,7 +212,7 @@ impl ChooseCountryUiMainEntity {
                                             ui_materials_res,
                                             ui_materials_with_glow_res,
                                             countries_recommended_for_main_menu_query,
-                                            countries_for_main_menu_query,
+                                            countries_for_main_menu_but_not_recommended_query,
                                         );
                                     });
                                 // bottom right block

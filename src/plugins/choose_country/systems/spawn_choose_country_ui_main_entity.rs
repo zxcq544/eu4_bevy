@@ -27,7 +27,7 @@ pub fn spawn_choose_country_ui_main_entity(
         &CountryInfo,
         With<CountryIsRecommendedInMenu>,
     >,
-    countries_for_main_menu_query: Query<
+    countries_for_main_menu_but_not_recommended_query: Query<
         &CountryInfo,
         (
             With<CountryIndexInMenu>,
@@ -44,6 +44,6 @@ pub fn spawn_choose_country_ui_main_entity(
         ui_materials_res,
         ui_materials_with_glow_res,
         countries_recommended_for_main_menu_query,
-        countries_for_main_menu_query,
+        countries_for_main_menu_but_not_recommended_query,
     );
 }
