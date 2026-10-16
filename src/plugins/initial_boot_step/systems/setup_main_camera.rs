@@ -1,4 +1,4 @@
-use crate::plugins::pre_main_menu_setup::systems::insert_cam_and_cube::MainCameraEntity;
+use crate::shared::main_camera::main_camera::MainCameraEntity;
 use bevy::prelude::*;
 
 pub fn setup_main_camera(mut commands: Commands) {

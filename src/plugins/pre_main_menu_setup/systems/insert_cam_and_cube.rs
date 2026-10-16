@@ -1,11 +1,10 @@
+use crate::{
+    plugins::main_menu::components::rotating_cube::RotatingCube,
+    shared::main_camera::main_camera::MainCameraEntity,
+};
 use bevy::prelude::*;
 
-use crate::plugins::main_menu::components::rotating_cube::RotatingCube;
-
-#[derive(Component)]
-pub struct MainCameraEntity;
-
-pub fn insert_cam_and_cube(
+pub fn move_cam_and_insert_cube(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,

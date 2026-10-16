@@ -11,7 +11,7 @@ use crate::{
             },
         },
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
-        pre_main_menu_setup::systems::insert_cam_and_cube::insert_cam_and_cube,
+        pre_main_menu_setup::systems::insert_cam_and_cube::move_cam_and_insert_cube,
     },
     shared::country::spawn_countries::spawn_countries,
 };
@@ -36,7 +36,10 @@ impl Plugin for PreMainMenuSetupPlugin {
             OnEnter(GameState::PreMainMenuSetup),
             (spawn_continue_block, spawn_choose_country_ui_main_entity).after(spawn_countries),
         );
-        app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cam_and_cube);
+        app.add_systems(
+            OnEnter(GameState::PreMainMenuSetup),
+            move_cam_and_insert_cube,
+        );
         app.add_systems(
             Update,
             check_if_menu_is_ready.run_if(in_state(GameState::PreMainMenuSetup)),
