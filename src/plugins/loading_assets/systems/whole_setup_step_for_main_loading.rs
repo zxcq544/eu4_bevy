@@ -31,7 +31,7 @@ pub fn whole_setup_step_for_main_loading(
         && asset_server.is_loaded_with_dependencies(&options_images.apply_and_back_button_image)
         && asset_server.is_loaded_with_dependencies(&game_ui_resources.ui_slider_thumb_image_blue)
         && asset_server.is_loaded_with_dependencies(&countries_resource.countries)
-        && timer.timer.just_finished()
+        && timer.timer.is_finished()
     {
         info!("current state is {:?}", current_state.get());
         info!("moving to pre main menu setup state");

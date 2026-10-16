@@ -42,7 +42,7 @@ pub fn whole_setup_step_for_initial_boot(
         && asset_server.is_loaded_with_dependencies(&loading_screen_tooltip_image.image)
         && asset_server.is_loaded_with_dependencies(&main_background.image)
         && asset_server.is_loaded_with_dependencies(&locale_folder_res.folder)
-        && timer.timer.just_finished()
+        && timer.timer.is_finished()
     {
         setup_localisation(
             &mut commands,
