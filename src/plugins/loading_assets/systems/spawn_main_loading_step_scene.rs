@@ -1,14 +1,11 @@
 use crate::{
     core::states::GameState,
-    plugins::{
-        loading_assets::{
-            components::main_loading_step_main_entity::MainLoadingStepMainEntity,
-            resources::{
-                loading_screen_tooltip_image::LoadingScreenTooltipImage,
-                main_loading_step_background_image::MainLoadingStepBackgroundImage,
-            },
+    plugins::loading_assets::{
+        components::main_loading_step_main_entity::MainLoadingStepMainEntity,
+        resources::{
+            loading_screen_tooltip_image::LoadingScreenTooltipImage,
+            main_loading_step_background_image::MainLoadingStepBackgroundImage,
         },
-        pre_main_menu_setup::systems::insert_cam_and_cube::MainCameraEntity,
     },
     shared::fonts::fonts::FontHandles,
 };
@@ -26,7 +23,6 @@ pub fn spawn_main_loading_step_scene(
     info!("current state is {:?}", current_state.get());
     info!("Setting main loading step background image");
     // info!("Main loading step background image is loaded");
-    commands.spawn((Camera3d::default(), MainCameraEntity));
     // TODO: try to convert to bsn! and check how to free resources and components and so on
     commands.spawn_scene_list(MainLoadingStepMainEntity::as_scene_list(
         main_image_res,

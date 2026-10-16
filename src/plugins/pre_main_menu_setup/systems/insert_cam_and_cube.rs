@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{core::states::GameState, plugins::main_menu::components::rotating_cube::RotatingCube};
+use crate::plugins::main_menu::components::rotating_cube::RotatingCube;
 
 #[derive(Component)]
 pub struct MainCameraEntity;
@@ -9,7 +9,6 @@ pub fn insert_cam_and_cube(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    mut next_state: ResMut<NextState<GameState>>,
     mut main_camera: Query<&mut Transform, With<MainCameraEntity>>,
 ) {
     // Main camera
@@ -35,5 +34,4 @@ pub fn insert_cam_and_cube(
         },
         Transform::from_xyz(4.0, 8.0, 4.0),
     ));
-    next_state.set(GameState::MainMenu);
 }

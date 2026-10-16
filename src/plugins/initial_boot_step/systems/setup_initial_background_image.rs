@@ -9,8 +9,6 @@ pub fn setup_initial_background_image(
     background_image_res: Res<InitialBootingBackgroundScreen>,
 ) {
     info!("Setting initial background image");
-    commands.spawn((Camera2d::default(), InitialBootEntity));
-    // TODO: check how to free resources and components and so on
     commands.spawn_scene(InitialBootEntity::as_scene(
         background_image_res.image.clone(),
     ));

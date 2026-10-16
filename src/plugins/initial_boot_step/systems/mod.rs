@@ -7,5 +7,6 @@ pub mod load_main_loading_step_resources;
 pub mod setup_cursors;
 pub mod setup_initial_background_image;
 pub mod setup_localisation;
+pub mod setup_main_camera;
 pub mod start_initial_timer;
 pub mod whole_setup_step_for_initial_boot;

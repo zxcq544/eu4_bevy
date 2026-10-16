@@ -7,7 +7,7 @@ use crate::{
         load_main_loading_step_resources::load_main_loading_step_resources,
         setup_cursors::setup_cursors,
         setup_initial_background_image::setup_initial_background_image,
-        start_initial_timer::start_initial_timer,
+        setup_main_camera::setup_main_camera, start_initial_timer::start_initial_timer,
         whole_setup_step_for_initial_boot::whole_setup_step_for_initial_boot,
     },
 };
@@ -20,16 +20,18 @@ impl Plugin for InitialBootStepPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::Boot),
+            (load_background_image, setup_initial_background_image).chain(),
+        );
+        app.add_systems(
+            OnEnter(GameState::Boot),
             (
+                setup_main_camera,
                 start_initial_timer,
                 load_cursors,
                 load_fonts,
-                load_background_image,
-                setup_initial_background_image,
                 load_main_loading_step_resources,
                 load_localizations,
-            )
-                .chain(),
+            ),
         );
         app.add_systems(Update, setup_cursors.run_if(in_state(GameState::Boot)));
         app.add_systems(
