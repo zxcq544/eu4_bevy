@@ -2,6 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::{
         choose_country::systems::spawn_choose_country_ui_main_entity::spawn_choose_country_ui_main_entity,
+        loading_assets::systems::free_main_loading_step_resources::free_main_loading_step_resources,
         main_menu::systems::{
             spawn_continue_block::spawn_continue_block,
             spawn_main_menu_scene::spawn_main_menu_scene,
@@ -15,7 +16,9 @@ use bevy::prelude::*;
 
 pub struct PreMainMenuSetupPlugin;
 
-// TODO: refactor - move it to loading step so it doesn't hang main menu
+// This step is used to spawn everything.
+// While we spawn everything loading step image must stay on
+// so we free resources of main loading state when we exit this state(it's just a few bg images)
 impl Plugin for PreMainMenuSetupPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(GameState::PreMainMenuSetup), spawn_countries);
@@ -30,5 +33,10 @@ impl Plugin for PreMainMenuSetupPlugin {
                 .after(spawn_countries),
         );
         app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cam_and_cube);
+        // Main loading step image stays active until we spawn everything that we loaded at that step
+        app.add_systems(
+            OnExit(GameState::PreMainMenuSetup),
+            free_main_loading_step_resources,
+        );
     }
 }

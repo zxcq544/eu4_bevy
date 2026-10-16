@@ -10,13 +10,12 @@ pub fn insert_cam_and_cube(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut next_state: ResMut<NextState<GameState>>,
+    mut main_camera: Query<&mut Transform, With<MainCameraEntity>>,
 ) {
     // Main camera
-    commands.spawn((
-        Camera3d::default(),
-        Transform::from_xyz(0.0, 0.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-        MainCameraEntity,
-    ));
+    if let Ok(mut transform) = main_camera.single_mut() {
+        *transform = Transform::from_xyz(0.0, 0.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y);
+    }
     // spawn cube in center. Main 3D Map will be somewhere here
     commands.spawn((
         Mesh3d(meshes.add(Cuboid::default())),

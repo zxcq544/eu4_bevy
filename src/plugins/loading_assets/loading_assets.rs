@@ -1,7 +1,6 @@
 use crate::{
     core::states::GameState,
     plugins::loading_assets::systems::{
-        free_main_loading_step_resources::free_main_loading_step_resources,
         load_all_game_sound_effects::load_all_game_sound_effects,
         load_game_data_for_countries::load_game_data_for_countries::load_game_data_for_countries,
         load_resources_for_game_ui::load_images_for_game_ui::load_images_for_game_ui,
@@ -36,9 +35,9 @@ impl Plugin for LoadingAssetsPlugin {
             Update,
             whole_setup_step_for_main_loading.run_if(in_state(GameState::LoadingAssets)),
         );
-        app.add_systems(
-            OnExit(GameState::LoadingAssets),
-            free_main_loading_step_resources,
-        );
+        // app.add_systems(
+        //     OnExit(GameState::LoadingAssets),
+        //     free_main_loading_step_resources,
+        // );
     }
 }
