@@ -1,4 +1,5 @@
 pub mod bottom_left_block_button_system_for_choose_country;
+pub mod bottom_middle_block_button_system_for_choose_country;
 pub mod hide_choose_country_ui_main_entity;
 pub mod set_display_flex_for_choose_country_ui_main_entity;
 pub mod spawn_choose_country_ui_main_entity;

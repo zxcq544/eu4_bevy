@@ -15,6 +15,10 @@ use bevy::{
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
+// Marker
+#[derive(Component, Clone)]
+pub struct BottomMiddleBlockButtonForChooseCountry;
+
 pub fn bottom_middle_block_entity_for_choose_country(
     bottom_middle_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
     localization_res: &Res<Localization>,
@@ -96,6 +100,8 @@ fn country_flags_block(
         .with_children(|flags_block| {
             for country in &countries_recommended_for_main_menu_query {
                 flags_block.spawn((
+                    Button,
+                    BottomMiddleBlockButtonForChooseCountry,
                     Node {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Column,
@@ -123,6 +129,8 @@ fn country_flags_block(
             }
             for country in &countries_for_main_menu_but_not_recommended_query {
                 flags_block.spawn((
+                    Button,
+                    BottomMiddleBlockButtonForChooseCountry,
                     Node {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Column,
