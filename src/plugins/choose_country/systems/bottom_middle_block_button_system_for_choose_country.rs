@@ -42,14 +42,14 @@ pub fn bottom_middle_block_button_system_for_choose_country(
     for (entity, interaction, mut button, material_without_glow_node, material_with_glow_node) in
         &mut interaction_query
     {
-        // 1. Сначала определяем целевой цвет для текущего состояния
+        // 1. Get target color
         let target_color = match *interaction {
             Interaction::Pressed => PRESSED_BUTTON,
             Interaction::Hovered => HOVERED_BUTTON,
             Interaction::None => NORMAL_BUTTON,
         };
 
-        // 2. Обновляем цвет у того материала, который сейчас на ноде (безопасно обрабатываем Option)
+        // 2. Change material color of button
         if let Some(node) = material_without_glow_node {
             if let Some(mut material) = material_without_glow_res.get_mut(&node.0) {
                 material.hover_color = target_color;
@@ -61,13 +61,13 @@ pub fn bottom_middle_block_button_system_for_choose_country(
             }
         }
 
-        // 3. Выполняем логику действий (звуки, фокус) в зависимости от состояния
+        // 3. Action logic
         match *interaction {
             Interaction::Pressed => {
                 input_focus.set(entity, FocusCause::Pressed);
                 button.set_changed();
 
-                // Логика звуковых эффектов
+                // Sound logic
                 let required_sound = sound_effects.button_click_general.clone();
                 commands.spawn((
                     SoundEffectsPlayer,
