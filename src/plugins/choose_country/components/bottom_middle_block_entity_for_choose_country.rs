@@ -101,6 +101,8 @@ fn country_flags_block(
             for country in &countries_recommended_for_main_menu_query {
                 flags_block.spawn((
                     Button,
+                    // TODO: uncomment for bevy 0.20
+                    // Hovered::default(),
                     BottomMiddleBlockButtonForChooseCountry,
                     Node {
                         display: Display::Flex,
@@ -130,6 +132,8 @@ fn country_flags_block(
             for country in &countries_for_main_menu_but_not_recommended_query {
                 flags_block.spawn((
                     Button,
+                    // TODO: uncomment for bevy 0.20
+                    // Hovered::default(),
                     BottomMiddleBlockButtonForChooseCountry,
                     Node {
                         display: Display::Flex,

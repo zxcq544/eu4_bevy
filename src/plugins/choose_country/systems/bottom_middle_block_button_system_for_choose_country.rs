@@ -97,3 +97,145 @@ pub fn bottom_middle_block_button_system_for_choose_country(
         }
     }
 }
+
+// TODO: uncomment for bevy 0.20
+// fn on_button_hover(
+//     trigger: Trigger<PointerOver>,
+//     mut query: Query<
+//         (
+//             Option<&MaterialNode<CustomUiMaterial>>,
+//             Option<&MaterialNode<CustomUiMaterialWithGlow>>,
+//         ),
+//         With<BottomMiddleBlockButtonForChooseCountry>,
+//     >,
+//     mut mat_res: ResMut<Assets<CustomUiMaterial>>,
+//     mut mat_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+// ) {
+//     if let Ok((mat, mat_glow)) = query.get_mut(trigger.target()) {
+//         update_material_color(
+//             mat,
+//             mat_glow,
+//             HOVERED_BUTTON,
+//             &mut mat_res,
+//             &mut mat_glow_res,
+//         );
+//     }
+// }
+
+// fn on_button_unhover(
+//     trigger: Trigger<PointerOut>,
+//     mut input_focus: ResMut<InputFocus>,
+//     mut query: Query<
+//         (
+//             Option<&MaterialNode<CustomUiMaterial>>,
+//             Option<&MaterialNode<CustomUiMaterialWithGlow>>,
+//         ),
+//         With<BottomMiddleBlockButtonForChooseCountry>,
+//     >,
+//     mut mat_res: ResMut<Assets<CustomUiMaterial>>,
+//     mut mat_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+// ) {
+//     if let Ok((mat, mat_glow)) = query.get_mut(trigger.target()) {
+//         input_focus.clear();
+//         update_material_color(
+//             mat,
+//             mat_glow,
+//             NORMAL_BUTTON,
+//             &mut mat_res,
+//             &mut mat_glow_res,
+//         );
+//     }
+// }
+
+// fn on_button_down(
+//     trigger: Trigger<PointerDown>,
+//     mut input_focus: ResMut<InputFocus>,
+//     mut query: Query<(
+//         &mut BottomMiddleBlockButtonForChooseCountry,
+//         Option<&MaterialNode<CustomUiMaterial>>,
+//         Option<&MaterialNode<CustomUiMaterialWithGlow>>,
+//     )>,
+//     mut mat_res: ResMut<Assets<CustomUiMaterial>>,
+//     mut mat_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+// ) {
+//     let entity = trigger.target();
+//     if let Ok((mut button, mat, mat_glow)) = query.get_mut(entity) {
+//         input_focus.set(entity, FocusCause::Pressed);
+//         button.set_changed();
+
+//         update_material_color(
+//             mat,
+//             mat_glow,
+//             PRESSED_BUTTON,
+//             &mut mat_res,
+//             &mut mat_glow_res,
+//         );
+//     }
+// }
+
+// fn on_button_web_click(
+//     trigger: Trigger<PointerClick>,
+//     mut commands: Commands,
+//     sound_effects: Res<ButtonClickSoundEffects>,
+//     settings: Res<Settings>,
+//     mut query: Query<
+//         (
+//             Option<&MaterialNode<CustomUiMaterial>>,
+//             Option<&MaterialNode<CustomUiMaterialWithGlow>>,
+//         ),
+//         With<BottomMiddleBlockButtonForChooseCountry>,
+//     >,
+//     mut mat_res: ResMut<Assets<CustomUiMaterial>>,
+//     mut mat_glow_res: ResMut<Assets<CustomUiMaterialWithGlow>>,
+// ) {
+//     let entity = trigger.target();
+
+//     // Возвращаем кнопке цвет Hover, так как курсор всё еще над ней в момент Pointer Up
+//     if let Ok((mat, mat_glow)) = query.get_mut(entity) {
+//         update_material_color(
+//             mat,
+//             mat_glow,
+//             HOVERED_BUTTON,
+//             &mut mat_res,
+//             &mut mat_glow_res,
+//         );
+//     }
+
+//     // --- ЛОГИКА ДЕЙСТВИЯ КНОПКИ (Срабатывает строго на Pointer Up) ---
+//     let required_sound = sound_effects.button_click_general.clone();
+//     commands.spawn((
+//         SoundEffectsPlayer,
+//         AudioPlayer::new(required_sound),
+//         PlaybackSettings {
+//             mode: bevy::audio::PlaybackMode::Despawn,
+//             volume: Volume::Linear(
+//                 settings
+//                     .volume_settings
+//                     .get_sfx_volume_multiplied_by_master(),
+//             ),
+//             ..default()
+//         },
+//     ));
+
+//     info!("Веб-клик сработал! Действие выполнено при отпускании мыши.");
+//     // next_state.set(GameState::MainMenu);
+// }
+
+// fn update_material_color(
+//     mat_node: Option<&MaterialNode<CustomUiMaterial>>,
+//     mat_glow_node: Option<&MaterialNode<CustomUiMaterialWithGlow>>,
+//     color: LinearRgba,
+//     material_without_glow_res: &mut Assets<CustomUiMaterial>,
+//     material_with_glow_res: &mut Assets<CustomUiMaterialWithGlow>,
+// ) {
+//     if let Some(node) = mat_node {
+//         if let Some(mut material) = material_without_glow_res.get_mut(&node.0) {
+//             material.hover_color = color;
+//         }
+//     }
+//     if let Some(node) = mat_glow_node {
+//         if let Some(mut material) = material_with_glow_res.get_mut(&node.0) {
+//             material.hover_color = color;
+//         }
+//     }
+// }

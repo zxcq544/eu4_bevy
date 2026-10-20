@@ -48,6 +48,7 @@ fn main() {
             // .disable::<bevy::log::LogPlugin>()
             // .disable::<DiagnosticsPlugin>(),
         )
+        // .add_plugins(MeshPickingPlugin)
         .add_plugins(FpsOverlayPlugin {
             config: FpsOverlayConfig {
                 text_config: TextFont {
