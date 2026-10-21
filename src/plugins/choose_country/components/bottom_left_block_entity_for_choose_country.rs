@@ -1,11 +1,15 @@
+use crate::{
+    plugins::{
+        choose_country::systems::bottom_left_block_button_system_for_choose_country::{
+            on_button_click, on_button_down, on_button_hover, on_button_unhover,
+        },
+        game_main::resources::game_ui_resources::GameUiResources,
+    },
+    shared::fonts::fonts::FontHandles,
+};
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
-
-use crate::{
-    plugins::game_main::resources::game_ui_resources::GameUiResources,
-    shared::fonts::fonts::FontHandles,
-};
 
 // Markers
 #[derive(Component, Clone)]
@@ -67,7 +71,11 @@ pub fn bottom_left_block_entity_for_choose_country(
                     ..default()
                 },
             ));
-        });
+        })
+        .observe(on_button_click)
+        .observe(on_button_hover)
+        .observe(on_button_unhover)
+        .observe(on_button_down);
     bottom_left_block
         .spawn((
             // Back button
@@ -100,5 +108,9 @@ pub fn bottom_left_block_entity_for_choose_country(
                     ..default()
                 },
             ));
-        });
+        })
+        .observe(on_button_click)
+        .observe(on_button_hover)
+        .observe(on_button_unhover)
+        .observe(on_button_down);
 }
