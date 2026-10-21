@@ -2,7 +2,6 @@ use crate::{
     core::states::GameState,
     plugins::choose_country::systems::{
         bottom_left_block_button_system_for_choose_country::bottom_left_block_button_system_for_choose_country,
-        bottom_middle_block_button_system_for_choose_country::bottom_middle_block_button_system_for_choose_country,
         hide_choose_country_ui_main_entity::hide_choose_country_ui_main_entity,
         set_display_flex_for_choose_country_ui_main_entity::set_display_flex_for_choose_country_ui_main_entity,
     },
@@ -18,10 +17,7 @@ impl Plugin for ChooseCountryPlugin {
         );
         app.add_systems(
             Update,
-            (
-                bottom_left_block_button_system_for_choose_country,
-                bottom_middle_block_button_system_for_choose_country,
-            )
+            bottom_left_block_button_system_for_choose_country
                 .run_if(in_state(GameState::ChooseCountry)),
         );
         app.add_systems(

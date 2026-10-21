@@ -1,5 +1,10 @@
 use crate::{
-    plugins::game_main::resources::game_ui_resources::GameUiResources,
+    plugins::{
+        choose_country::systems::bottom_middle_block_button_system_for_choose_country::{
+            on_button_click_release, on_button_down, on_button_hover, on_button_unhover,
+        },
+        game_main::resources::game_ui_resources::GameUiResources,
+    },
     shared::{
         country::country::{CountryIndexInMenu, CountryInfo, CountryIsRecommendedInMenu},
         fonts::fonts::FontHandles,
@@ -99,65 +104,75 @@ fn country_flags_block(
         ))
         .with_children(|flags_block| {
             for country in &countries_recommended_for_main_menu_query {
-                flags_block.spawn((
-                    Button,
-                    // TODO: uncomment for bevy 0.20
-                    // Hovered::default(),
-                    BottomMiddleBlockButtonForChooseCountry,
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Percent(100.0 / num_flags as f32),
-                        height: Val::Percent(100.0),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        // padding: UiRect::all(Val::Px(10.0)),
-                        ..default()
-                    },
-                    MaterialNode(ui_materials_with_glow.add(CustomUiMaterialWithGlow {
-                        flag_texture: game_ui_resources.country_flags_atlas.clone(),
-                        shield_texture: game_ui_resources.country_shield_frame.clone(),
-                        mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
-                        glow_texture: game_ui_resources.country_shield_frame_green_glow.clone(),
-                        hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
-                        flag_index: country.flag_index,
-                    })),
-                    // Outline {
-                    //     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
-                    //     width: Val::Px(1.0),
-                    //     ..default()
-                    // },
-                ));
+                flags_block
+                    .spawn((
+                        Button,
+                        // TODO: uncomment for bevy 0.20
+                        // Hovered::default(),
+                        BottomMiddleBlockButtonForChooseCountry,
+                        Node {
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Column,
+                            width: Val::Percent(100.0 / num_flags as f32),
+                            height: Val::Percent(100.0),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            // padding: UiRect::all(Val::Px(10.0)),
+                            ..default()
+                        },
+                        MaterialNode(ui_materials_with_glow.add(CustomUiMaterialWithGlow {
+                            flag_texture: game_ui_resources.country_flags_atlas.clone(),
+                            shield_texture: game_ui_resources.country_shield_frame.clone(),
+                            mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                            glow_texture: game_ui_resources.country_shield_frame_green_glow.clone(),
+                            hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
+                            flag_index: country.flag_index,
+                        })),
+                        // Outline {
+                        //     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
+                        //     width: Val::Px(1.0),
+                        //     ..default()
+                        // },
+                    ))
+                    .observe(on_button_hover)
+                    .observe(on_button_unhover)
+                    .observe(on_button_down)
+                    .observe(on_button_click_release);
             }
             for country in &countries_for_main_menu_but_not_recommended_query {
-                flags_block.spawn((
-                    Button,
-                    // TODO: uncomment for bevy 0.20
-                    // Hovered::default(),
-                    BottomMiddleBlockButtonForChooseCountry,
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Percent(100.0 / num_flags as f32),
-                        height: Val::Percent(100.0),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        // padding: UiRect::all(Val::Px(10.0)),
-                        ..default()
-                    },
-                    MaterialNode(ui_materials.add(CustomUiMaterial {
-                        flag_texture: game_ui_resources.country_flags_atlas.clone(),
-                        shield_texture: game_ui_resources.country_shield_frame.clone(),
-                        mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
-                        hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
-                        flag_index: country.flag_index,
-                    })),
-                    // Outline {
-                    //     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
-                    //     width: Val::Px(1.0),
-                    //     ..default()
-                    // },
-                ));
+                flags_block
+                    .spawn((
+                        Button,
+                        // TODO: uncomment for bevy 0.20
+                        // Hovered::default(),
+                        BottomMiddleBlockButtonForChooseCountry,
+                        Node {
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Column,
+                            width: Val::Percent(100.0 / num_flags as f32),
+                            height: Val::Percent(100.0),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            // padding: UiRect::all(Val::Px(10.0)),
+                            ..default()
+                        },
+                        MaterialNode(ui_materials.add(CustomUiMaterial {
+                            flag_texture: game_ui_resources.country_flags_atlas.clone(),
+                            shield_texture: game_ui_resources.country_shield_frame.clone(),
+                            mask_texture: game_ui_resources.country_shield_frame_mask.clone(),
+                            hover_color: LinearRgba::new(1.0, 1.0, 1.0, 1.0),
+                            flag_index: country.flag_index,
+                        })),
+                        // Outline {
+                        //     color: Color::srgb_from_array([0.9, 0.9, 0.9]),
+                        //     width: Val::Px(1.0),
+                        //     ..default()
+                        // },
+                    ))
+                    .observe(on_button_hover)
+                    .observe(on_button_unhover)
+                    .observe(on_button_down)
+                    .observe(on_button_click_release);
             }
         });
 }
