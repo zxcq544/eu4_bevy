@@ -17,9 +17,9 @@ use bevy::{
     prelude::*,
 };
 
-pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
-pub const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
-pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
+const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
+const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
+const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 // Sets style of the button when mouse down
 pub fn on_button_down(
