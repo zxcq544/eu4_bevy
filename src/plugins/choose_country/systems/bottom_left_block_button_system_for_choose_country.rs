@@ -1,18 +1,11 @@
 use crate::{
-    core::states::GameState,
-    plugins::{
+    core::states::GameState, plugins::{
         choose_country::components::bottom_left_block_entity_for_choose_country::{
             BottomLeftBlockButtonActionsForChooseCountry, BottomLeftBlockButtonForChooseCountry,
-        },
-        sound_effects::{
-            components::sound_effects_player::SoundEffectsPlayer,
-            resources::button_click_sound_effects::ButtonClickSoundEffects,
-        },
+        }, sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
     },
-    shared::settings::settings::Settings,
 };
 use bevy::{
-    audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
@@ -40,8 +33,6 @@ pub fn on_button_click(
     trigger: On<Pointer<Click>>,
     mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
-    sound_effects: Res<ButtonClickSoundEffects>,
-    settings: Res<Settings>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(
         &mut BottomLeftBlockButtonForChooseCountry,
@@ -60,20 +51,7 @@ pub fn on_button_click(
     button.set_changed();
 
     // Logic of sound effects
-    let required_sound = sound_effects.button_click_general.clone();
-    commands.spawn((
-        SoundEffectsPlayer,
-        AudioPlayer::new(required_sound),
-        PlaybackSettings {
-            mode: bevy::audio::PlaybackMode::Despawn,
-            volume: Volume::Linear(
-                settings
-                    .volume_settings
-                    .get_sfx_volume_multiplied_by_master(),
-            ),
-            ..default()
-        },
-    ));
+    commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
 
     // Logic of actions (Change states)
     match action {

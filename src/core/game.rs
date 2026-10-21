@@ -15,6 +15,7 @@ use crate::{
         music_player::music_player::MusicPlayerPlugin,
         options::options::OptionsPlugin,
         pre_main_menu_setup::pre_main_menu_setup::PreMainMenuSetupPlugin,
+        sound_effects::sound_effects::SoundEffectsPlugin,
     },
 };
 use bevy::prelude::*;
@@ -46,6 +47,7 @@ impl Plugin for GamePlugin {
             InitialBootStepPlugin,
             LoadingAssetsPlugin,
             PreMainMenuSetupPlugin,
+            SoundEffectsPlugin,
             MainMenuPlugin,
             OptionsPlugin,
             ChooseCountryPlugin,

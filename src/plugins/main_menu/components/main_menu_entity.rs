@@ -25,7 +25,7 @@ pub enum MainMenuButtonAction {
 pub enum MainMenuButtonSoundType {
     #[default]
     General,
-    Ok,
+    Confirm,
     Back,
 }
 

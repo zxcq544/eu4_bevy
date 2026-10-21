@@ -26,6 +26,11 @@ pub fn whole_setup_step_for_main_loading(
     timer.timer.tick(time.delta());
 
     if asset_server.is_loaded_with_dependencies(&main_menu_all_images.main_menu_background_image)
+        && asset_server
+            .is_loaded_with_dependencies(&main_menu_all_images.single_player_button_image)
+        && asset_server.is_loaded_with_dependencies(&main_menu_all_images.multiplayer_button_image)
+        && asset_server.is_loaded_with_dependencies(&main_menu_all_images.continue_background_image)
+        && asset_server.is_loaded_with_dependencies(&main_menu_all_images.continue_button_image)
         && asset_server.is_loaded_with_dependencies(&sound_effects.button_click_general)
         && asset_server.is_loaded_with_dependencies(&options_images.settings_bg_image)
         && asset_server.is_loaded_with_dependencies(&options_images.apply_and_back_button_image)

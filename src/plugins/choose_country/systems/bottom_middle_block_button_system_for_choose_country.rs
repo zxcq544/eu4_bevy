@@ -1,24 +1,17 @@
-use crate::{
-    plugins::{
-        choose_country::components::bottom_middle_block_entity_for_choose_country::{
-            BottomMiddleBlockButtonForChooseCountry, CustomUiMaterial, CustomUiMaterialWithGlow,
-        },
-        sound_effects::{
-            components::sound_effects_player::SoundEffectsPlayer,
-            resources::button_click_sound_effects::ButtonClickSoundEffects,
-        },
+use crate::plugins::{
+    choose_country::components::bottom_middle_block_entity_for_choose_country::{
+        BottomMiddleBlockButtonForChooseCountry, CustomUiMaterial, CustomUiMaterialWithGlow,
     },
-    shared::settings::settings::Settings,
+    sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
 };
 use bevy::{
-    audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
 
-pub const NORMAL_BUTTON: LinearRgba = LinearRgba::new(1.0, 1.0, 1.0, 1.0);
-pub const HOVERED_BUTTON: LinearRgba = LinearRgba::new(1.5, 1.5, 1.5, 1.0);
-pub const PRESSED_BUTTON: LinearRgba = LinearRgba::new(0.5, 0.5, 0.5, 1.0);
+const NORMAL_BUTTON: LinearRgba = LinearRgba::new(1.0, 1.0, 1.0, 1.0);
+const HOVERED_BUTTON: LinearRgba = LinearRgba::new(1.5, 1.5, 1.5, 1.0);
+const PRESSED_BUTTON: LinearRgba = LinearRgba::new(0.5, 0.5, 0.5, 1.0);
 
 // TODO: uncomment for bevy 0.20
 pub fn on_country_choice_button_hover(
@@ -106,8 +99,6 @@ pub fn on_country_choice_button_click_release(
     // trigger: Trigger<PointerClick>,
     trigger: On<Pointer<Click>>,
     mut commands: Commands,
-    sound_effects: Res<ButtonClickSoundEffects>,
-    settings: Res<Settings>,
     mut query: Query<
         (
             Option<&MaterialNode<CustomUiMaterial>>,
@@ -132,20 +123,7 @@ pub fn on_country_choice_button_click_release(
     }
 
     // --- BUTTON ACTION LOGIC (Works only on Pointer Up) ---
-    let required_sound = sound_effects.button_click_general.clone();
-    commands.spawn((
-        SoundEffectsPlayer,
-        AudioPlayer::new(required_sound),
-        PlaybackSettings {
-            mode: bevy::audio::PlaybackMode::Despawn,
-            volume: Volume::Linear(
-                settings
-                    .volume_settings
-                    .get_sfx_volume_multiplied_by_master(),
-            ),
-            ..default()
-        },
-    ));
+    commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
 
     info!("Click released! Action performed when releasing the mouse button.");
     // next_state.set(GameState::MainMenu);

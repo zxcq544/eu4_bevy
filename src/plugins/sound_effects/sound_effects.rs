@@ -1,43 +1,54 @@
-// use crate::{
-//     core::states::GameState,
-//     plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
-// };
-// use bevy::prelude::*;
+use crate::{
+    plugins::sound_effects::{
+        components::sound_effects_player::SoundEffectsPlayer,
+        resources::button_click_sound_effects::ButtonClickSoundEffects,
+    },
+    shared::settings::settings::Settings,
+};
+use bevy::{audio::Volume, prelude::*};
 
-// #[derive(Component)]
-// pub struct SoundEffectsPlugin;
+pub struct SoundEffectsPlugin;
 
-// impl Plugin for SoundEffectsPlugin {
-//     fn build(&self, app: &mut App) {
-//         app.add_systems(OnEnter(GameState::LoadingAssets), load_sound_effects);
-//     }
-// }
+#[derive(Default, Debug, Clone, Copy)]
+pub enum ButtonSoundType {
+    #[default]
+    General,
+    Back,
+    Confirm,
+}
 
-// // enum ButtonType {
-// //     Ok,
-// //     Back,
-// //     General,
-// // }
+#[derive(Event)]
+pub struct PlayButtonClickSound(pub ButtonSoundType);
 
-// fn load_sound_effects(asset_server: Res<AssetServer>, mut commands: Commands) {
-//     let button_click_sound_effects = ButtonClickSoundEffects {
-//         button_click_general: asset_server.load("sound/general_button_click.wav"),
-//         button_click_ok: asset_server.load("sound/general_ok_button_click.wav"),
-//         button_click_back: asset_server.load("sound/general_back_button_click.wav"),
-//     };
-//     commands.insert_resource(button_click_sound_effects);
-//     info!("Sound effects loaded");
-// }
+impl Plugin for SoundEffectsPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_observer(play_button_sound_observer);
+    }
+}
 
-// // fn play_button_click_sound_effect(
-// //     button_click_sound_effects: Res<ButtonClickSoundEffects>,
-// //     button_type: ButtonType,
-// //     commands: &mut Commands,
-// // ) {
-// //     let required_sound = match button_type {
-// //         ButtonType::Ok => button_click_sound_effects.button_click_ok.clone(),
-// //         ButtonType::Back => button_click_sound_effects.button_click_back.clone(),
-// //         ButtonType::General => button_click_sound_effects.button_click_general.clone(),
-// //     };
-// //     commands.spawn((AudioPlayer::new(required_sound), PlaybackSettings::DESPAWN));
-// // }
+fn play_button_sound_observer(
+    trigger: On<PlayButtonClickSound>,
+    mut commands: Commands,
+    sound_effects: Res<ButtonClickSoundEffects>,
+    settings: Res<Settings>,
+) {
+    let sound_type = trigger.event().0;
+    let required_sound = match sound_type {
+        ButtonSoundType::General => sound_effects.button_click_general.clone(),
+        ButtonSoundType::Back => sound_effects.button_click_back.clone(),
+        ButtonSoundType::Confirm => sound_effects.button_click_confirm.clone(),
+    };
+    commands.spawn((
+        SoundEffectsPlayer,
+        AudioPlayer::new(required_sound),
+        PlaybackSettings {
+            mode: bevy::audio::PlaybackMode::Despawn,
+            volume: Volume::Linear(
+                settings
+                    .volume_settings
+                    .get_sfx_volume_multiplied_by_master(),
+            ),
+            ..default()
+        },
+    ));
+}

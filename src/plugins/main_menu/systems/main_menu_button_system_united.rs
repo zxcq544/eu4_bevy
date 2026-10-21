@@ -56,8 +56,8 @@ pub fn main_menu_button_system_united(
 
                 // 2. Sound effect logic
                 let required_sound = match sound_type {
-                    MainMenuButtonSoundType::Ok => {
-                        button_click_sound_effects.button_click_ok.clone()
+                    MainMenuButtonSoundType::Confirm => {
+                        button_click_sound_effects.button_click_confirm.clone()
                     }
                     MainMenuButtonSoundType::Back => {
                         button_click_sound_effects.button_click_back.clone()
