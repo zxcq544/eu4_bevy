@@ -21,7 +21,7 @@ pub const HOVERED_BUTTON: LinearRgba = LinearRgba::new(1.5, 1.5, 1.5, 1.0);
 pub const PRESSED_BUTTON: LinearRgba = LinearRgba::new(0.5, 0.5, 0.5, 1.0);
 
 // TODO: uncomment for bevy 0.20
-pub fn on_button_hover(
+pub fn on_country_choice_button_hover(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerOver>,
     trigger: On<Pointer<Over>>,
@@ -46,7 +46,7 @@ pub fn on_button_hover(
     }
 }
 
-pub fn on_button_unhover(
+pub fn on_country_choice_button_unhover(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerOut>,
     trigger: On<Pointer<Out>>,
@@ -73,7 +73,7 @@ pub fn on_button_unhover(
     }
 }
 
-pub fn on_button_down(
+pub fn on_country_choice_button_down(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerDown>,
     trigger: On<Pointer<Press>>,
@@ -101,7 +101,7 @@ pub fn on_button_down(
     }
 }
 
-pub fn on_button_click_release(
+pub fn on_country_choice_button_click_release(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerClick>,
     trigger: On<Pointer<Click>>,

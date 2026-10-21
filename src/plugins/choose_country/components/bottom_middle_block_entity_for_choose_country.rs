@@ -1,7 +1,8 @@
 use crate::{
     plugins::{
         choose_country::systems::bottom_middle_block_button_system_for_choose_country::{
-            on_button_click_release, on_button_down, on_button_hover, on_button_unhover,
+            on_country_choice_button_click_release, on_country_choice_button_down,
+            on_country_choice_button_hover, on_country_choice_button_unhover,
         },
         game_main::resources::game_ui_resources::GameUiResources,
     },
@@ -134,10 +135,10 @@ fn country_flags_block(
                         //     ..default()
                         // },
                     ))
-                    .observe(on_button_hover)
-                    .observe(on_button_unhover)
-                    .observe(on_button_down)
-                    .observe(on_button_click_release);
+                    .observe(on_country_choice_button_hover)
+                    .observe(on_country_choice_button_unhover)
+                    .observe(on_country_choice_button_down)
+                    .observe(on_country_choice_button_click_release);
             }
             for country in &countries_for_main_menu_but_not_recommended_query {
                 flags_block
@@ -169,10 +170,10 @@ fn country_flags_block(
                         //     ..default()
                         // },
                     ))
-                    .observe(on_button_hover)
-                    .observe(on_button_unhover)
-                    .observe(on_button_down)
-                    .observe(on_button_click_release);
+                    .observe(on_country_choice_button_hover)
+                    .observe(on_country_choice_button_unhover)
+                    .observe(on_country_choice_button_down)
+                    .observe(on_country_choice_button_click_release);
             }
         });
 }
