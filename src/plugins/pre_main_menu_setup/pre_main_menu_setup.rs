@@ -5,10 +5,7 @@ use crate::{
         loading_assets::systems::free_main_loading_step_resources::free_main_loading_step_resources,
         main_menu::{
             components::main_menu_entity::MainMenuEntity,
-            systems::{
-                spawn_continue_block::spawn_continue_block,
-                spawn_main_menu_scene::spawn_main_menu_scene,
-            },
+            systems::spawn_main_menu_scene::spawn_main_menu_scene,
         },
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         pre_main_menu_setup::systems::insert_cam_and_cube::move_cam_and_insert_cube,
@@ -34,7 +31,7 @@ impl Plugin for PreMainMenuSetupPlugin {
         );
         app.add_systems(
             OnEnter(GameState::PreMainMenuSetup),
-            (spawn_continue_block, spawn_choose_country_ui_main_entity).after(spawn_countries),
+            (spawn_choose_country_ui_main_entity).after(spawn_countries),
         );
         app.add_systems(
             OnEnter(GameState::PreMainMenuSetup),

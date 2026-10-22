@@ -1,5 +1,6 @@
 use crate::{
     plugins::main_menu::{
+        components::continue_game_entity::ContinueGameEntity,
         resources::main_menu_all_images::MainMenuAllImages,
         systems::main_menu_button_system_united::{
             on_main_menu_button_click, on_main_menu_button_down, on_main_menu_button_hover,
@@ -74,6 +75,39 @@ pub fn spawn_main_menu(
                 },
             ))
             .with_children(|lower_panel| {
+                // Continue button block
+                lower_panel
+                    .spawn((
+                        ContinueGameEntity,
+                        Node {
+                            display: Display::None,
+                            flex_direction: FlexDirection::Column,
+                            width: Val::Percent(20.0),
+                            height: Val::Percent(35.0),
+                            justify_content: JustifyContent::FlexEnd,
+                            align_items: AlignItems::Center,
+                            top: Val::Percent(10.0),
+                            ..default()
+                        },
+                        ZIndex(2),
+                        // Outline {
+                        //     color: Color::WHITE,
+                        //     width: Val::Px(2.0),
+                        //     ..default()
+                        // },
+                        ImageNode::new(images.continue_background_image.clone())
+                            .with_mode(NodeImageMode::Stretch),
+                    ))
+                    .with_children(|continue_button_block| {
+                        spawn_continue_button(
+                            continue_button_block,
+                            &localization,
+                            images.continue_button_image.clone(),
+                            MainMenuButtonAction::Continue,
+                            button_font.clone(),
+                        );
+                    });
+                // lower block with other buttons
                 lower_panel
                     .spawn((
                         Node {
@@ -90,7 +124,6 @@ pub fn spawn_main_menu(
                             .with_mode(NodeImageMode::Stretch),
                     ))
                     .with_children(|button_panel| {
-                        // TODO: add continue button here instead of independent absolute node
                         // ── Single‑player + multiplayer row ───────────
                         button_panel
                             .spawn((
@@ -497,6 +530,64 @@ fn spawn_multiplayer_button(
                     right: Val::Percent(5.0),
                     ..default()
                 })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
+}
+
+fn spawn_continue_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
+    image: Handle<Image>,
+    action: MainMenuButtonAction,
+    font: Handle<Font>,
+) {
+    let label = localization
+        .content("continue")
+        .expect("missing continue in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(79.0),
+                height: Val::Percent(64.0),
+                justify_content: JustifyContent::FlexEnd,
+                align_items: AlignItems::Center,
+                bottom: Val::Percent(9.0),
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn((Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    ..default()
+                },))
                 .with_children(|text_container| {
                     text_container.spawn((
                         Text::new(label),

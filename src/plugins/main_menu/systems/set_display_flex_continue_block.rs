@@ -4,14 +4,14 @@ use crate::{
 };
 use bevy::prelude::*;
 
-pub fn set_visible_continue_block(
+pub fn set_display_flex_continue_block(
     settings: Res<Settings>,
-    mut visibility_of_continue_block_query: Query<&mut Visibility, With<ContinueGameEntity>>,
+    mut node_of_continue_block_query: Query<&mut Node, With<ContinueGameEntity>>,
 ) {
     let last_saved_game_exists = settings.last_saved_game.last_save_game_exists;
     if last_saved_game_exists {
-        for mut visibility_of_continue_block in &mut visibility_of_continue_block_query {
-            *visibility_of_continue_block = Visibility::Visible;
+        for mut node_of_continue_block in &mut node_of_continue_block_query {
+            node_of_continue_block.display = Display::Flex;
         }
     }
 }
