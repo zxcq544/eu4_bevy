@@ -1,7 +1,8 @@
 use crate::{
     plugins::{
         choose_country::systems::bottom_left_block_button_system_for_choose_country::{
-            on_button_click, on_button_down, on_button_hover, on_button_unhover,
+            on_country_choice_left_menu_button_click, on_country_choice_left_menu_button_down,
+            on_country_choice_left_menu_button_hover, on_country_choice_left_menu_button_unhover,
         },
         game_main::resources::game_ui_resources::GameUiResources,
     },
@@ -72,10 +73,10 @@ pub fn bottom_left_block_entity_for_choose_country(
                 },
             ));
         })
-        .observe(on_button_click)
-        .observe(on_button_hover)
-        .observe(on_button_unhover)
-        .observe(on_button_down);
+        .observe(on_country_choice_left_menu_button_click)
+        .observe(on_country_choice_left_menu_button_hover)
+        .observe(on_country_choice_left_menu_button_unhover)
+        .observe(on_country_choice_left_menu_button_down);
     bottom_left_block
         .spawn((
             // Back button
@@ -109,8 +110,8 @@ pub fn bottom_left_block_entity_for_choose_country(
                 },
             ));
         })
-        .observe(on_button_click)
-        .observe(on_button_hover)
-        .observe(on_button_unhover)
-        .observe(on_button_down);
+        .observe(on_country_choice_left_menu_button_click)
+        .observe(on_country_choice_left_menu_button_hover)
+        .observe(on_country_choice_left_menu_button_unhover)
+        .observe(on_country_choice_left_menu_button_down);
 }

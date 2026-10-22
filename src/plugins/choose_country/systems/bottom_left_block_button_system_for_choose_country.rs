@@ -1,8 +1,10 @@
 use crate::{
-    core::states::GameState, plugins::{
+    core::states::GameState,
+    plugins::{
         choose_country::components::bottom_left_block_entity_for_choose_country::{
             BottomLeftBlockButtonActionsForChooseCountry, BottomLeftBlockButtonForChooseCountry,
-        }, sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
+        },
+        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
     },
 };
 use bevy::{
@@ -15,7 +17,7 @@ const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
 const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 // Sets style of the button when mouse down
-pub fn on_button_down(
+pub fn on_country_choice_left_menu_button_down(
     trigger: On<Pointer<Press>>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
@@ -29,7 +31,7 @@ pub fn on_button_down(
 }
 
 // Observer for clicking on the button (Replaces Interaction::Pressed)
-pub fn on_button_click(
+pub fn on_country_choice_left_menu_button_click(
     trigger: On<Pointer<Click>>,
     mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
@@ -67,7 +69,7 @@ pub fn on_button_click(
 }
 
 // Observer for hovering on the button (Replaces Interaction::Hovered)
-pub fn on_button_hover(
+pub fn on_country_choice_left_menu_button_hover(
     trigger: On<Pointer<Over>>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
@@ -81,7 +83,7 @@ pub fn on_button_hover(
 }
 
 // Observer for exiting the cursor beyond the button's limits (Replaces Interaction::None)
-pub fn on_button_unhover(
+pub fn on_country_choice_left_menu_button_unhover(
     trigger: On<Pointer<Out>>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
