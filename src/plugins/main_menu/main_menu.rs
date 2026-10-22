@@ -32,9 +32,6 @@ impl Plugin for MainMenuPlugin {
         app.add_systems(
             Update,
             (
-                // main_menu_button_actions,
-                // main_menu_button_hover,
-                // main_menu_button_sounds,
                 main_menu_button_system_united,
                 handle_delayed_exit,
                 rotate_cube_system,
