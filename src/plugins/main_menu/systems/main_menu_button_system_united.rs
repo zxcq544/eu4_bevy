@@ -2,20 +2,14 @@ use crate::{
     core::states::GameState,
     plugins::{
         main_menu::{
-            components::main_menu_entity::{
-                MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType,
-            },
+            components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
             resources::exit_delay_timer::ExitDelayTimer,
         },
-        sound_effects::{
-            components::sound_effects_player::SoundEffectsPlayer,
-            resources::button_click_sound_effects::ButtonClickSoundEffects,
-        },
+        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
     },
     shared::settings::settings::Settings,
 };
 use bevy::{
-    audio::Volume,
     input_focus::{FocusCause, InputFocus},
     prelude::*,
 };
@@ -30,7 +24,6 @@ pub fn main_menu_button_system_united(
     mut input_focus: ResMut<InputFocus>,
     mut exit_timer: ResMut<ExitDelayTimer>,
     settings: Res<Settings>,
-    button_click_sound_effects: Res<ButtonClickSoundEffects>,
     // Get all components in one query
     mut interaction_query: Query<
         (
@@ -38,48 +31,20 @@ pub fn main_menu_button_system_united(
             &Interaction,
             &mut MainMenuButton,
             &mut ImageNode,
-            &MainMenuButtonSoundType,
             &MainMenuButtonAction,
         ),
         Changed<Interaction>,
     >,
 ) {
-    for (entity, interaction, mut button, mut image_node, sound_type, action) in
-        &mut interaction_query
-    {
+    for (entity, interaction, mut button, mut image_node, action) in &mut interaction_query {
         match *interaction {
             Interaction::Pressed => {
                 // 1. Color logic
                 input_focus.set(entity, FocusCause::Pressed);
                 image_node.color = PRESSED_BUTTON;
                 button.set_changed();
-
                 // 2. Sound effect logic
-                let required_sound = match sound_type {
-                    MainMenuButtonSoundType::Confirm => {
-                        button_click_sound_effects.button_click_confirm.clone()
-                    }
-                    MainMenuButtonSoundType::Back => {
-                        button_click_sound_effects.button_click_back.clone()
-                    }
-                    MainMenuButtonSoundType::General => {
-                        button_click_sound_effects.button_click_general.clone()
-                    }
-                };
-                commands.spawn((
-                    SoundEffectsPlayer,
-                    AudioPlayer::new(required_sound),
-                    PlaybackSettings {
-                        mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(
-                            settings
-                                .volume_settings
-                                .get_sfx_volume_multiplied_by_master(),
-                        ),
-                        ..default()
-                    },
-                ));
-
+                commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
                 // 3. Action logic
                 match action {
                     MainMenuButtonAction::SinglePlayer => {
