@@ -1,8 +1,6 @@
 use crate::{
     plugins::main_menu::{
-        components::main_menu_entity::{
-            MainMenuButton, MainMenuButtonAction, MainMenuButtonSoundType,
-        },
+        components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
         resources::main_menu_all_images::MainMenuAllImages,
     },
     shared::fonts::fonts::FontHandles,
@@ -31,6 +29,7 @@ impl ContinueGameEntity {
                 align_items: AlignItems::FlexEnd,
                 // overflow: Overflow::hidden(),
             }
+            Pickable::IGNORE
             Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
             ZIndex(3)
             Children [
@@ -42,7 +41,6 @@ impl ContinueGameEntity {
                         &localization_res,
                         main_menu_all_images_res.continue_button_image.clone(),
                         MainMenuButtonAction::Continue,
-                        MainMenuButtonSoundType::General,
                         button_font.clone()
                     )
                 ]
@@ -84,7 +82,6 @@ fn continue_button(
     localization_res: &Res<Localization>,
     image: Handle<Image>,
     action_enum: MainMenuButtonAction,
-    sound_type: MainMenuButtonSoundType,
     font: Handle<Font>,
 ) -> impl Scene {
     let label = localization_res.content("continue").expect(&format!(
@@ -95,7 +92,6 @@ fn continue_button(
         // Continue button
         Button
         MainMenuButton
-        template_value(sound_type)
         template_value(action_enum)
         Node {
             display: Display::Flex,

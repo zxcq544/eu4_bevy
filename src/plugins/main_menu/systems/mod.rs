@@ -1,6 +1,5 @@
 pub mod despawn_continue_block;
 pub mod despawn_main_menu_entity;
-pub mod handle_delayed_exit;
 pub mod hide_continue_block;
 pub mod hide_main_menu_block;
 pub mod main_menu_button_system_united;

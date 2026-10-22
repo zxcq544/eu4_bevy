@@ -1,12 +1,18 @@
 use crate::{
-    plugins::main_menu::resources::main_menu_all_images::MainMenuAllImages,
+    plugins::main_menu::{
+        resources::main_menu_all_images::MainMenuAllImages,
+        systems::main_menu_button_system_united::{
+            on_main_menu_button_click, on_main_menu_button_down, on_main_menu_button_hover,
+            on_main_menu_button_unhover,
+        },
+    },
     shared::fonts::fonts::FontHandles,
 };
-use bevy::{prelude::*, text::FontSourceTemplate};
+use bevy::{prelude::*, ui::widget::ImageNode};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
-// Marker used for main menu button actions
+// ── Markers ──────────────────────────────────────────────────────────
 #[derive(Component, Clone, Default)]
 pub enum MainMenuButtonAction {
     #[default]
@@ -20,44 +26,38 @@ pub enum MainMenuButtonAction {
     Quit,
 }
 
-// Marker for all main menu buttons to add sound effects
-#[derive(Component, Clone, Default)]
-pub enum MainMenuButtonSoundType {
-    #[default]
-    General,
-    Confirm,
-    Back,
-}
-
-// Marker for all main menu buttons to add hover effect and other effects
 #[derive(Component, Clone, Default)]
 pub struct MainMenuButton;
 
 #[derive(Component, Clone, Default)]
 pub struct MainMenuEntity;
 
-impl MainMenuEntity {
-    pub fn as_scene_list(
-        main_menu_all_images_res: &Res<MainMenuAllImages>,
-        localization_res: &Res<Localization>,
-        fonts: &Res<FontHandles>,
-    ) -> impl SceneList {
-        let button_font = fonts.button_font.clone();
-        bsn_list! {
-            MainMenuEntity
+// ── Main menu root ───────────────────────────────────────────────────
+pub fn spawn_main_menu(
+    commands: &mut Commands,
+    images: &MainMenuAllImages,
+    localization: &Localization,
+    fonts: &FontHandles,
+) {
+    let button_font = fonts.button_font.clone();
+
+    commands
+        .spawn((
+            MainMenuEntity,
             Node {
-                display: Display::None,
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
                 position_type: PositionType::Absolute,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::End,
-                // background_color: Color::TRANSPARENT,
-                // overflow: Overflow::hidden(),
-            }
-            ZIndex(4)
-            BackgroundColor(Color::NONE)
-            Children [
+                ..default()
+            },
+            // Visibility::Hidden,
+            BackgroundColor(Color::NONE),
+            // ZIndex(1),
+        ))
+        .with_children(|root| {
+            root.spawn((
                 Node {
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,
@@ -65,485 +65,455 @@ impl MainMenuEntity {
                     height: Val::Percent(25.0),
                     justify_content: JustifyContent::End,
                     align_items: AlignItems::Center,
-                    // bottom: Val::Px(3.0),
-                }
+                    ..default()
+                },
                 Outline {
                     color: Color::srgb_from_array([0.3, 0.7, 0.2]),
                     width: Val::Px(2.0),
-                }
-                Children [
-                    // Background image for continue button.
-                    // background_image_for_continue_button(main_menu_all_images_res.continue_background_image.clone()),
-                    // Background image for buttons single player, miltiplayer etc.
-                    background_image_for_most_buttons(main_menu_all_images_res.main_menu_background_image.clone())
-                    Children [
-                        // Single player and multiplayer buttons block
+                    ..default()
+                },
+            ))
+            .with_children(|lower_panel| {
+                lower_panel
+                    .spawn((
                         Node {
                             display: Display::Flex,
-                            width: Val::Percent(60.0),
-                            height: Val::Percent(42.0),
-                            justify_content: JustifyContent::Center,
+                            flex_direction: FlexDirection::Column,
+                            width: Val::Percent(33.0),
+                            height: Val::Percent(50.0),
+                            justify_content: JustifyContent::FlexStart,
                             align_items: AlignItems::Center,
-                            top: Val::Percent(16.0),
-                        }
-                        ZIndex(1)
-                        // Outline {
-                        //     color: Color::srgb_from_array([0.7, 0.7, 0.2]), // yellow
-                        //     width: Val::Px(2.0),
-                        // }
-                        Children [
-                            // Single player button
-                            single_player_button(
-                                &localization_res,
-                                main_menu_all_images_res.single_player_button_image.clone(),
-                                MainMenuButtonAction::SinglePlayer,
-                                button_font.clone()
-                            ),
-                            // Multiplayer Button
-                            multiplayer_button(
-                                &localization_res,
-                                main_menu_all_images_res.multiplayer_button_image.clone(),
-                                MainMenuButtonAction::Multiplayer,
-                                button_font.clone()
-                            ),
-                        ],
-                        // 4 button lower block with buttons Tutorial, Credits, Options, Exit
-                        Node {
-                            display: Display::Flex,
-                            flex_direction: FlexDirection::Row,
-                            width: Val::Percent(84.0),
-                            height: Val::Percent(38.0),
-                            justify_content: JustifyContent::Center,
-                            align_items: AlignItems::Center,
-                            // overflow: Overflow::hidden(),
-                            top: Val::Percent(17.0),
-                        }
-                        Children [
-                            // Tutorial button
-                            tutorial_button(
-                                &localization_res,
-                                main_menu_all_images_res.bg_image_lower_panel_main_menu_left_button.clone(),
-                                MainMenuButtonAction::Tutorial,
-                                button_font.clone()
-                            ),
-                            // Credits button
-                            credits_button(
-                                 &localization_res,
-                                 main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
-                                 MainMenuButtonAction::Credits,
-                                 button_font.clone()
-                            ),
-                            // Options button
-                            options_button(
-                                &localization_res,
-                                main_menu_all_images_res.bg_image_lower_panel_main_menu_center_button.clone(),
-                                MainMenuButtonAction::Options,
-                                button_font.clone()
-                            ),
-                            // Exit button
-                            exit_button(
-                                &localization_res,
-                                main_menu_all_images_res.bg_image_lower_panel_main_menu_right_button.clone(),
-                                MainMenuButtonAction::Quit,
-                                button_font.clone()
-                            ),
-                        ],
-                    ]
-                ]
-            ]
-        }
-    }
+                            ..default()
+                        },
+                        // ZIndex(1),
+                        ImageNode::new(images.main_menu_background_image.clone())
+                            .with_mode(NodeImageMode::Stretch),
+                    ))
+                    .with_children(|button_panel| {
+                        // TODO: add continue button here instead of independent absolute node
+                        // ── Single‑player + multiplayer row ───────────
+                        button_panel
+                            .spawn((
+                                Node {
+                                    display: Display::Flex,
+                                    width: Val::Percent(60.0),
+                                    height: Val::Percent(42.0),
+                                    justify_content: JustifyContent::Center,
+                                    align_items: AlignItems::Center,
+                                    top: Val::Percent(16.0),
+                                    ..default()
+                                },
+                                // ZIndex(1),
+                            ))
+                            .with_children(|top_row| {
+                                spawn_single_player_button(
+                                    top_row,
+                                    localization,
+                                    images.single_player_button_image.clone(),
+                                    MainMenuButtonAction::SinglePlayer,
+                                    button_font.clone(),
+                                );
+                                spawn_multiplayer_button(
+                                    top_row,
+                                    localization,
+                                    images.multiplayer_button_image.clone(),
+                                    MainMenuButtonAction::Multiplayer,
+                                    button_font.clone(),
+                                );
+                            });
+
+                        // ── Lower 4‑button row ─────────────────────────
+                        button_panel
+                            .spawn((Node {
+                                display: Display::Flex,
+                                flex_direction: FlexDirection::Row,
+                                width: Val::Percent(84.0),
+                                height: Val::Percent(38.0),
+                                justify_content: JustifyContent::Center,
+                                align_items: AlignItems::Center,
+                                top: Val::Percent(17.0),
+                                ..default()
+                            },))
+                            .with_children(|bottom_row| {
+                                spawn_tutorial_button(
+                                    bottom_row,
+                                    localization,
+                                    images.bg_image_lower_panel_main_menu_left_button.clone(),
+                                    MainMenuButtonAction::Tutorial,
+                                    button_font.clone(),
+                                );
+                                spawn_credits_button(
+                                    bottom_row,
+                                    localization,
+                                    images.bg_image_lower_panel_main_menu_center_button.clone(),
+                                    MainMenuButtonAction::Credits,
+                                    button_font.clone(),
+                                );
+                                spawn_options_button(
+                                    bottom_row,
+                                    localization,
+                                    images.bg_image_lower_panel_main_menu_center_button.clone(),
+                                    MainMenuButtonAction::Options,
+                                    button_font.clone(),
+                                );
+                                spawn_exit_button(
+                                    bottom_row,
+                                    localization,
+                                    images.bg_image_lower_panel_main_menu_right_button.clone(),
+                                    MainMenuButtonAction::Quit,
+                                    button_font.clone(),
+                                );
+                            });
+                    });
+            });
+        });
 }
 
-pub fn tutorial_button(
-    localization_res: &Res<Localization>,
+// ── Individual button helpers ────────────────────────────────────────
+fn spawn_tutorial_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
     image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
+    action: MainMenuButtonAction,
     font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("tutorial").expect(&format!(
-        "missing tutorial in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        // Tutorial button
-        Button
-        MainMenuButton
-        template_value(action_enum) // Workaround because bevy 0.19 doesn't support enum inside bsn!
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(25.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-        }
-        ZIndex(4)
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
+) {
+    let label = localization
+        .content("tutorial")
+        .expect("missing tutorial in localisation files");
 
-        // Example but it is wrong i think
-        // on(|_event: On<Pointer<Over>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
-        //     let entity = _event.event_target();
-        //     if let Ok((mut button, mut image_node)) = query.get_mut(entity) {
-        //         input_focus.set(entity, FocusCause::Pressed);
-        //         image_node.color = HOVERED_BUTTON;
-        //         button.set_changed();
-        //     }
-        // })
-        // on(|_event: On<Pointer<Release>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
-        //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
-        //         input_focus.clear();
-        //         image_node.color = HOVERED_BUTTON;
-        //         button.set_changed();
-        //     }
-        // })
-        on(|_event: On<Pointer<Press>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>| {
-            let entity = _event.event_target();
-            if let Ok((mut _button, mut _image_node)) = query.get_mut(entity) {
-                // input_focus.set(entity, FocusCause::Pressed);
-                // image_node.color = PRESSED_BUTTON;
-                // button.set_changed();
-                info!("Pressed");
-            }
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(25.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            // ZIndex(1),
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn((Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    left: Val::Percent(8.0),
+                    ..default()
+                },))
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
         })
-        // on(|_event: On<Pointer<Out>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
-        //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
-        //         input_focus.clear();
-        //         image_node.color = NORMAL_BUTTON;
-        //         button.set_changed();
-        //     }
-        // })
-        Children [
-            Node {
-                display: Display::Flex,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                left: Val::Percent(8.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font: FontSourceTemplate::Handle(font),
-                    font_size: FontSize::Px(14.0),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-            // Outline {
-            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-            //     width: Val::Px(2.0),
-            // },
-        ]
-        // Outline {
-        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-        //     width: Val::Px(2.0),
-        // },
-    }
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }
 
-pub fn credits_button(
-    localization_res: &Res<Localization>,
+fn spawn_credits_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
     image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
+    action: MainMenuButtonAction,
     font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("credits").expect(&format!(
-        "missing credits in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        Button
-        MainMenuButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(25.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        // Text node
-        Children [
+) {
+    let label = localization
+        .content("credits")
+        .expect("missing credits in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
             Node {
                 display: Display::Flex,
-                width: Val::Percent(100.0),
+                width: Val::Percent(25.0),
                 height: Val::Percent(100.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                // left: Val::Percent(8.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font_size: FontSize::Px(14.0),
-                    font: FontSourceTemplate::Handle(font),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-            // Outline {
-            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-            //     width: Val::Px(2.0),
-            // },
-        ]
-        // Outline {
-        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-        //     width: Val::Px(2.0),
-        // },
-    }
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn(Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    ..default()
+                })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }
 
-pub fn options_button(
-    localization_res: &Res<Localization>,
+fn spawn_options_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
     image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
+    action: MainMenuButtonAction,
     font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("options").expect(&format!(
-        "missing options in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        Button
-        MainMenuButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(25.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        // Text node
-        Children [
+) {
+    let label = localization
+        .content("options")
+        .expect("missing options in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
             Node {
                 display: Display::Flex,
-                width: Val::Percent(100.0),
+                width: Val::Percent(25.0),
                 height: Val::Percent(100.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                // left: Val::Percent(8.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font_size: FontSize::Px(14.0),
-                    font: FontSourceTemplate::Handle(font),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-            // Outline {
-            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-            //     width: Val::Px(2.0),
-            // },
-        ]
-        // Outline {
-        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-        //     width: Val::Px(2.0),
-        // },
-    }
-}
-pub fn exit_button(
-    localization_res: &Res<Localization>,
-    image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
-    font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("exit").expect(&format!(
-        "missing exit in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        // Exit button
-        Button
-        MainMenuButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(25.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-            // color: Color::srgb_from_array([1.3, 1.7, 1.2]),
-        }
-        Children [
-            Node {
-                display: Display::Flex,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                right: Val::Percent(5.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font_size: FontSize::Px(14.0),
-                    font: FontSourceTemplate::Handle(font),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-            // Outline {
-            //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-            //     width: Val::Px(2.0),
-            // },
-        ]
-        // Outline {
-        //     color: Color::srgb_from_array([0.3, 0.7, 0.3]),
-        //     width: Val::Px(2.0),
-        // },
-    }
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn(Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    ..default()
+                })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }
 
-fn single_player_button(
-    localization_res: &Res<Localization>,
+fn spawn_exit_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
     image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
+    action: MainMenuButtonAction,
     font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("single_player").expect(&format!(
-        "missing single_player in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        // Single player button
-        Button
-        MainMenuButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(50.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        Children [
-            // Text node
+) {
+    let label = localization
+        .content("exit")
+        .expect("missing exit in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
             Node {
                 display: Display::Flex,
-                width: Val::Percent(90.0),
+                width: Val::Percent(25.0),
                 height: Val::Percent(100.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                left: Val::Percent(5.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font_size: FontSize::Px(14.0),
-                    font: FontSourceTemplate::Handle(font),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-        ]
-        // Outline {
-        //     color: Color::WHITE,
-        //     width: Val::Px(1.0),
-        // }
-    }
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn(Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    right: Val::Percent(5.0),
+                    ..default()
+                })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }
 
-pub fn multiplayer_button(
-    localization_res: &Res<Localization>,
+fn spawn_single_player_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
     image: Handle<Image>,
-    action_enum: MainMenuButtonAction,
+    action: MainMenuButtonAction,
     font: Handle<Font>,
-) -> impl Scene {
-    let label = localization_res.content("multiplayer").expect(&format!(
-        "missing multiplayer in localisation files {:?}",
-        localization_res
-    ));
-    bsn! {
-        // Multiplayer Button
-        Button
-        MainMenuButton
-        template_value(action_enum)
-        Node {
-            display: Display::Flex,
-            width: Val::Percent(50.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            overflow: Overflow::hidden(),
-        }
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        Children [
+) {
+    let label = localization
+        .content("single_player")
+        .expect("missing single_player in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
             Node {
                 display: Display::Flex,
-                width: Val::Percent(100.0),
+                width: Val::Percent(50.0),
                 height: Val::Percent(100.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                right: Val::Percent(5.0),
-            }
-            Children [
-                Text::new(label)
-                TextFont {
-                    font_size: FontSize::Px(14.0),
-                    font: FontSourceTemplate::Handle(font),
-                }
-                TextLayout {
-                    justify: Justify::Center,
-                }
-            ]
-        ]
-        // Outline {
-        //     color: Color::srgb_from_array([0.2, 0.7, 0.7]),
-        //     width: Val::Px(2.0),
-        // }
-    }
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn(Node {
+                    display: Display::Flex,
+                    width: Val::Percent(90.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    left: Val::Percent(5.0),
+                    ..default()
+                })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }
 
-fn background_image_for_most_buttons(image: Handle<Image>) -> impl Scene {
-    bsn! {
-        Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            width: Val::Percent(33.0),
-            height: Val::Percent(50.0),
-            justify_content: JustifyContent::FlexStart,
-            align_items: AlignItems::Center,
-            // overflow: Overflow::hidden(),
-        }
-        ZIndex(1)
-        ImageNode {
-            image: image,
-            image_mode: NodeImageMode::Stretch,
-        }
-        // Outline {
-        //     color: Color::WHITE,
-        //     width: Val::Px(1.0),
-        // }
-    }
+fn spawn_multiplayer_button(
+    commands: &mut ChildSpawnerCommands,
+    localization: &Localization,
+    image: Handle<Image>,
+    action: MainMenuButtonAction,
+    font: Handle<Font>,
+) {
+    let label = localization
+        .content("multiplayer")
+        .expect("missing multiplayer in localisation files");
+
+    commands
+        .spawn((
+            Button,
+            MainMenuButton,
+            action,
+            Node {
+                display: Display::Flex,
+                width: Val::Percent(50.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                overflow: Overflow::hidden(),
+                ..default()
+            },
+            ImageNode::new(image).with_mode(NodeImageMode::Stretch),
+        ))
+        .with_children(|button| {
+            button
+                .spawn(Node {
+                    display: Display::Flex,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    right: Val::Percent(5.0),
+                    ..default()
+                })
+                .with_children(|text_container| {
+                    text_container.spawn((
+                        Text::new(label),
+                        TextFont {
+                            font: font.into(),
+                            font_size: FontSize::Px(14.0),
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: Justify::Center,
+                            ..default()
+                        },
+                    ));
+                });
+        })
+        .observe(on_main_menu_button_hover)
+        .observe(on_main_menu_button_unhover)
+        .observe(on_main_menu_button_down)
+        .observe(on_main_menu_button_click);
 }

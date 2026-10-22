@@ -1,6 +1,6 @@
 use crate::{
     plugins::main_menu::{
-        components::main_menu_entity::MainMenuEntity,
+        components::main_menu_entity::spawn_main_menu,
         resources::main_menu_all_images::MainMenuAllImages,
     },
     shared::fonts::fonts::FontHandles,
@@ -15,9 +15,15 @@ pub fn spawn_main_menu_scene(
     fonts: Res<FontHandles>,
 ) {
     info!("Setting up main menu background");
-    commands.spawn_scene_list(MainMenuEntity::as_scene_list(
+    // commands.spawn_scene_list(MainMenuEntity::as_scene_list(
+    //     &main_menu_all_images_res,
+    //     &localization_res,
+    //     &fonts,
+    // ));
+    spawn_main_menu(
+        &mut commands,
         &main_menu_all_images_res,
         &localization_res,
         &fonts,
-    ));
+    );
 }

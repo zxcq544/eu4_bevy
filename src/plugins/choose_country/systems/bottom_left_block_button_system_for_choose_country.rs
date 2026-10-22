@@ -20,6 +20,7 @@ const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 pub fn on_country_choice_left_menu_button_down(
     trigger: On<Pointer<Press>>,
     mut input_focus: ResMut<InputFocus>,
+    mut commands: Commands,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
 ) {
     let entity = trigger.event_target();
@@ -27,13 +28,14 @@ pub fn on_country_choice_left_menu_button_down(
         input_focus.set(entity, FocusCause::Pressed);
         button.set_changed();
         image_node.color = PRESSED_BUTTON;
+        // Logic of sound effects
+        commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
     }
 }
 
 // Observer for clicking on the button (Replaces Interaction::Pressed)
 pub fn on_country_choice_left_menu_button_click(
     trigger: On<Pointer<Click>>,
-    mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(
@@ -51,9 +53,6 @@ pub fn on_country_choice_left_menu_button_click(
     input_focus.set(entity, FocusCause::Pressed);
     image_node.color = HOVERED_BUTTON;
     button.set_changed();
-
-    // Logic of sound effects
-    commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
 
     // Logic of actions (Change states)
     match action {

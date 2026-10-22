@@ -71,6 +71,7 @@ pub fn on_country_choice_button_down(
     // trigger: Trigger<PointerDown>,
     trigger: On<Pointer<Press>>,
     mut input_focus: ResMut<InputFocus>,
+    mut commands: Commands,
     mut query: Query<(
         &mut BottomMiddleBlockButtonForChooseCountry,
         Option<&MaterialNode<CustomUiMaterial>>,
@@ -83,6 +84,8 @@ pub fn on_country_choice_button_down(
     if let Ok((mut button, mat, mat_glow)) = query.get_mut(entity) {
         input_focus.set(entity, FocusCause::Pressed);
         button.set_changed();
+        // Logic of sound effects
+        commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
 
         update_material_color(
             mat,
@@ -98,7 +101,6 @@ pub fn on_country_choice_button_click_release(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerClick>,
     trigger: On<Pointer<Click>>,
-    mut commands: Commands,
     mut query: Query<
         (
             Option<&MaterialNode<CustomUiMaterial>>,
@@ -123,7 +125,6 @@ pub fn on_country_choice_button_click_release(
     }
 
     // --- BUTTON ACTION LOGIC (Works only on Pointer Up) ---
-    commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
 
     info!("Click released! Action performed when releasing the mouse button.");
     // next_state.set(GameState::MainMenu);
