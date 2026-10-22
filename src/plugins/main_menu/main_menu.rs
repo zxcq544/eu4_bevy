@@ -7,8 +7,8 @@ use crate::{
             hide_main_menu_block::hide_main_menu_block,
             main_menu_button_system_united::main_menu_button_system_united,
             rotate_cube::rotate_cube_system,
+            set_display_flex_main_menu_block::set_display_flex_main_menu_block,
             set_visible_continue_block::set_visible_continue_block,
-            set_visible_main_menu_block::set_visible_main_menu_block,
         },
     },
 };
@@ -24,7 +24,7 @@ impl Plugin for MainMenuPlugin {
         });
         app.add_systems(
             OnEnter(GameState::MainMenu),
-            (set_visible_main_menu_block, set_visible_continue_block),
+            (set_display_flex_main_menu_block, set_visible_continue_block),
         );
         app.add_systems(OnExit(GameState::MainMenu), hide_main_menu_block);
         app.add_systems(OnExit(GameState::MainMenu), hide_continue_block);

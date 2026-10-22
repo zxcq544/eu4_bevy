@@ -1,9 +1,9 @@
 use crate::plugins::main_menu::components::main_menu_entity::MainMenuEntity;
 use bevy::prelude::*;
 pub fn hide_main_menu_block(
-    mut visibility_of_main_menu_block_query: Query<&mut Visibility, With<MainMenuEntity>>,
+    mut node_of_main_menu_block_query: Query<&mut Node, With<MainMenuEntity>>,
 ) {
-    for mut visibility_of_main_menu_block in &mut visibility_of_main_menu_block_query {
-        *visibility_of_main_menu_block = Visibility::Hidden;
+    for mut node_of_main_menu_block in &mut node_of_main_menu_block_query {
+        node_of_main_menu_block.display = Display::None;
     }
 }

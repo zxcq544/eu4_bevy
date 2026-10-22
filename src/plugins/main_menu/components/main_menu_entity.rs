@@ -46,6 +46,7 @@ impl MainMenuEntity {
         bsn_list! {
             MainMenuEntity
             Node {
+                display: Display::None,
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
                 position_type: PositionType::Absolute,
@@ -54,7 +55,7 @@ impl MainMenuEntity {
                 // background_color: Color::TRANSPARENT,
                 // overflow: Overflow::hidden(),
             }
-            Visibility::Hidden // Spawn as hidden because we don't despawn ingame ui elements
+            ZIndex(4)
             BackgroundColor(Color::NONE)
             Children [
                 Node {
@@ -176,6 +177,7 @@ pub fn tutorial_button(
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
         }
+        ZIndex(4)
         ImageNode {
             image: image,
             image_mode: NodeImageMode::Stretch,
@@ -197,14 +199,15 @@ pub fn tutorial_button(
         //         button.set_changed();
         //     }
         // })
-        // on(|_event: On<Pointer<Press>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
-        //     let entity = _event.event_target();
-        //     if let Ok((mut button, mut image_node)) = query.get_mut(entity) {
-        //         input_focus.set(entity, FocusCause::Pressed);
-        //         image_node.color = PRESSED_BUTTON;
-        //         button.set_changed();
-        //     }
-        // })
+        on(|_event: On<Pointer<Press>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>| {
+            let entity = _event.event_target();
+            if let Ok((mut _button, mut _image_node)) = query.get_mut(entity) {
+                // input_focus.set(entity, FocusCause::Pressed);
+                // image_node.color = PRESSED_BUTTON;
+                // button.set_changed();
+                info!("Pressed");
+            }
+        })
         // on(|_event: On<Pointer<Out>>, mut query: Query<(&mut MainMenuButton, &mut ImageNode)>, mut input_focus: ResMut<InputFocus>| {
         //     if let Ok((mut button, mut image_node)) = query.get_mut(_event.event_target()) {
         //         input_focus.clear();
