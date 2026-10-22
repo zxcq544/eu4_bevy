@@ -18,7 +18,7 @@ pub enum ButtonSoundType {
 }
 
 #[derive(Event)]
-pub struct PlayButtonClickSound(pub ButtonSoundType);
+pub struct PlayButtonClickSoundEvent(pub ButtonSoundType);
 
 impl Plugin for SoundEffectsPlugin {
     fn build(&self, app: &mut App) {
@@ -27,7 +27,7 @@ impl Plugin for SoundEffectsPlugin {
 }
 
 fn play_button_sound_observer(
-    trigger: On<PlayButtonClickSound>,
+    trigger: On<PlayButtonClickSoundEvent>,
     mut commands: Commands,
     sound_effects: Res<ButtonClickSoundEffects>,
     settings: Res<Settings>,

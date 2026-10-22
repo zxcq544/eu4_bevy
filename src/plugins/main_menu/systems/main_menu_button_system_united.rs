@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::{
         main_menu::components::main_menu_entity::{MainMenuButton, MainMenuButtonAction},
-        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
+        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSoundEvent},
     },
 };
 use bevy::{
@@ -25,7 +25,7 @@ pub fn on_main_menu_button_down(
         input_focus.set(entity, FocusCause::Pressed);
         button.set_changed();
         image_node.color = PRESSED_BUTTON;
-        commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
+        commands.trigger(PlayButtonClickSoundEvent(ButtonSoundType::General));
     }
 }
 

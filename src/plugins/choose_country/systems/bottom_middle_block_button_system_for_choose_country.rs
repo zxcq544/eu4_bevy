@@ -2,7 +2,7 @@ use crate::plugins::{
     choose_country::components::bottom_middle_block_entity_for_choose_country::{
         BottomMiddleBlockButtonForChooseCountry, CustomUiMaterial, CustomUiMaterialWithGlow,
     },
-    sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
+    sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSoundEvent},
 };
 use bevy::{
     input_focus::{FocusCause, InputFocus},
@@ -85,7 +85,7 @@ pub fn on_country_choice_button_down(
         input_focus.set(entity, FocusCause::Pressed);
         button.set_changed();
         // Logic of sound effects
-        commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
+        commands.trigger(PlayButtonClickSoundEvent(ButtonSoundType::General));
 
         update_material_color(
             mat,

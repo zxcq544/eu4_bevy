@@ -4,7 +4,6 @@ use crate::{
         components::options_middle_block::audio_slider_widget::options_slider_base::update_slider_style,
         systems::{
             hide_options_ui_main_entity::hide_options_ui_main_entity,
-            options_bottom_button_system::options_bottom_button_system::options_bottom_button_system,
             options_middle_block_systems::{
                 audio_volume_update_system::audio_volume_update_system,
                 hide_options_audio_tab::hide_options_audio_tab,
@@ -55,7 +54,7 @@ impl Plugin for OptionsPlugin {
         app.add_systems(
             Update,
             (
-                options_bottom_button_system,
+                // options_bottom_button_system,
                 options_top_buttons_system_united,
             )
                 .run_if(in_state(GameState::Options)),

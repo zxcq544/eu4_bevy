@@ -1,5 +1,9 @@
-use crate::plugins::options::components::options_ui_main_entity::{
-    OptionsButton, OptionsButtonAction,
+use crate::plugins::options::{
+    components::options_ui_main_entity::{OptionsButton, OptionsButtonAction},
+    systems::options_bottom_button_system::options_bottom_button_system::{
+        on_options_bottom_button_click, on_options_bottom_button_down,
+        on_options_bottom_button_hover, on_options_bottom_button_unhover,
+    },
 };
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
@@ -55,5 +59,9 @@ pub fn apply_button(
                     ..default()
                 },
             ));
-        });
+        })
+        .observe(on_options_bottom_button_click)
+        .observe(on_options_bottom_button_hover)
+        .observe(on_options_bottom_button_unhover)
+        .observe(on_options_bottom_button_down);
 }

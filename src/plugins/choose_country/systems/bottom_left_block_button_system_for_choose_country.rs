@@ -4,7 +4,7 @@ use crate::{
         choose_country::components::bottom_left_block_entity_for_choose_country::{
             BottomLeftBlockButtonActionsForChooseCountry, BottomLeftBlockButtonForChooseCountry,
         },
-        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSound},
+        sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSoundEvent},
     },
 };
 use bevy::{
@@ -29,7 +29,7 @@ pub fn on_country_choice_left_menu_button_down(
         button.set_changed();
         image_node.color = PRESSED_BUTTON;
         // Logic of sound effects
-        commands.trigger(PlayButtonClickSound(ButtonSoundType::General));
+        commands.trigger(PlayButtonClickSoundEvent(ButtonSoundType::General));
     }
 }
 
