@@ -13,7 +13,6 @@ use crate::{
                 volume_decrease_button_system::volume_decrease_button_system,
                 volume_increase_button_system::volume_increase_button_system,
             },
-            options_top_buttons_sytems::options_top_buttons_system_united::options_top_buttons_system_united,
             set_display_flex_of_options_ui_main_entity::set_display_flex_of_options_ui_main_entity,
         },
     },
@@ -51,14 +50,14 @@ impl Plugin for OptionsPlugin {
         app.add_systems(OnExit(OptionsTabState::Audio), hide_options_audio_tab);
 
         // Options Button Checkers
-        app.add_systems(
-            Update,
-            (
-                // options_bottom_button_system,
-                options_top_buttons_system_united,
-            )
-                .run_if(in_state(GameState::Options)),
-        );
+        // app.add_systems(
+        //     Update,
+        //     (
+        //         // options_bottom_button_system,
+        //         // options_top_buttons_system_united,
+        //     )
+        //         .run_if(in_state(GameState::Options)),
+        // );
         // Audio tab system
         app.add_systems(
             Update,

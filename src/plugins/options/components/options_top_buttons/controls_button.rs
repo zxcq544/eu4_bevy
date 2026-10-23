@@ -2,7 +2,7 @@ use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
-use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{OptionsTopTabButton, OptionsTopTabButtonAction};
+use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{OptionsTopTabButton, OptionsTopTabButtonAction, on_options_top_tab_button_click, on_options_top_tab_button_down, on_options_top_tab_button_hover, on_options_top_tab_button_unhover};
 
 pub fn controls_button(
     top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
@@ -47,5 +47,9 @@ pub fn controls_button(
                     ..default()
                 },
             ));
-        });
+        })
+        .observe(on_options_top_tab_button_click)
+        .observe(on_options_top_tab_button_hover)
+        .observe(on_options_top_tab_button_unhover)
+        .observe(on_options_top_tab_button_down);
 }
