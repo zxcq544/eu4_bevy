@@ -1,10 +1,7 @@
 use crate::{
-    core::states::{GameState, OptionsTabState},
-    plugins::options::{
-        components::options_middle_block::audio_slider_widget::options_slider_base::update_slider_style,
-        systems::{
-            hide_options_ui_main_entity::hide_options_ui_main_entity,
-            options_middle_block_systems::{
+    core::states::{GameState, OptionsTabState}, plugins::options::{
+        components::options_middle_block::audio_slider_widget::options_slider_base::update_slider_style, systems::{
+            hide_options_ui_main_entity::hide_options_ui_main_entity, options_middle_block_systems::{
                 audio_volume_update_system::audio_volume_update_system,
                 hide_options_audio_tab::hide_options_audio_tab,
                 hide_options_video_tab::hide_options_video_tab,
@@ -12,8 +9,7 @@ use crate::{
                 set_display_grid_options_audio_tab::set_display_grid_options_audio_tab,
                 volume_decrease_button_system::volume_decrease_button_system,
                 volume_increase_button_system::volume_increase_button_system,
-            },
-            set_display_flex_of_options_ui_main_entity::set_display_flex_of_options_ui_main_entity,
+            }, set_display_flex_of_options_ui_main_entity::set_display_flex_of_options_ui_main_entity, tab_highlight_system::tab_highlight_system,
         },
     },
 };
@@ -35,6 +31,10 @@ impl Plugin for OptionsPlugin {
         app.add_systems(
             OnEnter(OptionsTabState::Audio),
             set_display_grid_options_audio_tab,
+        );
+        app.add_systems(
+            Update,
+            tab_highlight_system.run_if(in_state(GameState::Options)),
         );
         // app.add_systems(
         //     OnEnter(OptionsTabState::Game),

@@ -5,3 +5,4 @@ pub mod options_middle_block_systems;
 pub mod options_top_buttons_sytems;
 pub mod set_display_flex_of_options_ui_main_entity;
 pub mod spawn_options_ui_main_entity;
+pub mod tab_highlight_system;
