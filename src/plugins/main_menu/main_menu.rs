@@ -3,8 +3,8 @@ use crate::{
     plugins::main_menu::systems::{
         hide_continue_block::hide_continue_block, hide_main_menu_block::hide_main_menu_block,
         rotate_cube::rotate_cube_system,
-        set_display_flex_main_menu_block::set_display_flex_main_menu_block,
         set_display_flex_continue_block::set_display_flex_continue_block,
+        set_display_flex_main_menu_block::set_display_flex_main_menu_block,
     },
 };
 use bevy::prelude::*;
@@ -25,7 +25,11 @@ impl Plugin for MainMenuPlugin {
         // Main Menu Button Checkers
         app.add_systems(
             Update,
-            (rotate_cube_system).run_if(in_state(GameState::MainMenu)),
+            (
+                rotate_cube_system,
+                // rotate_plane_system
+            )
+                .run_if(in_state(GameState::MainMenu)),
         );
     }
 }

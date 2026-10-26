@@ -7,6 +7,7 @@ use crate::{
             components::main_menu_entity::MainMenuEntity,
             systems::spawn_main_menu_scene::spawn_main_menu_scene,
         },
+        map::systems::generate_map_mesh::setup_terrain_system,
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         pre_main_menu_setup::systems::insert_cam_and_cube::move_cam_and_insert_cube,
     },
@@ -27,6 +28,7 @@ impl Plugin for PreMainMenuSetupPlugin {
                 spawn_countries,
                 spawn_main_menu_scene,
                 spawn_options_ui_main_entity,
+                setup_terrain_system,
             ),
         );
         app.add_systems(

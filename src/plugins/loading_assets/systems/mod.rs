@@ -1,6 +1,7 @@
 pub mod free_main_loading_step_resources;
 pub mod load_all_game_sound_effects;
 pub mod load_game_data_for_countries;
+pub mod load_map_textures;
 pub mod load_resources_for_game_ui;
 pub mod load_resources_for_main_menu;
 pub mod spawn_main_loading_step_scene;
