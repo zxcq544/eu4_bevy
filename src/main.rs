@@ -32,7 +32,7 @@ fn main() {
                 .set(ImagePlugin {
                     default_sampler: ImageSamplerDescriptor {
                         mag_filter: ImageFilterMode::Nearest,
-                        min_filter: ImageFilterMode::Linear,
+                        min_filter: ImageFilterMode::Nearest,
                         mipmap_filter: ImageFilterMode::Linear,
                         ..default()
                     },

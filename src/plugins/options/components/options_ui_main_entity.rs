@@ -38,7 +38,7 @@ impl OptionsUiMainEntity {
         mut commands: Commands,
         localization_res: &Res<Localization>,
         fonts: &Res<FontHandles>,
-        options_images: &Res<OptionsImages>,
+        options_images_res: &Res<OptionsImages>,
         ui_resources: &Res<GameUiResources>,
     ) {
         commands
@@ -76,7 +76,7 @@ impl OptionsUiMainEntity {
                             ..default()
                         },
                         ImageNode {
-                            image: options_images.settings_bg_image.clone(),
+                            image: options_images_res.settings_bg_image.clone(),
                             image_mode: NodeImageMode::Stretch,
                             ..default()
                         },
@@ -147,24 +147,28 @@ impl OptionsUiMainEntity {
                                                     // Video button
                                                     video_button(
                                                         top_block_with_video_audio_and_other_buttons,
+                                                        &options_images_res,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
                                                     );
                                                     // Audio button
                                                     audio_button(
                                                         top_block_with_video_audio_and_other_buttons,
+                                                        &options_images_res,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
                                                     );
                                                     // Game button
                                                     game_button(
                                                         top_block_with_video_audio_and_other_buttons,
+                                                        &options_images_res,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
                                                     );
                                                     // Controls button
                                                     controls_button(
                                                         top_block_with_video_audio_and_other_buttons,
+                                                        &options_images_res,
                                                         &localization_res,
                                                         fonts.button_font.clone(),
                                                     );
@@ -216,7 +220,7 @@ impl OptionsUiMainEntity {
                                                     bottom_buttons_block,
                                                     &localization_res,
                                                     fonts.button_font.clone(),
-                                                    options_images
+                                                    options_images_res
                                                         .apply_and_back_button_image
                                                         .clone(),
                                                     OptionsButtonAction::Apply,
@@ -226,7 +230,7 @@ impl OptionsUiMainEntity {
                                                     bottom_buttons_block,
                                                     &localization_res,
                                                     fonts.button_font.clone(),
-                                                    options_images
+                                                    options_images_res
                                                         .apply_and_back_button_image
                                                         .clone(),
                                                     OptionsButtonAction::Back,

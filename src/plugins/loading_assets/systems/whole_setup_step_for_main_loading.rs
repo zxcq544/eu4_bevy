@@ -34,6 +34,7 @@ pub fn whole_setup_step_for_main_loading(
         && asset_server.is_loaded_with_dependencies(&sound_effects.button_click_general)
         && asset_server.is_loaded_with_dependencies(&options_images.settings_bg_image)
         && asset_server.is_loaded_with_dependencies(&options_images.apply_and_back_button_image)
+        && asset_server.is_loaded_with_dependencies(&options_images.tab_in_settings_image)
         && asset_server.is_loaded_with_dependencies(&game_ui_resources.ui_slider_thumb_image_blue)
         && asset_server.is_loaded_with_dependencies(&countries_resource.countries)
         && timer.timer.is_finished()

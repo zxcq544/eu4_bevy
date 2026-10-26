@@ -9,4 +9,5 @@ pub struct OptionsImages {
     // pub video_bg_image: Handle<Image>,
     // pub multiplayer_bg_image: Handle<Image>,
     pub apply_and_back_button_image: Handle<Image>,
+    pub tab_in_settings_image: Handle<Image>,
 }

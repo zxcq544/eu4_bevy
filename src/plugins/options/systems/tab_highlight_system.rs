@@ -7,13 +7,13 @@ use crate::plugins::options::systems::options_top_buttons_sytems::options_top_bu
 
 pub fn tab_highlight_system(
     current_tab: Res<State<OptionsTabState>>,
-    mut buttons_query: Query<(&OptionsTopTabButtonAction, &mut Outline), With<Button>>,
+    mut buttons_query: Query<(&OptionsTopTabButtonAction, &mut ImageNode), With<Button>>,
 ) {
     if !current_tab.is_changed() {
         return;
     }
-    for (action, mut outline) in &mut buttons_query {
-        // Convert button action to tab state
+    for (action, mut image_node) in &mut buttons_query {
+        // Compare assigned component of button action to tab state
         let is_active = match (action, *current_tab.get()) {
             (OptionsTopTabButtonAction::Video, OptionsTabState::Video) => true,
             (OptionsTopTabButtonAction::Audio, OptionsTabState::Audio) => true,
@@ -23,13 +23,17 @@ pub fn tab_highlight_system(
         };
 
         if is_active {
-            // Set active tab color
-            outline.color = Color::srgb(1.0, 0.2, 0.5);
-            outline.width = Val::Px(3.0);
+            // Set active tab image rect
+            image_node.rect = Some(Rect {
+                min: Vec2::new(0.0, 0.0),
+                max: Vec2::new(218.0, 47.0),
+            });
         } else {
-            // Set inactive tab color
-            outline.color = Color::srgb(0.3, 0.3, 0.3);
-            outline.width = Val::Px(1.0);
+            // Set inactive tab image rect
+            image_node.rect = Some(Rect {
+                min: Vec2::new(218.0, 0.0),
+                max: Vec2::new(444.0, 47.0),
+            });
         }
     }
 }

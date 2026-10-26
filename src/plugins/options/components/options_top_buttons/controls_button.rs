@@ -1,11 +1,18 @@
+use crate::plugins::options::{
+    resources::options_images::OptionsImages,
+    systems::options_top_buttons_sytems::options_top_buttons_system_united::{
+        OptionsTopTabButton, OptionsTopTabButtonAction, on_options_top_tab_button_click,
+        on_options_top_tab_button_down, on_options_top_tab_button_hover,
+        on_options_top_tab_button_unhover,
+    },
+};
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
-use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{OptionsTopTabButton, OptionsTopTabButtonAction, on_options_top_tab_button_click, on_options_top_tab_button_down, on_options_top_tab_button_hover, on_options_top_tab_button_unhover};
-
 pub fn controls_button(
     top_block_with_video_audio_and_other_buttons: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    options_images_res: &Res<OptionsImages>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
 ) {
@@ -26,6 +33,18 @@ pub fn controls_button(
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
                 // bottom: Val::Px(3.0),
+                ..default()
+            },
+            ImageNode {
+                image: options_images_res.tab_in_settings_image.clone(),
+                image_mode: NodeImageMode::Sliced(TextureSlicer {
+                    border: BorderRect::all(8.0),
+                    ..default()
+                }),
+                rect: Some(Rect {
+                    min: Vec2::new(218.0, 0.0),
+                    max: Vec2::new(444.0, 47.0),
+                }),
                 ..default()
             },
             Outline {

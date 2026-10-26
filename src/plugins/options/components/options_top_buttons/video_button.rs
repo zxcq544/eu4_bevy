@@ -1,12 +1,18 @@
-use crate::plugins::options::systems::options_top_buttons_sytems::options_top_buttons_system_united::{
-        OptionsTopTabButton, OptionsTopTabButtonAction, on_options_top_tab_button_click, on_options_top_tab_button_down, on_options_top_tab_button_hover, on_options_top_tab_button_unhover,
-    };
+use crate::plugins::options::{
+    resources::options_images::OptionsImages,
+    systems::options_top_buttons_sytems::options_top_buttons_system_united::{
+        OptionsTopTabButton, OptionsTopTabButtonAction, on_options_top_tab_button_click,
+        on_options_top_tab_button_down, on_options_top_tab_button_hover,
+        on_options_top_tab_button_unhover,
+    },
+};
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 
 pub fn video_button(
     options_top_block: &mut RelatedSpawnerCommands<'_, ChildOf>,
+    options_images_res: &Res<OptionsImages>,
     localization_res: &Res<Localization>,
     font: Handle<Font>,
 ) {
@@ -21,12 +27,24 @@ pub fn video_button(
             OptionsTopTabButtonAction::Video,
             Node {
                 display: Display::Flex,
-                flex_direction: FlexDirection::Column,
+                // flex_direction: FlexDirection::Column,
                 width: Val::Percent(20.0),
                 height: Val::Percent(100.0),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
                 // bottom: Val::Px(3.0),
+                ..default()
+            },
+            ImageNode {
+                image: options_images_res.tab_in_settings_image.clone(),
+                image_mode: NodeImageMode::Sliced(TextureSlicer {
+                    border: BorderRect::all(8.0),
+                    ..default()
+                }),
+                rect: Some(Rect {
+                    min: Vec2::new(218.0, 0.0),
+                    max: Vec2::new(444.0, 47.0),
+                }),
                 ..default()
             },
             Outline {
@@ -36,6 +54,27 @@ pub fn video_button(
             },
         ))
         .with_children(|parent| {
+            // This one is here in case we need to move image  in future
+            // parent.spawn((
+            //     Node {
+            //         position_type: PositionType::Absolute,
+            //         width: Val::Percent(100.0),
+            //         height: Val::Percent(100.0),
+            //         ..default()
+            //     },
+            //     ImageNode {
+            //         image: options_images_res.tab_in_settings_image.clone(),
+            //         image_mode: NodeImageMode::Sliced(TextureSlicer {
+            //             border: BorderRect::all(8.0),
+            //             ..default()
+            //         }),
+            //         rect: Some(Rect {
+            //             min: Vec2::new(218.0, 0.0),
+            //             max: Vec2::new(444.0, 47.0),
+            //         }),
+            //         ..default()
+            //     },
+            // ));
             parent.spawn((
                 Text::new(label),
                 TextFont {
