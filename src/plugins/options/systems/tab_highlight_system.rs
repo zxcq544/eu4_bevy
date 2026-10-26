@@ -25,14 +25,14 @@ pub fn tab_highlight_system(
         if is_active {
             // Set active tab image rect
             image_node.rect = Some(Rect {
-                min: Vec2::new(0.0, 0.0),
-                max: Vec2::new(218.0, 47.0),
+                min: Vec2::new(2.0, 2.0),
+                max: Vec2::new(222.0, 45.0),
             });
         } else {
             // Set inactive tab image rect
             image_node.rect = Some(Rect {
-                min: Vec2::new(218.0, 0.0),
-                max: Vec2::new(444.0, 47.0),
+                min: Vec2::new(220.0, 2.0),
+                max: Vec2::new(440.0, 45.0),
             });
         }
     }

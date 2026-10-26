@@ -37,21 +37,22 @@ pub fn video_button(
             },
             ImageNode {
                 image: options_images_res.tab_in_settings_image.clone(),
+                // image_mode: NodeImageMode::Stretch,
                 image_mode: NodeImageMode::Sliced(TextureSlicer {
                     border: BorderRect::all(8.0),
                     ..default()
                 }),
                 rect: Some(Rect {
-                    min: Vec2::new(218.0, 0.0),
-                    max: Vec2::new(444.0, 47.0),
+                    min: Vec2::new(220.0, 2.0),
+                    max: Vec2::new(440.0, 45.0),
                 }),
                 ..default()
             },
-            Outline {
-                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-                width: Val::Px(2.0),
-                ..default()
-            },
+            // Outline {
+            //     color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            //     width: Val::Px(2.0),
+            //     ..default()
+            // },
         ))
         .with_children(|parent| {
             // This one is here in case we need to move image  in future

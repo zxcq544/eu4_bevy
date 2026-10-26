@@ -42,16 +42,16 @@ pub fn audio_button(
                     ..default()
                 }),
                 rect: Some(Rect {
-                    min: Vec2::new(218.0, 0.0),
-                    max: Vec2::new(444.0, 47.0),
+                    min: Vec2::new(220.0, 2.0),
+                    max: Vec2::new(440.0, 45.0),
                 }),
                 ..default()
             },
-            Outline {
-                color: Color::srgb_from_array([0.7, 0.2, 0.5]),
-                width: Val::Px(2.0),
-                ..default()
-            },
+            // Outline {
+            //     color: Color::srgb_from_array([0.7, 0.2, 0.5]),
+            //     width: Val::Px(2.0),
+            //     ..default()
+            // },
         ))
         .with_children(|parent| {
             parent.spawn((

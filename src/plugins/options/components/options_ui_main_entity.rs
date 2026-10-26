@@ -92,7 +92,7 @@ impl OptionsUiMainEntity {
                                     height: Val::Percent(55.0),
                                     justify_content: JustifyContent::Center,
                                     align_items: AlignItems::Center,
-                                    top: Val::Percent(5.0),
+                                    top: Val::Percent(3.0),
                                     // bottom: Val::Px(3.0),
                                     ..default()
                                 },
