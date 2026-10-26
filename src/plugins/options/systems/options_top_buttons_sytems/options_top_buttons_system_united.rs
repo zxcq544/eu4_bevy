@@ -20,9 +20,9 @@ pub enum OptionsTopTabButtonAction {
     Controls,
 }
 
-// const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
-// const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
-// const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
+const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
+const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
+const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 pub fn on_options_top_tab_button_click(
     trigger: On<Pointer<Click>>,
@@ -30,18 +30,18 @@ pub fn on_options_top_tab_button_click(
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(
         &mut OptionsTopTabButton,
-        &mut Node,
+        &mut ImageNode,
         &OptionsTopTabButtonAction,
     )>,
 ) {
     let entity = trigger.event_target();
 
-    let Ok((mut button, mut node, action)) = button_query.get_mut(entity) else {
+    let Ok((mut button, mut image_node, action)) = button_query.get_mut(entity) else {
         return;
     };
 
     input_focus.set(entity, FocusCause::Pressed);
-    node.border = UiRect::all(Val::Px(20.0));
+    image_node.color = HOVERED_BUTTON;
     button.set_changed();
 
     match action {
@@ -68,12 +68,12 @@ pub fn on_options_top_tab_button_click(
 pub fn on_options_top_tab_button_hover(
     trigger: On<Pointer<Over>>,
     mut input_focus: ResMut<InputFocus>,
-    mut button_query: Query<(&mut OptionsTopTabButton, &mut Node)>,
+    mut button_query: Query<(&mut OptionsTopTabButton, &mut ImageNode)>,
 ) {
     let entity = trigger.event_target();
-    if let Ok((mut button, mut node)) = button_query.get_mut(entity) {
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(entity) {
         input_focus.set(entity, FocusCause::Pressed);
-        node.border = UiRect::all(Val::Px(10.0));
+        image_node.color = HOVERED_BUTTON;
         button.set_changed();
     }
 }
@@ -81,12 +81,12 @@ pub fn on_options_top_tab_button_hover(
 pub fn on_options_top_tab_button_unhover(
     _trigger: On<Pointer<Out>>,
     mut input_focus: ResMut<InputFocus>,
-    mut button_query: Query<(&mut OptionsTopTabButton, &mut Node)>,
+    mut button_query: Query<(&mut OptionsTopTabButton, &mut ImageNode)>,
 ) {
     let entity = _trigger.event_target();
-    if let Ok((mut button, mut node)) = button_query.get_mut(entity) {
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(entity) {
         input_focus.clear();
-        node.border = UiRect::all(Val::Px(0.0));
+        image_node.color = NORMAL_BUTTON;
         button.set_changed();
     }
 }
@@ -95,13 +95,13 @@ pub fn on_options_top_tab_button_down(
     trigger: On<Pointer<Press>>,
     mut input_focus: ResMut<InputFocus>,
     mut commands: Commands,
-    mut button_query: Query<(&mut OptionsTopTabButton, &mut Node)>,
+    mut button_query: Query<(&mut OptionsTopTabButton, &mut ImageNode)>,
 ) {
     let entity = trigger.event_target();
-    if let Ok((mut button, mut node)) = button_query.get_mut(entity) {
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(entity) {
         input_focus.set(entity, FocusCause::Pressed);
         button.set_changed();
-        node.border = UiRect::all(Val::Px(20.0));
+        image_node.color = PRESSED_BUTTON;
         // Logic of sound effects
         commands.trigger(PlayButtonClickSoundEvent(ButtonSoundType::General));
     }
