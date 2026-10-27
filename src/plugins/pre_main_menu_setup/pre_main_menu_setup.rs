@@ -3,17 +3,17 @@ use crate::{
     plugins::{
         choose_country::systems::spawn_choose_country_ui_main_entity::spawn_choose_country_ui_main_entity,
         loading_assets::systems::free_main_loading_step_resources::free_main_loading_step_resources,
-        main_menu::{
-            components::main_menu_entity::MainMenuEntity,
-            systems::spawn_main_menu_scene::spawn_main_menu_scene,
-        },
+        main_menu::systems::spawn_main_menu_scene::spawn_main_menu_scene,
         map::systems::generate_map_mesh::setup_terrain_system,
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
-        pre_main_menu_setup::systems::insert_cam_and_cube::move_cam_and_insert_cube,
+        pre_main_menu_setup::systems::{
+            insert_cube_and_sun::insert_cube_and_sun,
+            whole_pre_main_menu_check::whole_pre_main_menu_check,
+        },
     },
     shared::country::spawn_countries::spawn_countries,
 };
-use bevy::{ecs::query::SpawnDetails, prelude::*};
+use bevy::prelude::*;
 
 pub struct PreMainMenuSetupPlugin;
 
@@ -35,30 +35,15 @@ impl Plugin for PreMainMenuSetupPlugin {
             OnEnter(GameState::PreMainMenuSetup),
             (spawn_choose_country_ui_main_entity).after(spawn_countries),
         );
-        app.add_systems(
-            OnEnter(GameState::PreMainMenuSetup),
-            move_cam_and_insert_cube,
-        );
+        app.add_systems(OnEnter(GameState::PreMainMenuSetup), insert_cube_and_sun);
         app.add_systems(
             Update,
-            check_if_menu_is_ready.run_if(in_state(GameState::PreMainMenuSetup)),
+            whole_pre_main_menu_check.run_if(in_state(GameState::PreMainMenuSetup)),
         );
         // Main loading step image stays active until we spawn everything that we loaded at that step
         app.add_systems(
             OnExit(GameState::PreMainMenuSetup),
             free_main_loading_step_resources,
         );
-    }
-}
-
-fn check_if_menu_is_ready(
-    query: Query<(&MainMenuEntity, SpawnDetails)>,
-    mut next_state: ResMut<NextState<GameState>>,
-) {
-    for (_entity, spawn_details) in query.iter() {
-        if spawn_details.is_spawned() {
-            info!("All entities spawned successfully! Moving to MainMenu state.");
-            next_state.set(GameState::MainMenu);
-        }
     }
 }

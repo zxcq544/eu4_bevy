@@ -39,6 +39,8 @@ pub fn whole_setup_step_for_main_loading(
         && asset_server.is_loaded_with_dependencies(&options_images.tab_in_settings_image)
         && asset_server.is_loaded_with_dependencies(&game_ui_resources.ui_slider_thumb_image_blue)
         && asset_server.is_loaded_with_dependencies(&countries_resource.countries)
+        // Map textures
+        && asset_server.is_loaded_with_dependencies(&map_textures.colormap_summer_texture)
         && asset_server.is_loaded_with_dependencies(&map_textures.heightmap_texture)
         && timer.timer.is_finished()
     {

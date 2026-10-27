@@ -12,6 +12,9 @@ const SEA_LEVEL_THRESHOLD: f32 = 94.0 / 255.0; // EU4 water cutoff
 const HEIGHT_SCALE: f32 = 25.0; // Visual extrusion modifier
 
 #[derive(Component)]
+pub struct MapRootEntity;
+
+#[derive(Component)]
 pub struct WaterPlane;
 
 #[derive(Component)]
@@ -120,7 +123,7 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
                 vertex_index_map[br_idx],
             ) {
                 // Triangle 1
-                // in case of wrong normals use this code
+                // in case of wrong normals use this code or swap 2 lower
                 // indices.push(tl);
                 // indices.push(tr);
                 // indices.push(br);
@@ -129,7 +132,7 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
                 indices.push(tr);
 
                 // Triangle 2
-                // in case of wrong normals use this code
+                // in case of wrong normals use this code or swap 2 lower
                 // indices.push(tr);
                 // indices.push(br);
                 // indices.push(bl);
@@ -173,8 +176,9 @@ pub fn setup_terrain_system(
     map_textures: Res<MapTextures>,
 ) {
     // 1. Load the flat maps exactly like EU4 does
+    let colormap_summer_texture = map_textures.colormap_summer_texture.clone();
     let heightmap_handle = map_textures.heightmap_texture.clone();
-    
+
     if let Some(heightmap_img) = images.get(&heightmap_handle) {
         let img_width = heightmap_img.texture_descriptor.size.width;
         let img_height = heightmap_img.texture_descriptor.size.height;
@@ -186,13 +190,13 @@ pub fn setup_terrain_system(
         // 2. Loop across the whole world coordinate map
         commands
             .spawn((
-                WaterPlane,
+                MapRootEntity,
                 // TODO: remove this and instead move camera to show this map properly
                 Transform {
-                    translation: Vec3::new(0.0, -100.0, center_z),
-                    rotation: Quat::from_rotation_x(-90.0f32.to_radians())
-                        * Quat::from_rotation_y(180.0f32.to_radians())
-                        * Quat::from_rotation_z(180.0f32.to_radians()),
+                    // translation: Vec3::new(0.0, -100.0, center_z),
+                    // rotation: Quat::from_rotation_x(-90.0f32.to_radians())
+                    //     * Quat::from_rotation_y(180.0f32.to_radians())
+                    //     * Quat::from_rotation_z(180.0f32.to_radians()),
                     ..default()
                 },
                 Visibility::default(),
@@ -204,9 +208,13 @@ pub fn setup_terrain_system(
                         if let Some(chunk_mesh) = generate_eu4_chunk_mesh(heightmap_img, cx, cy) {
                             let mesh_handle = meshes.add(chunk_mesh);
                             let material_handle = materials.add(StandardMaterial {
-                                base_color: Color::from(bevy::color::palettes::css::GREEN),
-                                // cull_mode: None,
+                                base_color: Color::from(bevy::color::palettes::css::WHITE),
+                                // cull_mode: None, // uncomment if terrain is invisible
                                 // Link Paradox textures here if desired (e.g. colormap.bmp / terrain.bmp)
+                                base_color_texture: Some(colormap_summer_texture.clone()),
+                                // Uncomment when neeed better looking terrain not metallic
+                                // perceptual_roughness: 0.8,
+                                // metallic: 0.0,
                                 ..default()
                             });
                             let local_x = (cx * (CHUNK_SIZE - 1)) as f32 - center_x;
@@ -230,20 +238,17 @@ pub fn setup_terrain_system(
 
     // 4. Render the Water Plane Layer below the land
     // A single simple plane fills all gaps skipped by the generator algorithm
-    // commands.spawn((
-    //     WaterPlane,
-    //     Mesh3d(meshes.add(Plane3d::default().mesh().size(10.0, 10.0))),
-    //     MeshMaterial3d(materials.add(StandardMaterial {
-    //         base_color: Color::from(bevy::color::palettes::css::BLUE),
-    //         base_color_texture: Some(map_textures.heightmap_texture.clone()),
-    //         // metallic: 0.1,
-    //         ..default()
-    //     })),
-    //     // Transform::from_xyz(
-    //     //     ((img_width / 2) as f32),
-    //     //     SEA_LEVEL_THRESHOLD * HEIGHT_SCALE,
-    //     //     ((img_height / 2) as f32),
-    //     // ),
-    //     // Transform::from_xyz(0.0, 94.0 / 255.0 * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
-    // ));
+    let water_material_handle = materials.add(StandardMaterial {
+        base_color: Color::from(bevy::color::palettes::css::DARK_BLUE),
+        perceptual_roughness: 0.15, // Низкая шероховатость делает воду глянцевой зеркальной
+        metallic: 0.2,              // Небольшой металлический блеск для красивых отражений солнца
+        reflectance: 0.5,           // Сила отражения света от поверхности воды
+        ..default()
+    });
+    commands.spawn((
+        WaterPlane,
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(10000.0, 10000.0))),
+        MeshMaterial3d(water_material_handle),
+        Transform::from_xyz(0.0, SEA_LEVEL_THRESHOLD * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
+    ));
 }
