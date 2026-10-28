@@ -1,5 +1,4 @@
 use bevy::dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
-use bevy::image::{ImageFilterMode, ImageSamplerDescriptor};
 use bevy::window::WindowPlugin;
 use bevy::{dev_tools::fps_overlay::FrameTimeGraphConfig, prelude::*};
 use bevy_common_assets::json::JsonAssetPlugin;
@@ -30,12 +29,12 @@ fn main() {
                     ..default()
                 })
                 .set(ImagePlugin {
-                    default_sampler: ImageSamplerDescriptor {
-                        mag_filter: ImageFilterMode::Nearest,
-                        min_filter: ImageFilterMode::Nearest,
-                        mipmap_filter: ImageFilterMode::Linear,
-                        ..default()
-                    },
+                    // default_sampler: ImageSamplerDescriptor {
+                    //     mag_filter: ImageFilterMode::Nearest,
+                    //     min_filter: ImageFilterMode::Nearest,
+                    //     mipmap_filter: ImageFilterMode::Linear,
+                    //     ..default()
+                    // },
                     ..default()
                 }),
             // .set(RenderPlugin {

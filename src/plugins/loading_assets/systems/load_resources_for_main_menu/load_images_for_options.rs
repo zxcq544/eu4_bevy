@@ -4,7 +4,7 @@ use bevy::prelude::*;
 pub fn load_images_for_options(asset_server: Res<AssetServer>, mut commands: Commands) {
     info!("Loading options images");
     let settings_bg_image = asset_server.load("gfx/interface/settings/setting_bg.dds");
-    let tab_in_settings_image = asset_server.load("gfx/interface/settings/tab_setting_large.dds");
+    let tab_in_settings_image = asset_server.load("gfx/interface/settings/fixed/tab_setting_large.dds");
     // let audio_bg_image = asset_server.load("gfx/interface/settings/audio_settings_bg.dds");
     // let controls_bg_image = asset_server.load("gfx/interface/settings/controls_settings_bg.dds");
     // let game_bg_image = asset_server.load("gfx/interface/settings/game_settings_bg.dds");
