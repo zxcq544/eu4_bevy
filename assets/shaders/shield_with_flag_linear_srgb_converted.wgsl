@@ -36,7 +36,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // 1. Sample textures
     let flag_raw = centered_smaller_texture(flag_texture, flag_sampler, in.uv, 1.53);
     let shield_raw = textureSample(shield_texture, shield_sampler, in.uv);
-    let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.53);
+    let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.4);
 
     // 2. THE FIX: Force sRGB Math
     // We convert the sampled colors back to sRGB so the math matches your GLSL code exactly.

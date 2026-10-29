@@ -40,7 +40,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // 1. Sample textures    
     let flag_raw = centered_smaller_array_texture(flag_texture, flag_sampler, in.uv, 1.53, flag_index);
     let shield_raw = textureSample(shield_texture, shield_sampler, in.uv);
-    let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.53);
+    let mask_raw = centered_smaller_texture(mask_texture, mask_sampler, in.uv, 1.4);
     // --- CONTROLLING THE GLOW TEXTURE ---
     // Adjust these configurations directly or pass them via a uniform block if you need runtime control
     let glow_scale  = vec2<f32>(1.15, 0.94);  // X > 1.0 makes it THINNER | Y < 1.0 makes it TALLER
