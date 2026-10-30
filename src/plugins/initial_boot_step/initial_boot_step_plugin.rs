@@ -1,15 +1,14 @@
 use crate::{
-    core::states::GameState,
-    plugins::initial_boot_step::systems::{
+    core::states::GameState, plugins::{initial_boot_step::systems::{
         free_initial_background::cleanup_initial_background,
         load_background_image::load_background_image, load_cursors::load_cursors,
         load_fonts::load_fonts, load_localizations::load_localizations,
         load_main_loading_step_resources::load_main_loading_step_resources,
         setup_cursors::setup_cursors,
         setup_initial_background_image::setup_initial_background_image,
-        setup_main_camera::setup_main_camera, start_initial_timer::start_initial_timer,
+        start_initial_timer::start_initial_timer,
         whole_setup_step_for_initial_boot::whole_setup_step_for_initial_boot,
-    },
+    }, main_camera::systems::setup_main_camera::setup_main_camera},
 };
 use bevy::prelude::*;
 

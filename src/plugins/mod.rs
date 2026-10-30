@@ -2,6 +2,7 @@ pub mod choose_country;
 pub mod game_main;
 pub mod initial_boot_step;
 pub mod loading_assets;
+pub mod main_camera;
 pub mod main_menu;
 pub mod map;
 pub mod monitor_chooser_plugin;
