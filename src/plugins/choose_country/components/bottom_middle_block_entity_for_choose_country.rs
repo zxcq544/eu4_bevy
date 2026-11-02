@@ -296,7 +296,7 @@ pub struct CustomUiMaterialWithGlow {
 
 impl UiMaterial for CustomUiMaterial {
     fn fragment_shader() -> ShaderRef {
-        "shaders/shield_flag_premul_alpha.wgsl".into()
+        "shaders/shield_flag_premul_alpha.wesl".into()
     }
     fn specialize(descriptor: &mut RenderPipelineDescriptor, _key: UiMaterialKey<Self>) {
         if let Some(fragment) = descriptor.fragment.as_mut() {
@@ -311,7 +311,7 @@ impl UiMaterial for CustomUiMaterial {
 
 impl UiMaterial for CustomUiMaterialWithGlow {
     fn fragment_shader() -> ShaderRef {
-        "shaders/shield_flag_with_glow_premul_alpha.wgsl".into()
+        "shaders/shield_flag_with_glow_premul_alpha.wesl".into()
     }
     fn specialize(descriptor: &mut RenderPipelineDescriptor, _key: UiMaterialKey<Self>) {
         if let Some(fragment) = descriptor.fragment.as_mut() {
