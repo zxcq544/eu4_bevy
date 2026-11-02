@@ -61,7 +61,8 @@ impl MainLoadingStepMainEntity {
                 ImageNode {
                     image: main_image,
                 }
-            ],
+            ]
+            --
             // Text on top of screen with current loading info
             MainLoadingStepMainEntity
             Node {
@@ -91,7 +92,8 @@ impl MainLoadingStepMainEntity {
                 //     color: Color::WHITE,
                 //     width: Val::Px(1.0),
                 // }
-            ],
+            ]
+            --
             // Image for tooltip at the bottom of screen
             MainLoadingStepMainEntity
             Node {
@@ -142,7 +144,7 @@ impl MainLoadingStepMainEntity {
                     //     width: Val::Px(1.0),
                     // }
                 ]
-            ],
+            ]
         }
     }
 }

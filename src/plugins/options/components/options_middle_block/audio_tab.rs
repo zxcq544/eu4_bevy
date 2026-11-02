@@ -1,10 +1,22 @@
 use crate::{
     plugins::{
         game_main::resources::game_ui_resources::GameUiResources,
-        options::components::options_middle_block::audio_slider_widget::{
-            slider_left_arrow_button::slider_left_arrow_button,
-            slider_right_arrow_button::slider_right_arrow_button,
-            sound_volume_slider::sound_volume_slider,
+        options::{
+            components::options_middle_block::audio_slider_widget::{
+                slider_left_arrow_button::slider_left_arrow_button,
+                slider_right_arrow_button::slider_right_arrow_button,
+                sound_volume_slider::sound_volume_slider,
+            },
+            systems::options_middle_block_systems::{
+                volume_decrease_button_system::{
+                    on_volume_decrease_click, on_volume_decrease_down, on_volume_decrease_out,
+                    on_volume_decrease_over,
+                },
+                volume_increase_button_system::{
+                    on_volume_increase_click, on_volume_increase_down, on_volume_increase_out,
+                    on_volume_increase_over,
+                },
+            },
         },
     },
     shared::{
@@ -98,19 +110,29 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|right_block_top| {
-                    right_block_top.spawn(slider_left_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Master,
-                    ));
+                    right_block_top
+                        .spawn(slider_left_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Master,
+                        ))
+                        .observe(on_volume_decrease_down)
+                        .observe(on_volume_decrease_click)
+                        .observe(on_volume_decrease_over)
+                        .observe(on_volume_decrease_out);
                     right_block_top.spawn(sound_volume_slider(
                         &settings,
                         AudioChannelUIMarker::Master,
                         &ui_resources,
                     ));
-                    right_block_top.spawn(slider_right_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Master,
-                    ));
+                    right_block_top
+                        .spawn(slider_right_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Master,
+                        ))
+                        .observe(on_volume_increase_down)
+                        .observe(on_volume_increase_click)
+                        .observe(on_volume_increase_over)
+                        .observe(on_volume_increase_out);
                 });
             grid_builder
                 .spawn((
@@ -161,19 +183,29 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|middle_right_block| {
-                    middle_right_block.spawn(slider_left_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Music,
-                    ));
+                    middle_right_block
+                        .spawn(slider_left_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Music,
+                        ))
+                        .observe(on_volume_decrease_down)
+                        .observe(on_volume_decrease_click)
+                        .observe(on_volume_decrease_over)
+                        .observe(on_volume_decrease_out);
                     middle_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannelUIMarker::Music,
                         &ui_resources,
                     ));
-                    middle_right_block.spawn(slider_right_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Music,
-                    ));
+                    middle_right_block
+                        .spawn(slider_right_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Music,
+                        ))
+                        .observe(on_volume_increase_down)
+                        .observe(on_volume_increase_click)
+                        .observe(on_volume_increase_over)
+                        .observe(on_volume_increase_out);
                 });
             grid_builder
                 .spawn((
@@ -225,19 +257,29 @@ pub fn audio_tab(
                     },
                 ))
                 .with_children(|bottom_right_block| {
-                    bottom_right_block.spawn(slider_left_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Sfx,
-                    ));
+                    bottom_right_block
+                        .spawn(slider_left_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Sfx,
+                        ))
+                        .observe(on_volume_decrease_down)
+                        .observe(on_volume_decrease_click)
+                        .observe(on_volume_decrease_over)
+                        .observe(on_volume_decrease_out);
                     bottom_right_block.spawn(sound_volume_slider(
                         &settings,
                         AudioChannelUIMarker::Sfx,
                         &ui_resources,
                     ));
-                    bottom_right_block.spawn(slider_right_arrow_button(
-                        &ui_resources,
-                        AudioChannelUIMarker::Sfx,
-                    ));
+                    bottom_right_block
+                        .spawn(slider_right_arrow_button(
+                            &ui_resources,
+                            AudioChannelUIMarker::Sfx,
+                        ))
+                        .observe(on_volume_increase_down)
+                        .observe(on_volume_increase_click)
+                        .observe(on_volume_increase_over)
+                        .observe(on_volume_increase_out);
                 });
         });
 }

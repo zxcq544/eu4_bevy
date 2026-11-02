@@ -10,8 +10,6 @@ use crate::{
                 hide_options_video_tab::hide_options_video_tab,
                 set_display_flex_options_video_tab::set_display_flex_options_video_tab,
                 set_display_grid_options_audio_tab::set_display_grid_options_audio_tab,
-                volume_decrease_button_system::volume_decrease_button_system,
-                volume_increase_button_system::volume_increase_button_system,
             },
             set_display_flex_of_options_ui_main_entity::set_display_flex_of_options_ui_main_entity,
             tab_highlight_system::tab_highlight_system,
@@ -69,8 +67,6 @@ impl Plugin for OptionsPlugin {
             (
                 audio_volume_update_system,
                 update_slider_style,
-                volume_decrease_button_system,
-                volume_increase_button_system,
                 // update_slider_style2,
             )
                 .run_if(in_state(OptionsTabState::Audio)),

@@ -1,18 +1,11 @@
-use bevy::audio::Volume;
 use bevy::prelude::*;
 use bevy::ui_widgets::{SetSliderValue, SliderValueChange};
 use bevy::{
-    ecs::{
-        entity::Entity,
-        system::{Commands, Query, Res, ResMut},
-    },
     input_focus::{FocusCause, InputFocus},
-    ui::Interaction,
 };
 use crate::plugins::options::components::options_middle_block::audio_slider_widget::options_slider_base::OptionUiAudioSlider;
 use crate::plugins::options::components::options_middle_block::audio_slider_widget::slider_left_arrow_button::OptionsUIAudioSliderButtonLeft;
-use crate::plugins::sound_effects::components::sound_effects_player::SoundEffectsPlayer;
-use crate::plugins::sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects;
+use crate::plugins::sound_effects::sound_effects::{ButtonSoundType, PlayButtonClickSoundEvent};
 use crate::shared::audio_channel::audio_channel::AudioChannelUIMarker;
 use crate::shared::settings::settings::Settings;
 
@@ -20,74 +13,88 @@ pub const NORMAL_BUTTON: Color = Color::srgb(1.0, 1.0, 1.0);
 pub const HOVERED_BUTTON: Color = Color::srgb(1.15, 1.15, 1.15);
 pub const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
-pub fn volume_decrease_button_system(
+pub fn on_volume_decrease_down(
+    trigger: On<PointerPress>,
+    mut input_focus: ResMut<InputFocus>,
+    mut button_query: Query<(&mut OptionsUIAudioSliderButtonLeft, &mut ImageNode)>,
+) {
+    let button_entity = trigger.event_target();
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(button_entity) {
+        input_focus.clear();
+        image_node.color = PRESSED_BUTTON;
+        button.set_changed();
+    }
+}
+
+pub fn on_volume_decrease_click(
+    trigger: On<PointerClick>,
     mut commands: Commands,
     settings: Res<Settings>,
-    sound_effects: Res<ButtonClickSoundEffects>,
     mut input_focus: ResMut<InputFocus>,
-    mut interaction_query: Query<
-        (
-            Entity,
-            &mut OptionsUIAudioSliderButtonLeft,
-            &Interaction,
-            &mut ImageNode,
-            &AudioChannelUIMarker,
-        ),
-        Changed<Interaction>,
-    >,
+    mut button_query: Query<(
+        &mut OptionsUIAudioSliderButtonLeft,
+        &mut ImageNode,
+        &AudioChannelUIMarker,
+    )>,
     sliders_query: Query<(Entity, &AudioChannelUIMarker), With<OptionUiAudioSlider>>,
 ) {
-    for (entity, mut button, interaction, mut image_node, audio_channel_of_button) in
-        &mut interaction_query
-    {
-        match *interaction {
-            Interaction::Pressed => {
-                input_focus.set(entity, FocusCause::Pressed);
-                image_node.color = PRESSED_BUTTON;
-                // The accessibility system's only update the button's state when the `Button` component is marked as changed.
-                button.set_changed();
-                // Sound effect logic
-                commands.spawn((
-                    SoundEffectsPlayer,
-                    AudioPlayer::new(sound_effects.button_click_general.clone()),
-                    PlaybackSettings {
-                        mode: bevy::audio::PlaybackMode::Despawn,
-                        volume: Volume::Linear(
-                            settings
-                                .volume_settings
-                                .get_sfx_volume_multiplied_by_master(),
-                        ),
-                        ..default()
-                    },
-                ));
-                // find slider with same audio channel as button's audio channel
-                for (slider_entity, audio_channel_of_slider) in &sliders_query {
-                    if *audio_channel_of_slider == *audio_channel_of_button {
-                        let current_value =
-                            audio_channel_of_slider.get_volume_from_settings(&settings);
-                        let new_value = (current_value - 0.1).clamp(0.0, 1.0);
-                        commands.trigger(SetSliderValue {
-                            entity: slider_entity,
-                            change: SliderValueChange::Absolute(new_value),
-                        });
-                        info!(
-                            "Volume decreased click {:?}. New value: {}",
-                            audio_channel_of_button, new_value
-                        );
-                        break;
-                    }
-                }
-            }
-            Interaction::Hovered => {
-                input_focus.set(entity, FocusCause::Pressed);
-                image_node.color = HOVERED_BUTTON;
-                button.set_changed();
-            }
-            Interaction::None => {
-                input_focus.clear();
-                image_node.color = NORMAL_BUTTON;
-                button.set_changed();
-            }
+    let button_entity = trigger.event_target();
+
+    let Ok((mut button, mut image_node, audio_channel_of_button)) =
+        button_query.get_mut(button_entity)
+    else {
+        return;
+    };
+
+    input_focus.set(button_entity, FocusCause::Pressed);
+    image_node.color = HOVERED_BUTTON;
+    button.set_changed();
+
+    // Sound effect logic
+    commands.trigger(PlayButtonClickSoundEvent(ButtonSoundType::General));
+
+    // Find slider with same audio channel
+    for (slider_entity, audio_channel_of_slider) in &sliders_query {
+        if *audio_channel_of_slider == *audio_channel_of_button {
+            let current_value = audio_channel_of_slider.get_volume_from_settings(&settings);
+            let new_value = (current_value - 0.1).clamp(0.0, 1.0);
+
+            commands.trigger(SetSliderValue {
+                entity: slider_entity,
+                change: SliderValueChange::Absolute(new_value),
+            });
+
+            info!(
+                "Volume decreased click {:?}. New value: {}",
+                audio_channel_of_button, new_value
+            );
+            break;
         }
+    }
+}
+
+pub fn on_volume_decrease_over(
+    trigger: On<PointerOver>,
+    mut input_focus: ResMut<InputFocus>,
+    mut button_query: Query<(&mut OptionsUIAudioSliderButtonLeft, &mut ImageNode)>,
+) {
+    let button_entity = trigger.event_target();
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(button_entity) {
+        input_focus.set(button_entity, FocusCause::Pressed);
+        image_node.color = HOVERED_BUTTON;
+        button.set_changed();
+    }
+}
+
+pub fn on_volume_decrease_out(
+    trigger: On<PointerOut>,
+    mut input_focus: ResMut<InputFocus>,
+    mut button_query: Query<(&mut OptionsUIAudioSliderButtonLeft, &mut ImageNode)>,
+) {
+    let button_entity = trigger.event_target();
+    if let Ok((mut button, mut image_node)) = button_query.get_mut(button_entity) {
+        input_focus.clear();
+        image_node.color = NORMAL_BUTTON;
+        button.set_changed();
     }
 }
