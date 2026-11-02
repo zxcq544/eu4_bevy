@@ -13,7 +13,7 @@ pub struct CameraConfig {
 impl Default for CameraConfig {
     fn default() -> Self {
         Self {
-            pan_speed: 1.5,
+            pan_speed: 150.0,
             zoom_speed: 150.0,
             min_height: 200.0,
             max_height: 2000.0,
