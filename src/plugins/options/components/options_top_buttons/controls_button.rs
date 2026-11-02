@@ -6,6 +6,7 @@ use crate::plugins::options::{
         on_options_top_tab_button_unhover,
     },
 };
+use bevy::ui_widgets::Button;
 use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
 use bevy_fluent::Localization;
 use fluent_content::Content;

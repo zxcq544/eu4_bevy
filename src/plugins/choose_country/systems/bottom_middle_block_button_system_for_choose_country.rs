@@ -17,7 +17,7 @@ const PRESSED_BUTTON: LinearRgba = LinearRgba::new(0.5, 0.5, 0.5, 1.0);
 pub fn on_country_choice_button_hover(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerOver>,
-    trigger: On<Pointer<Over>>,
+    trigger: On<PointerOver>,
     mut query: Query<
         (
             Option<&MaterialNode<CustomUiMaterial>>,
@@ -42,7 +42,7 @@ pub fn on_country_choice_button_hover(
 pub fn on_country_choice_button_unhover(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerOut>,
-    trigger: On<Pointer<Out>>,
+    trigger: On<PointerOut>,
     mut input_focus: ResMut<InputFocus>,
     mut query: Query<
         (
@@ -69,7 +69,7 @@ pub fn on_country_choice_button_unhover(
 pub fn on_country_choice_button_down(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerDown>,
-    trigger: On<Pointer<Press>>,
+    trigger: On<PointerPress>,
     mut input_focus: ResMut<InputFocus>,
     mut commands: Commands,
     mut query: Query<(
@@ -100,7 +100,7 @@ pub fn on_country_choice_button_down(
 pub fn on_country_choice_button_click_release(
     // TODO: uncomment for bevy 0.20
     // trigger: Trigger<PointerClick>,
-    trigger: On<Pointer<Click>>,
+    trigger: On<PointerClick>,
     mut query: Query<
         (
             Option<&MaterialNode<CustomUiMaterial>>,

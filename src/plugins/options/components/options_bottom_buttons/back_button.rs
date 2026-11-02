@@ -5,7 +5,7 @@ use crate::plugins::options::{
         on_options_bottom_button_hover, on_options_bottom_button_unhover,
     },
 };
-use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
+use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*, ui_widgets::Button};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 

@@ -8,13 +8,13 @@ dynamic = ["bevy/dynamic_linking"]
 debug = ["bevy/debug"]
 
 [dependencies]
-bevy = { version = "0.19.1", features = ["dds","wav","bevy_dev_tools", "tga", "bmp"] }
-bevy_common_assets = { version = "0.17", features = ["json"] }
+bevy = { version = "0.20.1", features = ["dds","wav","bevy_dev_tools", "render_dev_tools", "tga", "bmp"] }
+bevy_common_assets = { version = "0.18", features = ["json"] }
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
 rand = "0.10.2"
-bevy_fluent = { version = "0.15.0" }
+bevy_fluent = { version = "0.16.0" }
 unic-langid = {version = "0.9.0", features = ["macros"]}
 fluent_content = "0.0.5"
 path-clean  = "1.0.1"

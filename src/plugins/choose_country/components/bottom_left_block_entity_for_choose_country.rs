@@ -8,7 +8,7 @@ use crate::{
     },
     shared::fonts::fonts::FontHandles,
 };
-use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*};
+use bevy::{ecs::relationship::RelatedSpawnerCommands, prelude::*, ui_widgets::Button};
 use bevy_fluent::Localization;
 use fluent_content::Content;
 

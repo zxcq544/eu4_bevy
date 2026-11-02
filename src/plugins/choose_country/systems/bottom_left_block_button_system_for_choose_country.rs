@@ -18,7 +18,7 @@ const PRESSED_BUTTON: Color = Color::srgb(0.85, 0.85, 0.85);
 
 // Sets style of the button when mouse down
 pub fn on_country_choice_left_menu_button_down(
-    trigger: On<Pointer<Press>>,
+    trigger: On<PointerPress>,
     mut input_focus: ResMut<InputFocus>,
     mut commands: Commands,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
@@ -35,7 +35,7 @@ pub fn on_country_choice_left_menu_button_down(
 
 // Observer for clicking on the button (Replaces Interaction::Pressed)
 pub fn on_country_choice_left_menu_button_click(
-    trigger: On<Pointer<Click>>,
+    trigger: On<PointerClick>,
     mut next_state: ResMut<NextState<GameState>>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(
@@ -69,7 +69,7 @@ pub fn on_country_choice_left_menu_button_click(
 
 // Observer for hovering on the button (Replaces Interaction::Hovered)
 pub fn on_country_choice_left_menu_button_hover(
-    trigger: On<Pointer<Over>>,
+    trigger: On<PointerOver>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
 ) {
@@ -83,7 +83,7 @@ pub fn on_country_choice_left_menu_button_hover(
 
 // Observer for exiting the cursor beyond the button's limits (Replaces Interaction::None)
 pub fn on_country_choice_left_menu_button_unhover(
-    trigger: On<Pointer<Out>>,
+    trigger: On<PointerOut>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut BottomLeftBlockButtonForChooseCountry, &mut ImageNode)>,
 ) {

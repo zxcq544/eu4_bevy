@@ -15,7 +15,7 @@ const HOVERED_BUTTON: Color = Color::srgb(1.25, 1.25, 1.25);
 const PRESSED_BUTTON: Color = Color::srgb(0.75, 0.75, 0.75);
 
 pub fn on_main_menu_button_down(
-    trigger: On<Pointer<Press>>,
+    trigger: On<PointerPress>,
     mut input_focus: ResMut<InputFocus>,
     mut commands: Commands,
     mut button_query: Query<(&mut MainMenuButton, &mut ImageNode)>,
@@ -31,7 +31,7 @@ pub fn on_main_menu_button_down(
 
 /// Observer for clicking on the button (Replaces Interaction::Pressed)
 pub fn on_main_menu_button_click(
-    trigger: On<Pointer<Click>>,
+    trigger: On<PointerClick>,
     mut next_state: ResMut<NextState<GameState>>,
     mut input_focus: ResMut<InputFocus>,
     mut app_exit_writer: MessageWriter<AppExit>,
@@ -69,7 +69,7 @@ pub fn on_main_menu_button_click(
 
 /// Observer for hovering on the button (Replaces Interaction::Hovered)
 pub fn on_main_menu_button_hover(
-    trigger: On<Pointer<Over>>,
+    trigger: On<PointerOver>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut MainMenuButton, &mut ImageNode)>,
 ) {
@@ -83,7 +83,7 @@ pub fn on_main_menu_button_hover(
 
 /// Observer for exiting the cursor beyond the button's limits (Replaces Interaction::None)
 pub fn on_main_menu_button_unhover(
-    trigger: On<Pointer<Out>>,
+    trigger: On<PointerOut>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut MainMenuButton, &mut ImageNode)>,
 ) {

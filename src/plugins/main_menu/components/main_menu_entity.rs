@@ -9,6 +9,7 @@ use crate::{
     },
     shared::fonts::fonts::FontHandles,
 };
+use bevy::ui_widgets::Button;
 use bevy::{prelude::*, ui::widget::ImageNode};
 use bevy_fluent::Localization;
 use fluent_content::Content;

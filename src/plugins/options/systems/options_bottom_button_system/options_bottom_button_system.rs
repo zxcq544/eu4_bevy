@@ -29,7 +29,7 @@ fn save_settings_to_json(settings: &Settings) {
 }
 
 pub fn on_options_bottom_button_click(
-    trigger: On<Pointer<Click>>,
+    trigger: On<PointerClick>,
     mut next_state: ResMut<NextState<GameState>>,
     previous_state: Option<Res<PreviousState<GameState>>>,
     mut settings: ResMut<Settings>,
@@ -63,7 +63,7 @@ pub fn on_options_bottom_button_click(
 }
 
 pub fn on_options_bottom_button_hover(
-    trigger: On<Pointer<Over>>,
+    trigger: On<PointerOver>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut OptionsButton, &mut ImageNode)>,
 ) {
@@ -76,7 +76,7 @@ pub fn on_options_bottom_button_hover(
 }
 
 pub fn on_options_bottom_button_unhover(
-    _trigger: On<Pointer<Out>>,
+    _trigger: On<PointerOut>,
     mut input_focus: ResMut<InputFocus>,
     mut button_query: Query<(&mut OptionsButton, &mut ImageNode)>,
 ) {
@@ -89,7 +89,7 @@ pub fn on_options_bottom_button_unhover(
 }
 
 pub fn on_options_bottom_button_down(
-    trigger: On<Pointer<Press>>,
+    trigger: On<PointerPress>,
     mut input_focus: ResMut<InputFocus>,
     mut commands: Commands,
     mut button_query: Query<(&mut OptionsButton, &mut ImageNode)>,
