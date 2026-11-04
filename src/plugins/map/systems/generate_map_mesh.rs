@@ -177,6 +177,7 @@ pub fn setup_terrain_system(
 ) {
     // 1. Load the flat maps exactly like EU4 does
     let colormap_summer_texture = map_textures.colormap_summer_texture.clone();
+    let normal_map_texture = map_textures.normal_map_texture.clone();
     let heightmap_handle = map_textures.heightmap_texture.clone();
 
     if let Some(heightmap_img) = images.get(&heightmap_handle) {
@@ -212,6 +213,7 @@ pub fn setup_terrain_system(
                                 // cull_mode: None, // uncomment if terrain is invisible
                                 // Link Paradox textures here if desired (e.g. colormap.bmp / terrain.bmp)
                                 base_color_texture: Some(colormap_summer_texture.clone()),
+                                normal_map_texture: Some(normal_map_texture.clone()),
                                 // Uncomment when neeed better looking terrain not metallic
                                 // perceptual_roughness: 0.8,
                                 // metallic: 0.0,
