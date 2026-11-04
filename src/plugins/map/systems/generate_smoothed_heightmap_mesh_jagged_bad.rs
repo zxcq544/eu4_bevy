@@ -57,8 +57,38 @@ fn generate_eu4_chunk_mesh_jagged_bad(
     // Кэш вершин, чтобы не дублировать точки на общих ребрах ячеек
     let mut vertex_cache: HashMap<String, u32> = HashMap::new();
 
-    let get_height = |lx: u32, ly: u32| -> f32 {
-        get_height_at_pixel(heightmap, start_x + lx, start_y + ly, img_width)
+    let get_height_raw = |gx: u32, gy: u32| -> f32 {
+        get_height_at_pixel(
+            heightmap,
+            gx.min(img_width - 1),
+            gy.min(img_height - 1),
+            img_width,
+        )
+    };
+
+    // БИЛИНЕЙНАЯ ИНТЕРПОЛЯЦИЯ ВЫСОТЫ
+    // Принимает глобальные дробные координаты (f32) и плавно смешивает 4 соседних пикселя
+    let get_height_interpolated = |fx: f32, fy: f32| -> f32 {
+        let eps_x = fx + 0.0001;
+        let eps_y = fy + 0.0001;
+
+        let x0 = (eps_x.floor() as u32).min(img_width - 1);
+        let y0 = (eps_y.floor() as u32).min(img_height - 1);
+        let x1 = (x0 + 1).min(img_width - 1);
+        let y1 = (y0 + 1).min(img_height - 1);
+
+        let tx = eps_x - x0 as f32;
+        let ty = eps_y - y0 as f32;
+
+        let h00 = get_height_raw(x0, y0);
+        let h10 = get_height_raw(x1, y0);
+        let h01 = get_height_raw(x0, y1);
+        let h11 = get_height_raw(x1, y1);
+
+        let h_top = h00 + tx * (h10 - h00);
+        let h_bottom = h01 + tx * (h11 - h01);
+
+        h_top + ty * (h_bottom - h_top)
     };
 
     // Итерируемся по ячейкам 2х2 внутри чанка
@@ -66,12 +96,13 @@ fn generate_eu4_chunk_mesh_jagged_bad(
         for x in 0..(actual_width - 1) {
             let global_x = start_x + x;
             let global_y = start_y + y;
-
+            let fx = global_x as f32;
+            let fy = global_y as f32;
             // Выборка 4-х углов текущей ячейки
-            let h00 = get_height(x, y);
-            let h10 = get_height(x + 1, y);
-            let h11 = get_height(x + 1, y + 1);
-            let h01 = get_height(x, y + 1);
+            let h00 = get_height_interpolated(fx, fy);
+            let h10 = get_height_interpolated(fx + 1.0, fy);
+            let h11 = get_height_interpolated(fx + 1.0, fy + 1.0);
+            let h01 = get_height_interpolated(fx, fy + 1.0);
 
             // Флаги: является ли вершина сушей
             let b00 = h00 > SEA_LEVEL_THRESHOLD;
@@ -221,8 +252,8 @@ fn generate_eu4_chunk_mesh_jagged_bad(
     mesh.insert_indices(Indices::U32(indices));
 
     // 1. Сначала генерируем нормали меша (они нужны Bevy как база для расчета касательных)
-    mesh.duplicate_vertices();
-    mesh.compute_flat_normals(); // Использует TriangleList для генерации базовых нормалей фейсов
+    // mesh.duplicate_vertices();
+    mesh.compute_smooth_normals(); // Использует TriangleList для генерации базовых нормалей фейсов
 
     // 2. КРИТИЧЕСКИЙ ШАГ ДЛЯ NORMAL MAP: Вычисляем касательные (Tangents) на основе позиций, UV и нормалей
     if let Err(err) = mesh.generate_tangents() {
