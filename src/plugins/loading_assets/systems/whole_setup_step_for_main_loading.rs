@@ -42,6 +42,7 @@ pub fn whole_setup_step_for_main_loading(
         // Map textures
         && asset_server.is_loaded_with_dependencies(&map_textures.colormap_summer_texture)
         && asset_server.is_loaded_with_dependencies(&map_textures.heightmap_texture)
+        && asset_server.is_loaded_with_dependencies(&map_textures.normal_map_texture)
         && timer.timer.is_finished()
     {
         info!("current state is {:?}", current_state.get());

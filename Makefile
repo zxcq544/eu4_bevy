@@ -52,7 +52,7 @@ run-dynamic-debug:
 	cargo run --features "dynamic,debug"
 
 run-dynamic:
-    cargo run --features "dynamic"
+	cargo run --features "dynamic"
 
 # New targets added as requested
 build-static-release:
