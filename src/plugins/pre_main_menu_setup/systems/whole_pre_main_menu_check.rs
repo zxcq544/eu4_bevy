@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::{
         main_menu::components::main_menu_entity::MainMenuEntity,
-        map::systems::generate_map_mesh::MapRootEntity,
+        map::components::map_root_entity::MapRootEntity,
         pre_main_menu_setup::systems::{
             check_if_map_mesh_is_ready::check_if_map_mesh_is_ready,
             check_if_menu_is_ready::check_if_menu_is_ready,

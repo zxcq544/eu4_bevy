@@ -1,4 +1,9 @@
-use crate::plugins::map::resources::map_textures::MapTextures;
+use crate::plugins::map::{
+    components::{
+        map_root_entity::MapRootEntity, terrain_chunk::TerrainChunk, water_plane_entity::WaterPlane,
+    },
+    resources::map_textures::MapTextures,
+};
 use bevy::{
     asset::RenderAssetUsages,
     prelude::*,
@@ -10,18 +15,6 @@ use bevy::{
 const CHUNK_SIZE: u32 = 64;
 const SEA_LEVEL_THRESHOLD: f32 = 94.0 / 255.0; // EU4 water cutoff
 const HEIGHT_SCALE: f32 = 25.0; // Visual extrusion modifier
-
-#[derive(Component)]
-pub struct MapRootEntity;
-
-#[derive(Component)]
-pub struct WaterPlane;
-
-#[derive(Component)]
-pub struct TerrainChunk {
-    pub chunk_x: u32,
-    pub chunk_y: u32,
-}
 
 /// Generates a single terrain chunk mesh using EU4 image data logic
 pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) -> Option<Mesh> {
@@ -151,6 +144,7 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
     mesh.insert_attribute(Mesh::ATTRIBUTE_NORMAL, normals);
     mesh.insert_attribute(Mesh::ATTRIBUTE_UV_0, uvs);
     mesh.insert_indices(Indices::U32(indices));
+    mesh.generate_tangents().unwrap();
 
     Some(mesh)
 }
@@ -214,9 +208,10 @@ pub fn setup_terrain_system(
                                 // Link Paradox textures here if desired (e.g. colormap.bmp / terrain.bmp)
                                 base_color_texture: Some(colormap_summer_texture.clone()),
                                 normal_map_texture: Some(normal_map_texture.clone()),
+                                flip_normal_map_y: false,
                                 // Uncomment when neeed better looking terrain not metallic
-                                // perceptual_roughness: 0.8,
-                                // metallic: 0.0,
+                                perceptual_roughness: 0.7,
+                                metallic: 0.0,
                                 ..default()
                             });
                             let local_x = (cx * (CHUNK_SIZE - 1)) as f32 - center_x;

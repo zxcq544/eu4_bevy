@@ -1,4 +1,4 @@
-use crate::plugins::map::systems::generate_map_mesh::MapRootEntity;
+use crate::plugins::map::components::map_root_entity::MapRootEntity;
 use bevy::{ecs::query::SpawnDetails, prelude::*};
 
 pub fn check_if_map_mesh_is_ready(query: Query<(&MapRootEntity, SpawnDetails)>) -> bool {
