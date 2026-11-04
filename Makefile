@@ -20,7 +20,8 @@ help:  ## Show this help message
 	@echo "  build-dynamic-release-debug   Build release with 'dynamic,debug' features"
 	@echo "  build-dynamic-release         Build release with 'dynamic' features"
 	@echo "  build-dynamic                 Build with 'dynamic,debug' features"
-	@echo "  run-dynamic                   Run with 'dynamic,debug' features"
+	@echo "  run-dynamic-debug             Run with 'dynamic,debug' features"
+	@echo "  run-dynamic                   Run with 'dynamic' features"
 	@echo "  build-static-release          Build release binary (cargo build --release)"
 	@echo "  run--staticrelease            Run release binary (cargo run --release)"
 	@echo "  build-static                  Build debug binary (cargo build)"
@@ -47,8 +48,11 @@ build-dynamic-release:
 build-dynamic:
 	cargo build --features "dynamic,debug"
 
-run-dynamic:
+run-dynamic-debug:
 	cargo run --features "dynamic,debug"
+
+run-dynamic:
+    cargo run --features "dynamic"
 
 # New targets added as requested
 build-static-release:

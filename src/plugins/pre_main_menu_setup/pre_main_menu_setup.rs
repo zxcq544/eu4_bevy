@@ -5,7 +5,8 @@ use crate::{
         loading_assets::systems::free_main_loading_step_resources::free_main_loading_step_resources,
         main_menu::systems::spawn_main_menu_scene::spawn_main_menu_scene,
         map::systems::{
-            generate_map_mesh::setup_terrain_system,
+            // generate_map_mesh::setup_terrain_system,
+            // generate_mesh_smoothed_out::setup_terrain_system_smoothed_out,
             generate_smoothed_heightmap_mesh_jagged_bad::setup_terrain_system_jagged_bad,
         },
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
@@ -33,6 +34,7 @@ impl Plugin for PreMainMenuSetupPlugin {
                 spawn_options_ui_main_entity,
                 // setup_terrain_system,
                 setup_terrain_system_jagged_bad,
+                // setup_terrain_system_smoothed_out,
             ),
         );
         app.add_systems(

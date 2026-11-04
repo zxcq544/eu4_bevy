@@ -319,7 +319,7 @@ fn get_height_at_pixel(image: &Image, x: u32, y: u32, width: u32) -> f32 {
     }
 }
 
-pub fn setup_terrain_system_jagged_bad(
+pub fn setup_terrain_system_smoothed_out(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
