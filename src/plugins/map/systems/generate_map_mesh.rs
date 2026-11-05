@@ -12,8 +12,10 @@ use bevy::{
 
 // EU4 default values maps use 5632x2048 textures.
 // We break this into manageable chunks (e.g., 64x64 or 128x128 vertices).
-const CHUNK_SIZE: u32 = 64;
-const SEA_LEVEL_THRESHOLD: f32 = 94.0 / 255.0; // EU4 water cutoff
+const CHUNK_QUADS: u32 = 64;
+const CHUNK_VERTS: u32 = CHUNK_QUADS + 1; // chunk owns one extra row/col, shared with neighbours
+const WATER_LEVEL_THRESHOLD: f32 = 94.0 / 255.0; // EU4 water cutoff
+// const SHORE_LEVEL_THRESHOLD: f32 = 84.0 / 255.0; // Shore goes a bit lower for smooth edges. Not used anymore we generate whole mesh now
 const HEIGHT_SCALE: f32 = 25.0; // Visual extrusion modifier
 
 /// Generates a single terrain chunk mesh using EU4 image data logic
@@ -22,38 +24,40 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
     let img_height = heightmap.texture_descriptor.size.height;
 
     // IMPORTANT: Shift the chunk start by the chunk overlap of the adjacent chunks
-    let start_x = chunk_x * (CHUNK_SIZE - 1);
-    let start_y = chunk_y * (CHUNK_SIZE - 1);
+    let start_x = chunk_x * CHUNK_QUADS;
+    let start_y = chunk_y * CHUNK_QUADS;
 
     if start_x >= img_width || start_y >= img_height {
         return None;
     }
 
     // CHUNK_SIZE + 1 so that the right/lower corner matches the next chunk
-    let end_x = (start_x + CHUNK_SIZE + 1).min(img_width);
-    let end_y = (start_y + CHUNK_SIZE + 1).min(img_height);
-
+    let end_x = (start_x + CHUNK_VERTS).min(img_width);
+    let end_y = (start_y + CHUNK_VERTS).min(img_height);
     let actual_width = end_x - start_x;
     let actual_height = end_y - start_y;
 
-    let mut positions: Vec<[f32; 3]> = Vec::new();
-    let mut normals: Vec<[f32; 3]> = Vec::new();
-    let mut uvs: Vec<[f32; 2]> = Vec::new();
+    let mut positions: Vec<[f32; 3]> = Vec::with_capacity((CHUNK_VERTS * CHUNK_VERTS) as usize);
+    let mut normals: Vec<[f32; 3]> = Vec::with_capacity((CHUNK_VERTS * CHUNK_VERTS) as usize);
+    let mut uvs: Vec<[f32; 2]> = Vec::with_capacity((CHUNK_VERTS * CHUNK_VERTS) as usize);
 
     let mut vertex_index_map = vec![None; (actual_width * actual_height) as usize];
     let mut current_vertex_count = 0u32;
+    let heightmap_data = heightmap.data.as_deref()?;
 
     for y in 0..actual_height {
         for x in 0..actual_width {
             let global_x = start_x + x;
             let global_y = start_y + y;
 
-            let height_val = get_height_at_pixel(heightmap, global_x, global_y, img_width);
+            // let raw_height = get_height_at_pixel(heightmap, global_x, global_y, img_width);
+            // let height_val = raw_height.max(SHORE_LEVEL_THRESHOLD);
+            let height_val = get_height_at_pixel(heightmap_data, global_x, global_y, img_width);
 
             // CRITICAL PARADOX ENGINE OPTIMIZATION: Skip allocating flat water vertices entirely to protect VRAM performance.
-            if height_val <= SEA_LEVEL_THRESHOLD {
-                continue;
-            }
+            // if height_val <= SHORE_LEVEL_THRESHOLD {
+            //     continue;
+            // }
 
             let pos_x = x as f32;
             let pos_z = y as f32;
@@ -61,27 +65,37 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
 
             // --- Calculating normal vector from heightmap ---
 
-            let h_left =
-                get_height_at_pixel(heightmap, global_x.saturating_sub(1), global_y, img_width);
+            let h_left = get_height_at_pixel(
+                heightmap_data,
+                global_x.saturating_sub(1),
+                global_y,
+                img_width,
+            );
             let h_right = get_height_at_pixel(
-                heightmap,
+                heightmap_data,
                 (global_x + 1).min(img_width - 1),
                 global_y,
                 img_width,
             );
-            let h_down =
-                get_height_at_pixel(heightmap, global_x, global_y.saturating_sub(1), img_width);
+            let h_down = get_height_at_pixel(
+                heightmap_data,
+                global_x,
+                global_y.saturating_sub(1),
+                img_width,
+            );
             let h_up = get_height_at_pixel(
-                heightmap,
+                heightmap_data,
                 global_x,
                 (global_y + 1).min(img_height - 1),
                 img_width,
             );
 
             // Calculate normal vector
-            let vec_x = Vec3::new(2.0, (h_right - h_left) * HEIGHT_SCALE, 0.0);
-            let vec_z = Vec3::new(0.0, (h_up - h_down) * HEIGHT_SCALE, 2.0);
-            let normal = vec_z.cross(vec_x).normalize();
+            let dx = (h_right - h_left) * HEIGHT_SCALE * 0.5;
+            let dz = (h_up - h_down) * HEIGHT_SCALE * 0.5;
+            let tangent_x = Vec3::new(1.0, dx, 0.0);
+            let tangent_z = Vec3::new(0.0, dz, 1.0);
+            let normal = tangent_z.cross(tangent_x).normalize(); // same handedness as your current code
 
             positions.push([pos_x, pos_y, pos_z]);
             normals.push([normal.x, normal.y, normal.z]);
@@ -149,14 +163,11 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
     Some(mesh)
 }
 
-fn get_height_at_pixel(image: &Image, x: u32, y: u32, width: u32) -> f32 {
+#[inline]
+fn get_height_at_pixel(data: &[u8], x: u32, y: u32, width: u32) -> f32 {
     let pixel_index = ((y * width + x) * 4) as usize;
-    if let Some(ref data) = image.data {
-        if pixel_index + 3 < data.len() {
-            data[pixel_index] as f32 / 255.0
-        } else {
-            0.0
-        }
+    if pixel_index + 3 < data.len() {
+        data[pixel_index] as f32 / 255.0
     } else {
         0.0
     }
@@ -179,8 +190,20 @@ pub fn setup_terrain_system(
         let img_height = heightmap_img.texture_descriptor.size.height;
         let center_x = img_width as f32 / 2.0;
         let center_z = img_height as f32 / 2.0;
-        let chunks_x = (img_width + CHUNK_SIZE - 1) / CHUNK_SIZE;
-        let chunks_y = (img_height + CHUNK_SIZE - 1) / CHUNK_SIZE;
+        let chunks_x = img_width.div_ceil(CHUNK_QUADS); // 88 for 5632
+        let chunks_y = img_height.div_ceil(CHUNK_QUADS); // 32 for 2048
+        let material_handle = materials.add(StandardMaterial {
+            base_color: Color::from(bevy::color::palettes::css::WHITE),
+            // cull_mode: None, // uncomment if terrain is invisible
+            // Link Paradox textures here if desired (e.g. colormap.bmp / terrain.bmp)
+            base_color_texture: Some(colormap_summer_texture.clone()),
+            normal_map_texture: Some(normal_map_texture.clone()),
+            flip_normal_map_y: false,
+            // Uncomment when neeed better looking terrain not metallic
+            perceptual_roughness: 0.7,
+            metallic: 0.0,
+            ..default()
+        });
 
         // 2. Loop across the whole world coordinate map
         commands
@@ -202,25 +225,14 @@ pub fn setup_terrain_system(
                     for cx in 0..chunks_x {
                         if let Some(chunk_mesh) = generate_eu4_chunk_mesh(heightmap_img, cx, cy) {
                             let mesh_handle = meshes.add(chunk_mesh);
-                            let material_handle = materials.add(StandardMaterial {
-                                base_color: Color::from(bevy::color::palettes::css::WHITE),
-                                // cull_mode: None, // uncomment if terrain is invisible
-                                // Link Paradox textures here if desired (e.g. colormap.bmp / terrain.bmp)
-                                base_color_texture: Some(colormap_summer_texture.clone()),
-                                normal_map_texture: Some(normal_map_texture.clone()),
-                                flip_normal_map_y: false,
-                                // Uncomment when neeed better looking terrain not metallic
-                                perceptual_roughness: 0.7,
-                                metallic: 0.0,
-                                ..default()
-                            });
-                            let local_x = (cx * (CHUNK_SIZE - 1)) as f32 - center_x;
-                            let local_z = (cy * (CHUNK_SIZE - 1)) as f32 - center_z;
+
+                            let local_x = (cx * (CHUNK_QUADS)) as f32 - center_x;
+                            let local_z = (cy * (CHUNK_QUADS)) as f32 - center_z;
 
                             // 3. Spawn utilizing Bevy 0.19 direct rendering components
                             parent.spawn((
                                 Mesh3d(mesh_handle),
-                                MeshMaterial3d(material_handle),
+                                MeshMaterial3d(material_handle.clone()),
                                 Transform::from_xyz(local_x, 0.0, local_z),
                                 TerrainChunk {
                                     chunk_x: cx,
@@ -236,16 +248,17 @@ pub fn setup_terrain_system(
     // 4. Render the Water Plane Layer below the land
     // A single simple plane fills all gaps skipped by the generator algorithm
     let water_material_handle = materials.add(StandardMaterial {
-        base_color: Color::from(bevy::color::palettes::css::DARK_BLUE),
-        perceptual_roughness: 0.15, // Низкая шероховатость делает воду глянцевой зеркальной
-        metallic: 0.2,              // Небольшой металлический блеск для красивых отражений солнца
-        reflectance: 0.5,           // Сила отражения света от поверхности воды
+        base_color: Color::linear_rgba(0.0, 0.0, 0.6, 0.8),
+        alpha_mode: AlphaMode::Blend, // Maybe use Multiply and 0.7 alpha for beauty
+        perceptual_roughness: 0.15,   // Низкая шероховатость делает воду глянцевой зеркальной
+        metallic: 0.2,                // Небольшой металлический блеск для красивых отражений солнца
+        reflectance: 0.5,             // Сила отражения света от поверхности воды
         ..default()
     });
     commands.spawn((
         WaterPlane,
         Mesh3d(meshes.add(Plane3d::default().mesh().size(10000.0, 10000.0))),
         MeshMaterial3d(water_material_handle),
-        Transform::from_xyz(0.0, SEA_LEVEL_THRESHOLD * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
+        Transform::from_xyz(0.0, WATER_LEVEL_THRESHOLD * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
     ));
 }

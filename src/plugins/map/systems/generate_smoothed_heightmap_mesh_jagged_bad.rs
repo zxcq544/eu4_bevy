@@ -14,7 +14,7 @@ use std::collections::HashMap;
 // EU4 default values maps use 5632x2048 textures.
 // We break this into manageable chunks (e.g., 64x64 or 128x128 vertices).
 const CHUNK_SIZE: u32 = 64;
-const SEA_LEVEL_THRESHOLD: f32 = 94.0 / 255.0; // EU4 water cutoff
+const SEA_LEVEL_THRESHOLD: f32 = 84.0 / 255.0; // EU4 water cutoff
 const HEIGHT_SCALE: f32 = 25.0; // Visual extrusion modifier
 
 // #[derive(Component)]
@@ -398,6 +398,6 @@ pub fn setup_terrain_system_jagged_bad(
         WaterPlane,
         Mesh3d(meshes.add(Plane3d::default().mesh().size(10000.0, 10000.0))),
         MeshMaterial3d(water_material_handle),
-        Transform::from_xyz(0.0, SEA_LEVEL_THRESHOLD * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
+        Transform::from_xyz(0.0, 94.0 / 255.0 * HEIGHT_SCALE, 0.0), // Snap strictly to EU4 sea level
     ));
 }
