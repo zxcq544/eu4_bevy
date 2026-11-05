@@ -13,9 +13,9 @@ pub struct CameraConfig {
 impl Default for CameraConfig {
     fn default() -> Self {
         Self {
-            pan_speed: 150.0,
-            zoom_speed: 150.0,
-            min_height: 200.0,
+            pan_speed: 200.0,
+            zoom_speed: 100.0,
+            min_height: 20.0,
             max_height: 2000.0,
             min_pitch: -std::f32::consts::FRAC_PI_2, // -90 degrees (straight down)
             max_pitch: -std::f32::consts::FRAC_PI_4, // -45 degrees (looking forward-down)

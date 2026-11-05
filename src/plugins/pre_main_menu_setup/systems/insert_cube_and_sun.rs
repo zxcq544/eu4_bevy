@@ -1,27 +1,28 @@
 use bevy::prelude::*;
 
-use crate::plugins::main_menu::components::rotating_cube::RotatingCube;
+// use crate::plugins::main_menu::components::rotating_cube::RotatingCube;
 
 pub fn insert_cube_and_sun(
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
+    // mut meshes: ResMut<Assets<Mesh>>,
+    // mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // spawn cube in center. Main 3D Map will be somewhere here
-    commands.spawn((
-        Mesh3d(meshes.add(Cuboid::from_size(Vec3::splat(1000.0)))),
-        MeshMaterial3d(materials.add(StandardMaterial {
-            base_color: Color::WHITE,
-            // unlit: true,
-            ..default()
-        })),
-        Transform::from_translation(Vec3 {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        }), // Позиция куба в центре карты
-        RotatingCube,
-    ));
+    // for debug only
+    // commands.spawn((
+    //     Mesh3d(meshes.add(Cuboid::from_size(Vec3::splat(1000.0)))),
+    //     MeshMaterial3d(materials.add(StandardMaterial {
+    //         base_color: Color::WHITE,
+    //         // unlit: true,
+    //         ..default()
+    //     })),
+    //     Transform::from_translation(Vec3 {
+    //         x: 0.0,
+    //         y: 0.0,
+    //         z: 0.0,
+    //     }), // Позиция куба в центре карты
+    //     RotatingCube,
+    // ));
     // light
     // commands.spawn((
     //     PointLight {
