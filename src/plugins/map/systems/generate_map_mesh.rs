@@ -152,7 +152,7 @@ pub fn generate_eu4_chunk_mesh(heightmap: &Image, chunk_x: u32, chunk_y: u32) ->
 
     let mut mesh = Mesh::new(
         PrimitiveTopology::TriangleList,
-        RenderAssetUsages::default(),
+        RenderAssetUsages::RENDER_WORLD, // Generate in render world to save ram
     );
     mesh.insert_attribute(Mesh::ATTRIBUTE_POSITION, positions);
     mesh.insert_attribute(Mesh::ATTRIBUTE_NORMAL, normals);
@@ -249,7 +249,7 @@ pub fn setup_terrain_system(
     // A single simple plane fills all gaps skipped by the generator algorithm
     let water_material_handle = materials.add(StandardMaterial {
         base_color: Color::linear_rgba(0.0, 0.0, 0.6, 0.8),
-        alpha_mode: AlphaMode::Blend, // Maybe use Multiply and 0.7 alpha for beauty
+        alpha_mode: AlphaMode::Opaque, // Maybe use Multiply and 0.7 alpha for beauty
         perceptual_roughness: 0.15,   // Низкая шероховатость делает воду глянцевой зеркальной
         metallic: 0.2,                // Небольшой металлический блеск для красивых отражений солнца
         reflectance: 0.5,             // Сила отражения света от поверхности воды
