@@ -1,15 +1,28 @@
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 import trimesh
 
-MAX_WIDTH = 2048 # 5632 is original size
+MAX_WIDTH = 2048  # 5632 is original size
+
 
 def create_mesh_from_heightmap(
-    heightmap_path, color_path, normal_path, output_path, scale_z=0.02, scale_xy=1.0
+    heightmap_path,
+    color_path,
+    normal_path,
+    output_path,
+    scale_z=0.02,
+    scale_xy=1.0,
+    blur_radius=2,
 ):
     print("🐾 Загружаю текстурки, ня...")
     # Открываем карту высот и переводим в ч/б (градации серого)
     hm_img = Image.open(heightmap_path).convert("L")
+    # --- МАГИЯ СГЛАЖИВАНИЯ, НЯ! ---
+    if blur_radius > 0:
+        # Чем больше blur_radius, тем мягче и плавнее будут горы!
+        hm_img = hm_img.filter(ImageFilter.GaussianBlur(radius=blur_radius))
+        print(f"🐾 Карта высот успешно размыта с радиусом {blur_radius}!")
+    # ------------------------------
     if hm_img.width > MAX_WIDTH:
         new_h = round(hm_img.height * MAX_WIDTH / hm_img.width)
         hm_img = hm_img.resize((MAX_WIDTH, new_h), Image.BICUBIC)
@@ -23,7 +36,7 @@ def create_mesh_from_heightmap(
     aspect = width / height
     x = np.linspace(0, aspect, width) * scale_xy
     y = np.linspace(0, 1, height) * scale_xy
-    xv, yv = np.meshgrid(x, y)
+    xv, yv = np.meshgrid(x, y, indexing="xy")
 
     # Высоту z умножаем на коэффициент масштаба, чтобы горы не были слишком дикими!
     zv = height_data * scale_z
@@ -33,13 +46,19 @@ def create_mesh_from_heightmap(
     nz = np.ones_like(nx)
     n = np.stack([nx, ny, nz], axis=-1)
     n /= np.linalg.norm(n, axis=-1, keepdims=True)
-
     vertex_normals = n.reshape(-1, 3).astype(np.float32)
+
     # Собираем вершины в массив (N, 3)
     vertices = np.stack((xv, yv, height_data * scale_z), axis=-1).reshape(-1, 3)
 
-    # Сетка UV координат (N, 2) — флипаем по Y, так как в glTF координаты идут снизу вверх
-    uv = np.stack((xv / (aspect * scale_xy), yv / scale_xy), axis=-1).reshape(-1, 2)
+    # 🐾 МАГИЯ ИСПРАВЛЕНИЯ UV, МУРР!
+    # Генерируем чистые UV координаты от 0 до 1, независимые от scale_xy.
+    # Так как в glTF UV (0,0) - левый нижний угол, а у нас массив уже flipud,
+    # meshgrid со стандартным шагом от 0 до 1 идеально ляжет на картинку!
+    uv_x = np.linspace(0, 1, width)
+    uv_y = np.linspace(0, 1, height)
+    uv_xv, uv_yv = np.meshgrid(uv_x, uv_y, indexing="xy")
+    uv = np.stack((uv_xv, uv_yv), axis=-1).reshape(-1, 2)
 
     # 2. Генерируем индексы треугольников (Faces)
     print("🐾 Нарезаю полигоны...")
@@ -89,4 +108,5 @@ if __name__ == "__main__":
         color_path="../assets/map/terrain/colormap_summer.dds",
         normal_path="../assets/map/world_normal.bmp",
         output_path="terrain.glb",  # Можно указать .gltf, но .glb удобнее
+        blur_radius=0,  # Радиус сглаживания. Попробуй 2, 3 или 5, ня!
     )
