@@ -110,6 +110,6 @@ if __name__ == "__main__":
         heightmap_path="../assets/map/heightmap.bmp",
         color_path="../assets/map/terrain/colormap_summer.dds",
         normal_path="../assets/map/world_normal.bmp",
-        output_path="terrain.glb",  # Можно указать .gltf, но .glb удобнее
+        output_path="../assets/map/terrain.glb",  # Можно указать .gltf, но .glb удобнее
         blur_radius=0,  # Радиус сглаживания. Попробуй 2, 3 или 5, ня!
     )
