@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 import trimesh
 
-MAX_WIDTH = 2048  # 5632 is original size
+MAX_WIDTH = int(5632/2)  # 5632 is original size
 
 
 def create_mesh_from_heightmap(
@@ -18,10 +18,10 @@ def create_mesh_from_heightmap(
     # Открываем карту высот и переводим в ч/б (градации серого)
     hm_img = Image.open(heightmap_path).convert("L")
     # --- МАГИЯ СГЛАЖИВАНИЯ, НЯ! ---
-    if blur_radius > 0:
-        # Чем больше blur_radius, тем мягче и плавнее будут горы!
-        hm_img = hm_img.filter(ImageFilter.GaussianBlur(radius=blur_radius))
-        print(f"🐾 Карта высот успешно размыта с радиусом {blur_radius}!")
+    # if blur_radius > 0:
+    #     # Чем больше blur_radius, тем мягче и плавнее будут горы!
+    #     hm_img = hm_img.filter(ImageFilter.GaussianBlur(radius=blur_radius))
+    #     print(f"🐾 Карта высот успешно размыта с радиусом {blur_radius}!")
     # ------------------------------
     if hm_img.width > MAX_WIDTH:
         new_h = round(hm_img.height * MAX_WIDTH / hm_img.width)
@@ -76,15 +76,15 @@ def create_mesh_from_heightmap(
     print("🐾 Окрашиваю в PBR материал, мурр...")
 
     # Открываем базовый цвет и карту нормалей
-    color_img = Image.open(color_path).convert("RGB")
-    normal_img = Image.open(normal_path).convert("RGB")
+    # color_img = Image.open(color_path).convert("RGB")
+    # normal_img = Image.open(normal_path).convert("RGB")
 
     # Создаем PBR материал через Trimesh
     material = trimesh.visual.material.PBRMaterial(
-        baseColorTexture=color_img,
-        normalTexture=normal_img,
+        # baseColorTexture=color_img,
+        # normalTexture=normal_img,
         roughnessFactor=0.8,  # Настрой по вкусу!
-        metallicFactor=0.1,
+        metallicFactor=0.0,
     )
 
     # Привязываем UV и материал к визуальной составляющей
