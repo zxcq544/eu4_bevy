@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 import trimesh
 
-MAX_WIDTH = int(5632/2)  # 5632 is original size
+MAX_WIDTH = int(5632 / 2)  # 5632 is original size
 
 
 def create_mesh_from_heightmap(
@@ -39,14 +39,14 @@ def create_mesh_from_heightmap(
     xv, yv = np.meshgrid(x, y, indexing="xy")
 
     # Высоту z умножаем на коэффициент масштаба, чтобы горы не были слишком дикими!
-    zv = height_data * scale_z
-    dz_dy, dz_dx = np.gradient(zv, y, x)  # both (H, W)
-    nx = -dz_dx
-    ny = -dz_dy
-    nz = np.ones_like(nx)
-    n = np.stack([nx, ny, nz], axis=-1)
-    n /= np.linalg.norm(n, axis=-1, keepdims=True)
-    vertex_normals = n.reshape(-1, 3).astype(np.float32)
+    # zv = height_data * scale_z
+    # dz_dy, dz_dx = np.gradient(zv, y, x)  # both (H, W)
+    # nx = -dz_dx
+    # ny = -dz_dy
+    # nz = np.ones_like(nx)
+    # n = np.stack([nx, ny, nz], axis=-1)
+    # n /= np.linalg.norm(n, axis=-1, keepdims=True)
+    # vertex_normals = n.reshape(-1, 3).astype(np.float32)
 
     # Собираем вершины в массив (N, 3)
     vertices = np.stack((xv, yv, height_data * scale_z), axis=-1).reshape(-1, 3)
@@ -91,9 +91,12 @@ def create_mesh_from_heightmap(
     visuals = trimesh.visual.TextureVisuals(uv=uv, material=material)
 
     # Собираем финальный меш
-    mesh = trimesh.Trimesh(vertices=vertices, faces=faces, visual=visuals)
+    mesh = trimesh.Trimesh(
+        vertices=vertices, faces=faces, visual=visuals, process=False
+    )
+    _ = mesh.vertex_normals # forces trimesh to generate vertex normals
     # mesh.fix_normals()
-    mesh.vertex_normals = vertex_normals
+    # mesh.vertex_normals = vertex_normals
     # 4. Сохраняем в glTF/GLB
     print(f"🐾 Сохраняю файл в {output_path}...")
     # .glb — это бинарный glTF, в который текстуры упакуются прямо внутрь файла!
