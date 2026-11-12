@@ -12,7 +12,7 @@ pub fn load_map_meshes(mut commands: Commands, asset_server: Res<AssetServer>) {
             mesh: 0,
             primitive: 0,
         }
-        .from_asset("map/terrain/terrain_divided_by_4_width_size.glb"),
+        .from_asset("map/terrain/terrain.glb"),
     );
     commands.insert_resource(MapMeshes { map_full });
 }

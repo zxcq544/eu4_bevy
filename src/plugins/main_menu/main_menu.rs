@@ -26,7 +26,7 @@ impl Plugin for MainMenuPlugin {
         // app.add_systems(
         //     Update,
         //     (
-        //         // rotate_map_mesh_system
+        //         rotate_map_mesh_system
         //         // rotate_cube_system,
         //         // rotate_plane_system
         //     )
