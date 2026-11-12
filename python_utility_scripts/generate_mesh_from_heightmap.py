@@ -28,7 +28,7 @@ def create_mesh_from_heightmap(
         hm_img = hm_img.resize((MAX_WIDTH, new_h), Image.BICUBIC)
     width, height = hm_img.size
     height_data = (np.array(hm_img, dtype=np.float32) / 255.0) * 25.0
-    height_data = np.flipud(height_data)
+    # height_data = np.flipud(height_data)
 
     # 1. Генерируем вершины (Vertices) и текстурные координаты (UVs)
     print("🐾 Создаю сеточку...")
@@ -37,8 +37,8 @@ def create_mesh_from_heightmap(
     # x = np.linspace(0, aspect, width) * scale_xy
     # y = np.linspace(0, 1, height) * scale_xy
     x = np.arange(width, dtype=np.float32)
-    y = np.arange(height, dtype=np.float32)
-    xv, yv = np.meshgrid(x, y, indexing="xy")
+    z = np.arange(height, dtype=np.float32)
+    xv, zv = np.meshgrid(x, z, indexing="xy")
 
     # Высоту z умножаем на коэффициент масштаба, чтобы горы не были слишком дикими!
     # zv = height_data * scale_z
@@ -51,7 +51,7 @@ def create_mesh_from_heightmap(
     # vertex_normals = n.reshape(-1, 3).astype(np.float32)
 
     # Собираем вершины в массив (N, 3)
-    vertices = np.stack((xv, yv, height_data), axis=-1).reshape(-1, 3)
+    vertices = np.stack((xv, height_data, zv), axis=-1).reshape(-1, 3)
 
     # 🐾 МАГИЯ ИСПРАВЛЕНИЯ UV, МУРР!
     # Генерируем чистые UV координаты от 0 до 1, независимые от scale_xy.
@@ -68,8 +68,10 @@ def create_mesh_from_heightmap(
     v0 = (ii * width + jj).ravel()
     v1, v2 = v0 + 1, v0 + width
     v3 = v2 + 1
-    tri1 = np.stack([v0, v1, v2], axis=1)
-    tri2 = np.stack([v1, v3, v2], axis=1)
+
+    # Swapped winding order (v0, v2, v1) to keep front-faces pointing up
+    tri1 = np.stack([v0, v2, v1], axis=1)
+    tri2 = np.stack([v1, v2, v3], axis=1)
     faces = np.empty((2 * v0.size, 3), dtype=np.int32)
     faces[0::2] = tri1
     faces[1::2] = tri2
