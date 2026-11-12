@@ -1,6 +1,7 @@
 use crate::plugins::map::components::map_root_entity::MapRootEntity;
 use bevy::{ecs::query::SpawnDetails, prelude::*};
 
+// Uncomment if need to generate mesh
 pub fn check_if_map_mesh_is_ready(query: Query<(&MapRootEntity, SpawnDetails)>) -> bool {
     for (_entity, spawn_details) in query.iter() {
         if spawn_details.is_spawned() {

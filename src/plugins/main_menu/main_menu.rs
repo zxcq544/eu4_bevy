@@ -2,7 +2,7 @@ use crate::{
     core::states::GameState,
     plugins::main_menu::systems::{
         hide_continue_block::hide_continue_block, hide_main_menu_block::hide_main_menu_block,
-        // rotate_cube::rotate_cube_system,
+        rotate_cube::rotate_map_mesh_system,
         set_display_flex_continue_block::set_display_flex_continue_block,
         set_display_flex_main_menu_block::set_display_flex_main_menu_block,
     },
@@ -26,6 +26,7 @@ impl Plugin for MainMenuPlugin {
         // app.add_systems(
         //     Update,
         //     (
+        //         // rotate_map_mesh_system
         //         // rotate_cube_system,
         //         // rotate_plane_system
         //     )

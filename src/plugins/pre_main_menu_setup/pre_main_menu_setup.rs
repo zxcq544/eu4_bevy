@@ -4,11 +4,7 @@ use crate::{
         choose_country::systems::spawn_choose_country_ui_main_entity::spawn_choose_country_ui_main_entity,
         loading_assets::systems::free_main_loading_step_resources::free_main_loading_step_resources,
         main_menu::systems::spawn_main_menu_scene::spawn_main_menu_scene,
-        map::systems::{
-            generate_map_mesh::setup_terrain_system,
-            // generate_mesh_smoothed_out::setup_terrain_system_smoothed_out,
-            // generate_smoothed_heightmap_mesh_jagged_bad::setup_terrain_system_jagged_bad,
-        },
+        map::systems::spawn_map_mesh::spawn_map_mesh,
         options::systems::spawn_options_ui_main_entity::spawn_options_ui_main_entity,
         pre_main_menu_setup::systems::{
             insert_cube_and_sun::insert_cube_and_sun,
@@ -32,7 +28,8 @@ impl Plugin for PreMainMenuSetupPlugin {
                 spawn_countries,
                 spawn_main_menu_scene,
                 spawn_options_ui_main_entity,
-                setup_terrain_system,
+                spawn_map_mesh,
+                // setup_terrain_system,
                 // setup_terrain_system_jagged_bad,
                 // setup_terrain_system_smoothed_out,
             ),
