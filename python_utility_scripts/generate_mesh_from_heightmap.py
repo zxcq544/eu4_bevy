@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 import trimesh
 
-MAX_WIDTH = int(5632 / 2)  # 5632 is original size
+MAX_WIDTH = int(5632 / 4)  # 5632 is original size
 
 
 def create_mesh_from_heightmap(
@@ -10,7 +10,7 @@ def create_mesh_from_heightmap(
     color_path,
     normal_path,
     output_path,
-    scale_z=0.02,
+    scale_z=25.0,
     scale_xy=1.0,
     blur_radius=2,
 ):
@@ -27,15 +27,17 @@ def create_mesh_from_heightmap(
         new_h = round(hm_img.height * MAX_WIDTH / hm_img.width)
         hm_img = hm_img.resize((MAX_WIDTH, new_h), Image.BICUBIC)
     width, height = hm_img.size
-    height_data = np.array(hm_img, dtype=np.float32) / 255.0  # Нормализуем [0, 1]
+    height_data = (np.array(hm_img, dtype=np.float32) / 255.0) * 25.0
     height_data = np.flipud(height_data)
 
     # 1. Генерируем вершины (Vertices) и текстурные координаты (UVs)
     print("🐾 Создаю сеточку...")
     # Preserve aspect ratio in world units
     aspect = width / height
-    x = np.linspace(0, aspect, width) * scale_xy
-    y = np.linspace(0, 1, height) * scale_xy
+    # x = np.linspace(0, aspect, width) * scale_xy
+    # y = np.linspace(0, 1, height) * scale_xy
+    x = np.arange(width, dtype=np.float32)
+    y = np.arange(height, dtype=np.float32)
     xv, yv = np.meshgrid(x, y, indexing="xy")
 
     # Высоту z умножаем на коэффициент масштаба, чтобы горы не были слишком дикими!
@@ -49,7 +51,7 @@ def create_mesh_from_heightmap(
     # vertex_normals = n.reshape(-1, 3).astype(np.float32)
 
     # Собираем вершины в массив (N, 3)
-    vertices = np.stack((xv, yv, height_data * scale_z), axis=-1).reshape(-1, 3)
+    vertices = np.stack((xv, yv, height_data), axis=-1).reshape(-1, 3)
 
     # 🐾 МАГИЯ ИСПРАВЛЕНИЯ UV, МУРР!
     # Генерируем чистые UV координаты от 0 до 1, независимые от scale_xy.
@@ -94,7 +96,7 @@ def create_mesh_from_heightmap(
     mesh = trimesh.Trimesh(
         vertices=vertices, faces=faces, visual=visuals, process=False
     )
-    _ = mesh.vertex_normals # forces trimesh to generate vertex normals
+    _ = mesh.vertex_normals  # forces trimesh to generate vertex normals
     # mesh.fix_normals()
     # mesh.vertex_normals = vertex_normals
     # 4. Сохраняем в glTF/GLB
@@ -110,6 +112,6 @@ if __name__ == "__main__":
         heightmap_path="../assets/map/heightmap.bmp",
         color_path="../assets/map/terrain/colormap_summer.dds",
         normal_path="../assets/map/world_normal.bmp",
-        output_path="../assets/map/terrain.glb",  # Можно указать .gltf, но .glb удобнее
+        output_path="../assets/map/terrain/terrain.glb",  # Можно указать .gltf, но .glb удобнее
         blur_radius=0,  # Радиус сглаживания. Попробуй 2, 3 или 5, ня!
     )

@@ -23,14 +23,14 @@ impl Plugin for MainMenuPlugin {
         app.add_systems(OnExit(GameState::MainMenu), hide_main_menu_block);
         app.add_systems(OnExit(GameState::MainMenu), hide_continue_block);
         // Main Menu Button Checkers
-        // app.add_systems(
-        //     Update,
-        //     (
-        //         rotate_map_mesh_system
-        //         // rotate_cube_system,
-        //         // rotate_plane_system
-        //     )
-        //         .run_if(in_state(GameState::MainMenu)),
-        // );
+        app.add_systems(
+            Update,
+            (
+                rotate_map_mesh_system
+                // rotate_cube_system,
+                // rotate_plane_system
+            )
+                .run_if(in_state(GameState::MainMenu)),
+        );
     }
 }
