@@ -3,6 +3,7 @@ use crate::{
     plugins::loading_assets::systems::{
         load_all_game_sound_effects::load_all_game_sound_effects,
         load_game_data_for_countries::load_game_data_for_countries::load_game_data_for_countries,
+        load_map_meshes::load_map_meshes::load_map_meshes,
         load_map_textures::load_map_textures::load_map_textures,
         load_resources_for_game_ui::load_images_for_game_ui::load_images_for_game_ui,
         load_resources_for_main_menu::{
@@ -31,6 +32,7 @@ impl Plugin for LoadingAssetsPlugin {
                 load_images_for_game_ui,
                 load_game_data_for_countries,
                 load_map_textures,
+                load_map_meshes,
             ),
         );
         app.add_systems(

@@ -4,7 +4,7 @@ use crate::{
         game_main::resources::game_ui_resources::GameUiResources,
         loading_assets::resources::timer_for_main_loading_step::TimerForMainLoadingStep,
         main_menu::resources::main_menu_all_images::MainMenuAllImages,
-        map::resources::map_textures::MapTextures,
+        map::resources::{map_meshes::MapMeshes, map_textures::MapTextures},
         options::resources::options_images::OptionsImages,
         sound_effects::resources::button_click_sound_effects::ButtonClickSoundEffects,
     },
@@ -24,6 +24,7 @@ pub fn whole_setup_step_for_main_loading(
     game_ui_resources: Res<GameUiResources>,
     countries_resource: Res<CountriesResource>,
     map_textures: Res<MapTextures>,
+    map_meshes: Res<MapMeshes>,
 ) {
     timer.timer.tick(time.delta());
 
@@ -43,6 +44,8 @@ pub fn whole_setup_step_for_main_loading(
         && asset_server.is_loaded_with_dependencies(&map_textures.colormap_summer_texture)
         && asset_server.is_loaded_with_dependencies(&map_textures.heightmap_texture)
         && asset_server.is_loaded_with_dependencies(&map_textures.normal_map_texture)
+        // Map meshes
+        && asset_server.is_loaded_with_dependencies(&map_meshes.map_full)
         && timer.timer.is_finished()
     {
         info!("current state is {:?}", current_state.get());
