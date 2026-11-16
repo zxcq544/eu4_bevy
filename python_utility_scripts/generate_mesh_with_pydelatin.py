@@ -47,6 +47,7 @@ mesh = trimesh.Trimesh(
     vertices=vertices,
     faces=triangles,
     visual=trimesh.visual.TextureVisuals(uv=uvs),
+    process=False,
 )
 print("Generating normals")
 _ = mesh.vertex_normals
