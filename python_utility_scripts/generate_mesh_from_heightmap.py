@@ -1,6 +1,72 @@
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 import trimesh
+import json
+import struct
+
+
+def export_glb_with_tangents(mesh, tangents, output_path):
+    glb_bytes = mesh.export(file_type="glb")
+
+    # Разбираем заголовок GLB и два чанка (JSON и BIN)
+    magic, version, _ = struct.unpack("<III", glb_bytes[:12])
+    json_len, json_type = struct.unpack("<II", glb_bytes[12:20])
+    json_data = json.loads(glb_bytes[20 : 20 + json_len].decode("utf-8"))
+
+    bin_offset = 20 + json_len
+    bin_len, bin_type = struct.unpack("<II", glb_bytes[bin_offset : bin_offset + 8])
+    bin_data = bytearray(glb_bytes[bin_offset + 8 : bin_offset + 8 + bin_len])
+
+    # Выравниваем бинарный буфер по 4 байта и дописываем тангенты (N, 4) float32
+    while len(bin_data) % 4 != 0:
+        bin_data.append(0)
+    tangent_byte_offset = len(bin_data)
+    tangent_bytes = tangents.astype(np.float32).tobytes()
+    bin_data.extend(tangent_bytes)
+    while len(bin_data) % 4 != 0:
+        bin_data.append(0)
+
+    # Обновляем buffer, bufferViews и accessors в glTF JSON
+    json_data["buffers"][0]["byteLength"] = len(bin_data)
+
+    bv_idx = len(json_data["bufferViews"])
+    json_data["bufferViews"].append(
+        {
+            "buffer": 0,
+            "byteOffset": tangent_byte_offset,
+            "byteLength": len(tangent_bytes),
+            "target": 34962,  # ARRAY_BUFFER
+        }
+    )
+
+    acc_idx = len(json_data["accessors"])
+    json_data["accessors"].append(
+        {
+            "bufferView": bv_idx,
+            "componentType": 5126,  # FLOAT
+            "count": len(tangents),
+            "type": "VEC4",
+        }
+    )
+
+    # Привязываем TANGENT ко всем примитивам меша
+    for m in json_data["meshes"]:
+        for prim in m["primitives"]:
+            prim["attributes"]["TANGENT"] = acc_idx
+
+    # Собираем новый JSON-чанк с выравниванием пробелами до 4 байт
+    new_json_bytes = json.dumps(json_data, separators=(",", ":")).encode("utf-8")
+    while len(new_json_bytes) % 4 != 0:
+        new_json_bytes += b" "
+
+    total_len = 12 + 8 + len(new_json_bytes) + 8 + len(bin_data)
+    with open(output_path, "wb") as f:
+        f.write(struct.pack("<III", magic, version, total_len))
+        f.write(struct.pack("<II", len(new_json_bytes), json_type))
+        f.write(new_json_bytes)
+        f.write(struct.pack("<II", len(bin_data), bin_type))
+        f.write(bin_data)
+
 
 ORIGINAL_WIDTH = 5632
 ORIGINAL_HEIGHT = 2048
@@ -65,7 +131,9 @@ def create_mesh_from_heightmap(
     # Так как в glTF UV (0,0) - левый нижний угол, а у нас массив уже flipud,
     # meshgrid со стандартным шагом от 0 до 1 идеально ляжет на картинку!
     uv_x = np.linspace(0, 1, width)
-    uv_y = np.linspace(1, 0, height)  # in case of upside down change to uv_y = np.linspace(0, 1, height)
+    uv_y = np.linspace(
+        1, 0, height
+    )  # in case of upside down change to uv_y = np.linspace(0, 1, height)
     uv_xv, uv_yv = np.meshgrid(uv_x, uv_y, indexing="xy")
     uv = np.stack((uv_xv, uv_yv), axis=-1).reshape(-1, 2)
 
@@ -105,13 +173,35 @@ def create_mesh_from_heightmap(
     mesh = trimesh.Trimesh(
         vertices=vertices, faces=faces, visual=visuals, process=False
     )
-    _ = mesh.vertex_normals  # forces trimesh to generate vertex normals
+    # _ = mesh.vertex_normals  # forces trimesh to generate vertex normals
+    # 1. Берем нормали вершин (N, 3)
+    normals = np.asarray(mesh.vertex_normals, dtype=np.float32)
+
+    # 2. Базовое направление тангента вдоль оси U (ось +X)
+    tangent_dir = np.zeros_like(normals)
+    tangent_dir[:, 0] = 1.0  # (1, 0, 0)
+
+    # 3. Ортогонализация Грама — Шмидта: T = normalize(T - N * dot(N, T))
+    dot_nt = np.sum(normals * tangent_dir, axis=1, keepdims=True)
+    tangents_xyz = tangent_dir - normals * dot_nt
+    norms = np.linalg.norm(tangents_xyz, axis=1, keepdims=True)
+    tangents_xyz = np.divide(
+        tangents_xyz, norms, out=np.zeros_like(tangents_xyz), where=norms > 1e-6
+    )
+
+    # 4. Добавляем 4-й компонент w (handedness = 1.0 или -1.0; для Bevy/glTF с uv_y от 1 до 0 обычно 1.0)
+    w = np.ones((tangents_xyz.shape[0], 1), dtype=np.float32)
+    tangents = np.hstack([tangents_xyz, w]).astype(np.float32)
+
+    # 5. Записываем в vertex_attributes для экспорта в glTF/GLB
+    mesh.vertex_attributes["tangent"] = tangents
     # mesh.fix_normals()
     # mesh.vertex_normals = vertex_normals
     # 4. Сохраняем в glTF/GLB
     print(f"🐾 Сохраняю файл в {output_path}...")
     # .glb — это бинарный glTF, в который текстуры упакуются прямо внутрь файла!
-    mesh.export(output_path)
+    # mesh.export(output_path)
+    export_glb_with_tangents(mesh, tangents, output_path)
     print("🐾 Всё готово! Ты супер, братик! Тык! ✨")
 
 

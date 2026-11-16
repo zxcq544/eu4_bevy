@@ -1,6 +1,6 @@
 use crate::plugins::map::{
     components::{map_root_entity::MapRootEntity, water_plane_entity::WaterPlane},
-    resources::map_meshes::MapMeshes,
+    resources::{map_meshes::MapMeshes, map_textures::MapTextures},
 };
 use bevy::prelude::*;
 
@@ -10,19 +10,25 @@ pub fn spawn_map_mesh(
     mut materials: ResMut<Assets<StandardMaterial>>,
     // images: Res<Assets<Image>>,
     map_meshes: Res<MapMeshes>,
-    // map_textures: Res<MapTextures>,
+    map_textures: Res<MapTextures>,
 ) {
-    // let colormap_summer_texture = map_textures.colormap_summer_texture.clone();
-    // let normal_map_texture = map_textures.normal_map_texture.clone();
+    let colormap_summer_texture = map_textures.colormap_summer_texture.clone();
+    let normal_map_texture = map_textures.normal_map_texture.clone();
     // let heightmap_handle = map_textures.heightmap_texture.clone();
     let map_root_mesh = map_meshes.map_full.clone();
-
+    // Generate tangents if can't in mesh
+    // if let Some(mut mesh) = meshes.get_mut(&map_root_mesh) {
+    //     // Генерирует тангенты автоматически по позициям, нормалям и UV
+    //     let _ = mesh.generate_tangents();
+    // }
     // 2. Loop across the whole world coordinate map
     commands.spawn((
         MapRootEntity,
         Mesh3d(map_root_mesh),
         MeshMaterial3d(materials.add(StandardMaterial {
             base_color: Color::linear_rgba(1.0, 1.0, 1.0, 1.0),
+            base_color_texture: Some(colormap_summer_texture),
+            normal_map_texture: Some(normal_map_texture),
             ..Default::default()
         })),
         // TODO: remove this and instead move camera to show this map properly
