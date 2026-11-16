@@ -2,7 +2,10 @@ import numpy as np
 from PIL import Image, ImageFilter
 import trimesh
 
-MAX_WIDTH = int(5632 / 4)  # 5632 is original size
+ORIGINAL_WIDTH = 5632
+ORIGINAL_HEIGHT = 2048
+DOWNSAMPLE = 4
+MAX_WIDTH = int(ORIGINAL_WIDTH / DOWNSAMPLE)
 
 
 def create_mesh_from_heightmap(
@@ -10,8 +13,8 @@ def create_mesh_from_heightmap(
     color_path,
     normal_path,
     output_path,
-    scale_z=25.0,
-    scale_xy=1.0,
+    scale_z=45.0,
+    # scale_xy=1.0,
     blur_radius=2,
 ):
     print("🐾 Загружаю текстурки, ня...")
@@ -27,17 +30,21 @@ def create_mesh_from_heightmap(
         new_h = round(hm_img.height * MAX_WIDTH / hm_img.width)
         hm_img = hm_img.resize((MAX_WIDTH, new_h), Image.BICUBIC)
     width, height = hm_img.size
-    height_data = (np.array(hm_img, dtype=np.float32) / 255.0) * 25.0
+    height_data = (np.array(hm_img, dtype=np.float32) / 255.0) * scale_z
     # height_data = np.flipud(height_data)
 
     # 1. Генерируем вершины (Vertices) и текстурные координаты (UVs)
     print("🐾 Создаю сеточку...")
     # Preserve aspect ratio in world units
-    aspect = width / height
+    # aspect = width / height
     # x = np.linspace(0, aspect, width) * scale_xy
     # y = np.linspace(0, 1, height) * scale_xy
-    x = np.arange(width, dtype=np.float32)
-    z = np.arange(height, dtype=np.float32)
+    x = np.linspace(
+        -ORIGINAL_WIDTH / 2.0, ORIGINAL_WIDTH / 2.0, width, dtype=np.float32
+    )
+    z = np.linspace(
+        -ORIGINAL_HEIGHT / 2.0, ORIGINAL_HEIGHT / 2.0, height, dtype=np.float32
+    )
     xv, zv = np.meshgrid(x, z, indexing="xy")
 
     # Высоту z умножаем на коэффициент масштаба, чтобы горы не были слишком дикими!
@@ -58,7 +65,7 @@ def create_mesh_from_heightmap(
     # Так как в glTF UV (0,0) - левый нижний угол, а у нас массив уже flipud,
     # meshgrid со стандартным шагом от 0 до 1 идеально ляжет на картинку!
     uv_x = np.linspace(0, 1, width)
-    uv_y = np.linspace(0, 1, height)
+    uv_y = np.linspace(1, 0, height)  # in case of upside down change to uv_y = np.linspace(0, 1, height)
     uv_xv, uv_yv = np.meshgrid(uv_x, uv_y, indexing="xy")
     uv = np.stack((uv_xv, uv_yv), axis=-1).reshape(-1, 2)
 
